@@ -1,0 +1,95 @@
+/* ==============================================================================
+   UX MOBILE ARCHITECTURE - CLEAN ACADEMIC & ENTERPRISE (iPhone 14 Pro Max 430px)
+   ============================================================================== */
+
+@media (max-width: 767px) {
+  body {
+    overflow-x: hidden;
+    width: 100%;
+    position: relative;
+  }
+
+  .portfolio-container {
+    width: 100%;
+    max-width: 430px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    box-sizing: border-box;
+  }
+
+  .hero-headline {
+    font-size: 2rem;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+    word-break: break-word;
+  }
+
+  .hero-subheadline {
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  /* Strict Touch Target Requirements >= 44px */
+  .touch-target,
+  button,
+  a.nav-btn,
+  a.cta-btn {
+    min-height: 44px;
+    min-width: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    touch-action: manipulation;
+  }
+
+  /* Button groups flex wrap to prevent squishing */
+  .button-group-responsive {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    width: 100%;
+  }
+
+  .button-group-responsive > * {
+    flex: 1 1 100%;
+    min-height: 44px;
+  }
+
+  /* Single Column for mobile */
+  .project-grid-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .stats-grid-desktop {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
+  .card-glass {
+    background: var(--surface);
+    border: 1px solid var(--surface-border);
+    box-shadow: var(--card-shadow);
+  }
+
+  /* Mobile Navigation Drawer */
+  .mobile-nav-drawer {
+    position: fixed;
+    top: 64px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--background);
+    z-index: 40;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    border-top: 1px solid var(--surface-border);
+    overflow-y: auto;
+  }
+}
