@@ -272,6 +272,7 @@ export default function CosmicGalaxy4D() {
   // Chế độ Rạp Chiếu Phim Điện Ảnh Toàn Cảnh (Cinematic Theater Mode: Ẩn 100% thẻ chữ để ngắm vũ trụ 3D)
   const [isTheaterMode, setIsTheaterMode] = useState(false);
   const isTheaterModeRef = useRef(false);
+  const lastOffsetMode = useRef<string>("");
 
   useEffect(() => {
     isTheaterModeRef.current = isTheaterMode;
@@ -722,10 +723,13 @@ export default function CosmicGalaxy4D() {
     window.addEventListener("mousemove", handleMouseMove);
 
     const handleResize = () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.fov = window.innerWidth < 768 ? 65 : targetFov.current;
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      camera.aspect = w / h;
+      camera.fov = w < 768 ? 65 : targetFov.current;
       camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setSize(w, h);
+      lastOffsetMode.current = ""; // Buộc cập nhật lại offset theo kích thước màn hình mới
     };
     window.addEventListener("resize", handleResize);
 
@@ -780,39 +784,34 @@ export default function CosmicGalaxy4D() {
         currentCamPos.current.y += (desiredY - currentCamPos.current.y) * lerpSpeed;
         currentCamPos.current.z += (desiredZ - currentCamPos.current.z) * lerpSpeed;
 
-        // TÍNH TOÁN ĐIỂM NHÌN PHÂN TẦNG ĐIỆN ẢNH (CINEMATIC ASYMMETRICAL STAGING LOOKAT)
-        // Khi bình thường:
-        // - Desktop (>= 1024px): Camera hướng sang trái -> Hành tinh hiển thị trọn vẹn ở 1/2 bên PHẢI (~67% viewport width)
-        // - Tablet (768-1023px): Đẩy nhẹ sang phải
-        // - Mobile (< 768px): Camera chúc nhẹ xuống -> Hành tinh hiển thị trọn vẹn ở 1/2 TRÊN (~33% viewport height)
-        // Khi bật Theater Mode (isTheaterMode = true):
-        // - Không áp dụng offset -> Hành tinh trượt êm ái về chính giữa trung tâm màn hình (50% X, 50% Y)
-        const camToTarget = new THREE.Vector3().subVectors(targetLookAt.current, currentCamPos.current);
-        const dist = camToTarget.length();
-        const forward = camToTarget.clone().normalize();
-        const worldUp = new THREE.Vector3(0, 1, 0);
-        const right = new THREE.Vector3().crossVectors(forward, worldUp).normalize();
-        const trueUp = new THREE.Vector3().crossVectors(right, forward).normalize();
+        // QUANG HỌC PHÂN TẦNG ĐIỆN ẢNH (CINEMATIC VIEW OFFSET ARCHITECTURE)
+        // Ma trận chiếu phối cảnh (Projection Matrix View Offset) chính thức của Three.js:
+        // - Desktop (w >= 1024): Đẩy tâm hiển thị 3D sang BÊN PHẢI (+26% width) -> Thiên thể nằm ở ~76% X bên phải, thẻ card nằm ở 5-35% X bên trái!
+        // - Mobile (w < 768): Đẩy tâm hiển thị 3D lên NỬA TRÊN (-18% height) -> Thiên thể nằm ở ~32% Y nửa trên, thẻ card nằm ở đáy!
+        // - Tablet (768-1023): Đẩy sang BÊN PHẢI (+18% width).
+        // - Theater Mode: Xóa offset để hành tinh quay về chính giữa màn hình vũ trụ (50% X, 50% Y).
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+        const activeViewMode = isTheaterModeRef.current
+          ? "theater"
+          : (w >= 1024 ? "desktop" : (w < 768 ? "mobile" : "tablet"));
 
-        const isMobileScreen = window.innerWidth < 768;
-        const isTabletScreen = window.innerWidth >= 768 && window.innerWidth < 1024;
-
-        const stagedLookAt = targetLookAt.current.clone();
-
-        if (!isTheaterModeRef.current) {
-          if (isMobileScreen) {
-            // Mobile: Đẩy hành tinh lên nửa trên (Camera hướng chúc xuống)
-            stagedLookAt.addScaledVector(trueUp, -dist * 0.20);
-          } else if (isTabletScreen) {
-            // Tablet: Đẩy nhẹ sang phải
-            stagedLookAt.addScaledVector(right, -dist * 0.20);
+        if (lastOffsetMode.current !== activeViewMode) {
+          lastOffsetMode.current = activeViewMode;
+          if (activeViewMode === "theater") {
+            camera.clearViewOffset();
+          } else if (activeViewMode === "desktop") {
+            // -w * 0.26 đẩy toàn bộ 3D sang bên PHẢI 26% màn hình!
+            camera.setViewOffset(w, h, -w * 0.26, 0, w, h);
+          } else if (activeViewMode === "mobile") {
+            // h * 0.18 đẩy toàn bộ 3D lên NỬA TRÊN 18% màn hình!
+            camera.setViewOffset(w, h, 0, h * 0.18, w, h);
           } else {
-            // Desktop: Đẩy hành tinh sang 1/2 bên phải (Camera hướng sang trái)
-            stagedLookAt.addScaledVector(right, -dist * 0.28);
+            camera.setViewOffset(w, h, -w * 0.18, 0, w, h);
           }
         }
 
-        currentLookAt.current.lerp(stagedLookAt, lerpSpeed);
+        currentLookAt.current.lerp(targetLookAt.current, lerpSpeed);
 
         camera.position.copy(currentCamPos.current);
         camera.lookAt(currentLookAt.current);
