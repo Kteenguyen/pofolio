@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { Project } from "@/data/portfolioData";
 import { X, ExternalLink, CheckCircle2, AlertCircle, Lightbulb, TrendingUp } from "lucide-react";
 import { GithubIcon } from "./SocialIcons";
+import TechLogo from "./TechLogo";
 
 interface ProjectModalProps {
   project: Project | null;
@@ -102,7 +103,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
           </div>
         </div>
 
-        {/* Tech Stack Chips */}
+        {/* Tech Stack Chips kèm logo */}
         <div className="mt-6 pt-4 border-t border-[var(--surface-border)]">
           <div className="text-xs font-mono font-semibold text-[var(--muted-foreground)] mb-2">
             // CÔNG NGHỆ & CÔNG CỤ ÁP DỤNG:
@@ -111,9 +112,10 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
             {project.techStack.map((tech) => (
               <span
                 key={tech}
-                className="px-2.5 py-1 rounded-lg text-xs font-mono bg-slate-100 dark:bg-slate-800 text-[var(--foreground)] border border-[var(--surface-border)]"
+                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-mono bg-slate-100 dark:bg-slate-800 text-[var(--foreground)] border border-[var(--surface-border)]"
               >
-                {tech}
+                <TechLogo name={tech} size={14} />
+                <span>{tech}</span>
               </span>
             ))}
           </div>

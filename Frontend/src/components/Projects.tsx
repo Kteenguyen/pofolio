@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { portfolioData, Project } from "@/data/portfolioData";
 import ProjectModal from "./ProjectModal";
+import TechLogo from "./TechLogo";
 import { Layers, ArrowUpRight, ExternalLink, Sparkles } from "lucide-react";
 import { GithubIcon } from "./SocialIcons";
 
@@ -130,14 +131,15 @@ export default function Projects() {
                 ))}
               </div>
 
-              {/* Tech Stack Chips */}
+              {/* Tech Stack Chips kèm logo */}
               <div className="flex flex-wrap gap-1 mb-4">
                 {project.techStack.map((tech) => (
                   <span
                     key={tech}
-                    className="text-[10px] font-mono px-2 py-0.5 rounded bg-[var(--surface)] text-[var(--muted-foreground)] border border-[var(--surface-border)]"
+                    className="inline-flex items-center gap-1 text-[10px] font-mono px-2 py-0.5 rounded bg-[var(--surface)] text-[var(--muted-foreground)] border border-[var(--surface-border)]"
                   >
-                    {tech}
+                    <TechLogo name={tech} size={11} />
+                    <span>{tech}</span>
                   </span>
                 ))}
               </div>

@@ -56,6 +56,7 @@ export const portfolioData = {
     phone: "0852723945",
     github: "https://github.com/Kteenguyen",
     githubUser: "Kteenguyen",
+    telegram: "https://t.me/kteenguyen",
     linkedin: "https://linkedin.com",
     location: "TP. Hồ Chí Minh, Việt Nam",
     availableForHire: true,

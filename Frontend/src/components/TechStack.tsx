@@ -1,6 +1,7 @@
 import React from "react";
 import { portfolioData } from "@/data/portfolioData";
 import { Terminal, Database, Layout, Sparkles } from "lucide-react";
+import TechLogo from "./TechLogo";
 
 export default function TechStack() {
   const categoryIcons: Record<string, React.ReactNode> = {
@@ -51,15 +52,18 @@ export default function TechStack() {
                   {cat.skills.map((skill) => (
                     <div key={skill.name} className="flex flex-col gap-1.5 p-2 rounded-xl bg-slate-50/50 dark:bg-slate-800/30 border border-slate-100 dark:border-slate-800">
                       <div className="flex items-center justify-between text-xs">
-                        <span className="font-semibold text-[var(--foreground)]">
-                          {skill.name}
-                        </span>
+                        <div className="flex items-center gap-2">
+                          <TechLogo name={skill.name} size={16} />
+                          <span className="font-semibold text-[var(--foreground)]">
+                            {skill.name}
+                          </span>
+                        </div>
                         <span className="font-mono text-blue-600 dark:text-blue-400 font-bold">
                           {skill.level}%
                         </span>
                       </div>
                       {skill.note && (
-                        <div className="text-[11px] text-[var(--muted-foreground)] font-mono">
+                        <div className="text-[11px] text-[var(--muted-foreground)] font-mono pl-6">
                           ↳ {skill.note}
                         </div>
                       )}
@@ -68,14 +72,15 @@ export default function TechStack() {
                 </div>
               </div>
 
-              {/* Badges footer */}
+              {/* Badges footer với logo công nghệ */}
               <div className="mt-6 pt-4 border-t border-[var(--surface-border)] flex flex-wrap gap-1.5">
                 {cat.skills.map((skill) => (
                   <span
                     key={skill.name}
-                    className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-[var(--surface)] text-[var(--muted-foreground)] border border-[var(--surface-border)]"
+                    className="inline-flex items-center gap-1 text-[10px] font-mono px-2 py-0.5 rounded-md bg-[var(--surface)] text-[var(--muted-foreground)] border border-[var(--surface-border)]"
                   >
-                    {skill.name.split(" ")[0]}
+                    <TechLogo name={skill.name} size={12} />
+                    <span>{skill.name.split(" ")[0]}</span>
                   </span>
                 ))}
               </div>
