@@ -138,8 +138,8 @@
 
     <!-- Navigation Tabs -->
     <div class="nav-tabs">
-      <button class="tab-btn active" onclick="switchTab('leads')">📬 Quản Lý Leads & Liên Hệ</button>
-      <button class="tab-btn" onclick="switchTab('projects')">🚀 Quản Lý Dự Án & Link/Ảnh Dynamic</button>
+      <button class="tab-btn active" onclick="switchTab('leads')">Quản Lý Leads & Liên Hệ</button>
+      <button class="tab-btn" onclick="switchTab('projects')">Quản Lý Dự Án & Link/Ảnh Dynamic</button>
     </div>
 
     <!-- TAB 1: LEADS -->
@@ -251,7 +251,7 @@
                 <p style="font-size: 12px; color: var(--muted);">${p.subtitle}</p>
               </div>
               <span class="badge ${p.liveUrl ? 'badge-closed' : 'badge-pending'}">
-                ${p.liveUrl ? '✓ Đã có Live Demo' : '! Vui lòng bổ sung trong CRM'}
+                ${p.liveUrl ? '[Đã có Live Demo]' : '[Chờ cập nhật]'}
               </span>
             </div>
 
@@ -267,7 +267,7 @@
             </div>
 
             <div style="margin-top: 0.5rem; display: flex; justify-content: flex-end;">
-              <button class="btn btn-primary" onclick="saveProject('${p.id}')">💾 Lưu Cập Nhật Cho Dự Án Này</button>
+              <button class="btn btn-primary" onclick="saveProject('${p.id}')">Lưu Cập Nhật Cho Dự Án Này</button>
             </div>
           </div>
         `).join('');

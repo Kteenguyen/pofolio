@@ -98,8 +98,9 @@ export default function Projects() {
                 </span>
 
                 {project.liveUrl ? (
-                  <span className="text-[10px] font-mono font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
-                    ● Live Demo Sẵn Sàng
+                  <span className="text-[10px] font-mono font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0" />
+                    <span>Live Demo Sẵn Sàng</span>
                   </span>
                 ) : (
                   <span className="text-[10px] font-mono font-medium text-[var(--muted-foreground)]">

@@ -191,8 +191,9 @@ export default function MatchDetailsPanel({ job, candidate, match }: MatchDetail
                 <span>Thiếu Bắt Buộc ({match.criticalGaps.length})</span>
               </div>
               {match.criticalGaps.length === 0 ? (
-                <span className="text-[11px] text-emerald-600 dark:text-emerald-400">
-                  ✓ Đáp ứng trọn vẹn 100% yêu cầu cốt lõi!
+                <span className="text-[11px] text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
+                  <CheckCircle2 size={13} className="shrink-0" />
+                  <span>Đáp ứng trọn vẹn 100% yêu cầu cốt lõi!</span>
                 </span>
               ) : (
                 <div className="flex flex-wrap gap-1.5">
@@ -215,7 +216,10 @@ export default function MatchDetailsPanel({ job, candidate, match }: MatchDetail
                 <span>Cần Trau Dồi Thêm ({match.moderateGaps.length})</span>
               </div>
               {match.moderateGaps.length === 0 ? (
-                <span className="text-[11px] text-emerald-600">✓ Không có thiếu sót đáng kể</span>
+                <span className="text-[11px] text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
+                  <CheckCircle2 size={13} className="shrink-0" />
+                  <span>Không có thiếu sót đáng kể</span>
+                </span>
               ) : (
                 <div className="flex flex-wrap gap-1.5">
                   {match.moderateGaps.map((gap) => (

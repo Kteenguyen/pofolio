@@ -46,7 +46,7 @@ export default function EnterpriseKanbanDemo({ companyName = "FPT IS / Enterpris
     // RBAC Rule Verification
     if (nextStatus === "APPROVED" && currentRole !== "AUDITOR" && currentRole !== "ADMIN_CEO") {
       setFeedbackMsg({
-        text: "⛔ TỪ CHỐI TRUY CẬP (RBAC Guard): Chỉ vai trò Chuyên Viên Thẩm Định hoặc Admin mới có quyền Phê Duyệt!",
+        text: "TỪ CHỐI TRUY CẬP (RBAC Guard): Chỉ vai trò Chuyên Viên Thẩm Định hoặc Admin mới có quyền Phê Duyệt!",
         isError: true,
       });
       return;
@@ -54,7 +54,7 @@ export default function EnterpriseKanbanDemo({ companyName = "FPT IS / Enterpris
 
     if (nextStatus === "EXECUTED" && currentRole !== "ADMIN_CEO") {
       setFeedbackMsg({
-        text: "⛔ TỪ CHỐI TRUY CẬP (RBAC Guard): Chỉ Ban Giám Đốc (ADMIN_CEO) mới có quyền Ban Hành Thi Hành Án!",
+        text: "TỪ CHỐI TRUY CẬP (RBAC Guard): Chỉ Ban Giám Đốc (ADMIN_CEO) mới có quyền Ban Hành Thi Hành Án!",
         isError: true,
       });
       return;
@@ -64,7 +64,7 @@ export default function EnterpriseKanbanDemo({ companyName = "FPT IS / Enterpris
       prev.map((c) => (c.id === caseId ? { ...c, status: nextStatus } : c))
     );
     setFeedbackMsg({
-      text: `✅ Chuyển trạng thái hồ sơ [${caseId}] sang [${nextStatus}] thành công! Ghi nhận log kiểm toán cho 230+ người dùng.`,
+      text: `Chuyển trạng thái hồ sơ [${caseId}] sang [${nextStatus}] thành công! Ghi nhận log kiểm toán cho 230+ người dùng.`,
       isError: false,
     });
     setTimeout(() => setFeedbackMsg(null), 3000);

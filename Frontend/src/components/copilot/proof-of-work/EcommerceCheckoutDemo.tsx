@@ -53,7 +53,7 @@ export default function EcommerceCheckoutDemo({ companyName = "Shopee / Coolmate
         })
         .filter(Boolean) as CartItem[]
     );
-    setActionNotice("⚡ Optimistic UI cập nhật tức thì 0ms, không re-render giật lag!");
+    setActionNotice("Optimistic UI cập nhật tức thì 0ms, không re-render giật lag!");
     setTimeout(() => setActionNotice(null), 2000);
   };
 
@@ -225,7 +225,7 @@ Em rất hào hứng được đóng góp năng lực tối ưu hóa này vào �
           <div className="mt-4">
             <button
               onClick={() => {
-                setActionNotice("🎉 Đặt hàng thành công với phản hồi Optimistic 0ms!");
+                setActionNotice("Đặt hàng thành công với phản hồi Optimistic 0ms!");
                 setTimeout(() => setActionNotice(null), 2500);
               }}
               disabled={items.length === 0}

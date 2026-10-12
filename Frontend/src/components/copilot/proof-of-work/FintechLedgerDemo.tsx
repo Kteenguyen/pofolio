@@ -68,7 +68,7 @@ export default function FintechLedgerDemo({ companyName = "ZaloPay / TCBS" }: { 
           latencyMs: 4,
         };
         setTransactions([dupTx, ...transactions]);
-        setLastActionMessage("⚠️ PHÁT HIỆN TRÙNG LẶP IDEMPOTENCY KEY: Giao dịch bị chặn để bảo vệ tài khoản khỏi Double-Spending!");
+        setLastActionMessage("PHÁT HIỆN TRÙNG LẶP IDEMPOTENCY KEY: Giao dịch bị chặn để bảo vệ tài khoản khỏi Double-Spending!");
       } else {
         const successTx: Transaction = {
           id: `TX-${Math.floor(1000 + Math.random() * 9000)}`,
@@ -82,7 +82,7 @@ export default function FintechLedgerDemo({ companyName = "ZaloPay / TCBS" }: { 
         };
         setBalance((prev) => prev - testAmount);
         setTransactions([successTx, ...transactions]);
-        setLastActionMessage("✅ GIAO DỊCH THÀNH CÔNG: Sổ cái cập nhật thời gian thực, độ trễ cực thấp!");
+        setLastActionMessage("GIAO DỊCH THÀNH CÔNG: Sổ cái cập nhật thời gian thực, độ trễ cực thấp!");
       }
       setIsProcessing(false);
     }, 400);

@@ -77,7 +77,7 @@ export default function NewJDModal({ isOpen, onClose, onJobAdded }: NewJDModalPr
         <div className="flex items-center justify-between border-b border-[var(--surface-border)] pb-3 mb-3.5">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-xl bg-blue-600/10 text-blue-600 flex items-center justify-center">
-              <Sparkles size={18} />
+              <FileText size={18} />
             </div>
             <div>
               <h3 className="text-base font-bold text-[var(--foreground)]">Dán & Phân Tích JD Mới (Toàn Cầu / VN)</h3>
@@ -168,10 +168,10 @@ export default function NewJDModal({ isOpen, onClose, onJobAdded }: NewJDModalPr
                 onChange={(e) => setWorkMode(e.target.value as WorkMode)}
                 className="w-full px-3 py-2 rounded-xl text-xs bg-[var(--surface-subtle)] border border-[var(--surface-border)] text-[var(--foreground)] focus:outline-none focus:border-blue-500"
               >
-                <option value="Remote 100%">🌐 100% Remote Toàn Cầu</option>
-                <option value="Freelance / Contract">💼 Freelance / Khoán Hợp Đồng</option>
-                <option value="Hybrid">🏢 Hybrid (Linh Hoạt Văn Phòng)</option>
-                <option value="Onsite">🏛️ Onsite Doanh Nghiệp</option>
+                <option value="Remote 100%">100% Remote Toàn Cầu</option>
+                <option value="Freelance / Contract">Freelance / Khoán Hợp Đồng</option>
+                <option value="Hybrid">Hybrid (Linh Hoạt Văn Phòng)</option>
+                <option value="Onsite">Onsite Doanh Nghiệp</option>
               </select>
             </div>
             <div>
@@ -183,8 +183,8 @@ export default function NewJDModal({ isOpen, onClose, onJobAdded }: NewJDModalPr
                 onChange={(e) => setMarket(e.target.value as TargetMarket)}
                 className="w-full px-3 py-2 rounded-xl text-xs bg-[var(--surface-subtle)] border border-[var(--surface-border)] text-[var(--foreground)] focus:outline-none focus:border-blue-500"
               >
-                <option value="Global / Quốc Tế">🌏 Thị Trường Quốc Tế (USD $)</option>
-                <option value="Việt Nam">🇻🇳 Thị Trường Việt Nam (VNĐ)</option>
+                <option value="Global / Quốc Tế">Thị Trường Quốc Tế (USD $)</option>
+                <option value="Việt Nam">Thị Trường Việt Nam (VNĐ)</option>
               </select>
             </div>
           </div>

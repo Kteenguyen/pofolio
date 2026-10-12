@@ -6,7 +6,8 @@ import { portfolioData } from "@/data/portfolioData";
 import StatsCounter from "./StatsCounter";
 import CVDownloadModal from "./CVDownloadModal";
 import {
-  Sparkles,
+  Code2,
+  Bot,
   ArrowRight,
   GraduationCap,
   Mail,
@@ -48,10 +49,18 @@ export default function Hero() {
               </span>
             </div>
 
-            {/* Engineer Title & University Badge */}
-            <div className="flex items-center gap-2 text-blue-600 dark:text-sky-400 font-mono text-[11px] sm:text-sm font-semibold tracking-wide uppercase mb-2 sm:mb-3 flex-wrap">
-              <Sparkles size={15} className="shrink-0" />
-              <span>{portfolioData.personal.degreeLabel} • {portfolioData.personal.name}</span>
+            {/* Engineer Title & University Badges - Anti-Wrapping Chip Architecture */}
+            <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-2 sm:mb-3">
+              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-sky-300 font-mono text-[11px] sm:text-xs font-bold uppercase tracking-wider border border-blue-200/80 dark:border-blue-900/60">
+                <Code2 size={13} className="text-blue-600 dark:text-sky-400 shrink-0" />
+                <span>Kỹ Sư Phần Mềm</span>
+              </span>
+              <span className="inline-flex items-center px-2 py-1 rounded-md bg-[var(--surface)] text-[var(--muted-foreground)] font-mono text-[11px] sm:text-xs font-medium border border-[var(--surface-border)]">
+                ĐH Tôn Đức Thắng (GPA 3.0)
+              </span>
+              <span className="inline-flex items-center px-2 py-1 rounded-md bg-[var(--surface)] text-[var(--foreground)] font-mono text-[11px] sm:text-xs font-bold border border-[var(--surface-border)]">
+                Nguyễn Khoa Tài
+              </span>
             </div>
 
             {/* Big Headline */}
@@ -93,8 +102,8 @@ export default function Hero() {
                 href="/copilot"
                 className="touch-target w-full px-4 py-3 rounded-xl text-xs sm:text-sm font-bold bg-blue-600 text-white shadow-md hover:bg-blue-700 active:scale-[0.99] transition-all flex items-center justify-center gap-2 group cursor-pointer"
               >
-                <Sparkles size={16} className="text-amber-300 animate-pulse shrink-0" />
-                <span>⚡ AI Career Copilot</span>
+                <Bot size={16} className="text-white shrink-0" />
+                <span>AI Career Copilot</span>
                 <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform shrink-0" />
               </Link>
 
