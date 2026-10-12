@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import { GithubIcon } from "@/components/SocialIcons";
 import CreativeSculpture4D from "@/components/CreativeSculpture4D";
+import TrueSpatial4DExperience from "@/components/TrueSpatial4DExperience";
 
 export default function Home() {
   return (
@@ -25,6 +26,9 @@ export default function Home() {
       <Header />
 
       <main className="flex-1 portfolio-container py-4 lg:py-6 space-y-4">
+        {/* KHÔNG GIAN 4D THỰC THỤ: HERO STAGE VỚI 4 GÓC NHÌN ĐIỆN ẢNH */}
+        <TrueSpatial4DExperience />
+
         {/* ROW 1: PROFILE HERO STRIP (HIGH DENSITY) */}
         <section className="card-glass rounded-2xl p-4 lg:p-6 border border-[var(--surface-border)]">
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
