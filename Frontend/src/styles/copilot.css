@@ -1,0 +1,57 @@
+/* ==============================================================================
+   CAREER COPILOT DASHBOARD - DEDICATED UX ARCHITECTURE
+   ============================================================================== */
+
+.copilot-container {
+  width: 100%;
+  max-width: 1440px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  box-sizing: border-box;
+}
+
+/* 4 Metrics Square Grid (Desktop 4-col, Mobile 2x2 grid) */
+.copilot-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+@media (max-width: 767px) {
+  .copilot-container {
+    max-width: 430px;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  /* MANDATORY iPhone 14 Pro Max: 2x2 grid, gap 8px */
+  .copilot-stats-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 8px !important;
+  }
+
+  .copilot-mobile-tab-bar {
+    display: flex;
+    width: 100%;
+    border-bottom: 1px solid var(--surface-border);
+    margin-bottom: 1rem;
+    background: var(--surface);
+    border-radius: 0.75rem;
+    padding: 4px;
+    gap: 4px;
+  }
+
+  .copilot-mobile-tab-btn {
+    flex: 1;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 600;
+    border-radius: 0.5rem;
+    transition: all 0.2s ease;
+  }
+}

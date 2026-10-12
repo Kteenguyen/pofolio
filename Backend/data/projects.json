@@ -1,0 +1,101 @@
+[
+  {
+    "id": "luklak-cinematic-web",
+    "title": "Hệ Thống Website Doanh Nghiệp Đa Trang & Cinematic Scroll (Luklak)",
+    "subtitle": "Enterprise Responsive Website with Lenis Smooth Scroll & Spring Physics",
+    "category": "Full-Stack & Web",
+    "featured": true,
+    "metrics": [
+      { "label": "Số trang web", "value": "7 Trang" },
+      { "label": "Components tái sử dụng", "value": "17+" },
+      { "label": "Tốc độ khung hình", "value": "60 FPS" }
+    ],
+    "techStack": ["Next.js", "React.js", "Tailwind CSS", "Framer Motion", "Lenis", "Figma", "VPS Linux"],
+    "liveUrl": "",
+    "githubUrl": "",
+    "imageUrl": "",
+    "status": "Vui lòng bổ sung trong CRM"
+  },
+  {
+    "id": "fpt-civil-judgment-suite",
+    "title": "Dự Án Triển Khai Hệ Thống Cơ Quan Thi Hành Án Dân Sự (FPT IS)",
+    "subtitle": "Government Enterprise System Deployment, UAT Testing & End-User Training",
+    "category": "Phân Tích BA & Nghiệp Vụ",
+    "featured": true,
+    "metrics": [
+      { "label": "Cán bộ đào tạo", "value": "230+" },
+      { "label": "Buổi Training", "value": "15 Buổi" },
+      { "label": "Bugs/CR xử lý", "value": "60+" }
+    ],
+    "techStack": ["FPT IS Platform", "UAT Testing", "Jira", "Chữ ký số", "UltraViewer", "SOP Manual"],
+    "liveUrl": "",
+    "githubUrl": "",
+    "imageUrl": "",
+    "status": "Vui lòng bổ sung trong CRM"
+  },
+  {
+    "id": "ecommerce-redis-flashsale",
+    "title": "Sàn Thương Mại Điện Tử & Đặt Hàng Trực Tuyến (Flash Sale Realtime)",
+    "subtitle": "E-Commerce Platform with Redis High-Concurrency Cache & Shipping Integration",
+    "category": "Backend & CSDL",
+    "featured": true,
+    "metrics": [
+      { "label": "Độ trễ Flash Sale", "value": "<50ms" },
+      { "label": "Tích hợp GHTK", "value": "100%" },
+      { "label": "Kiểm thử hệ thống", "value": "Đạt" }
+    ],
+    "techStack": ["Node.js", "Express.js", "MongoDB", "Redis", "JWT Auth", "GHTK API", "Postman"],
+    "liveUrl": "",
+    "githubUrl": "",
+    "imageUrl": "",
+    "status": "Vui lòng bổ sung trong CRM"
+  },
+  {
+    "id": "food-ordering-rbac-net",
+    "title": "Nền Tảng Đặt Món Trực Tuyến Phân Quyền Theo Vai Trò (RBAC)",
+    "subtitle": "Online Food Ordering Platform with ASP.NET Core & Partial Views Optimization",
+    "category": "Full-Stack & Web",
+    "featured": false,
+    "metrics": [
+      { "label": "Thời gian bảo trì", "value": "-30%" },
+      { "label": "Bảo mật RBAC", "value": "100%" }
+    ],
+    "techStack": ["C#", "ASP.NET Core", "Identity", "MS SQL Server", "Entity Framework Core"],
+    "liveUrl": "",
+    "githubUrl": "",
+    "imageUrl": "",
+    "status": "Vui lòng bổ sung trong CRM"
+  },
+  {
+    "id": "car-maintenance-system",
+    "title": "Hệ Thống Quản Lý Lịch Trình & Chi Phí Bảo Dưỡng Phương Tiện",
+    "subtitle": "Vehicle Maintenance & Repair History System with Enterprise UML Design",
+    "category": "Phân Tích BA & Nghiệp Vụ",
+    "featured": false,
+    "metrics": [
+      { "label": "Độ chuẩn hóa UML", "value": "100%" },
+      { "label": "Tiết kiệm chi phí", "value": "Đo lường" }
+    ],
+    "techStack": ["ASP.NET Core MVC", "MS SQL Server", "Draw.io", "UML Diagrams"],
+    "liveUrl": "",
+    "githubUrl": "",
+    "imageUrl": "",
+    "status": "Vui lòng bổ sung trong CRM"
+  },
+  {
+    "id": "odoo-sales-workflow",
+    "title": "Số Hóa Luồng Bán Hàng & Thu Ngân Doanh Nghiệp (Odoo ERP)",
+    "subtitle": "Internal Sales Order Management & Cashier Workflow Optimization",
+    "category": "Phân Tích BA & Nghiệp Vụ",
+    "featured": false,
+    "metrics": [
+      { "label": "Đồng bộ kho", "value": "Realtime" },
+      { "label": "Độ chính xác", "value": "100%" }
+    ],
+    "techStack": ["Odoo ERP", "Python", "Business Process Modeling", "System Testing"],
+    "liveUrl": "",
+    "githubUrl": "",
+    "imageUrl": "",
+    "status": "Vui lòng bổ sung trong CRM"
+  }
+]

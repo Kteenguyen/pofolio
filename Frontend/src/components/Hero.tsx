@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { portfolioData } from "@/data/portfolioData";
 import StatsCounter from "./StatsCounter";
 import { Sparkles, ArrowRight, GraduationCap, Terminal, MapPin, CheckCircle2 } from "lucide-react";
@@ -59,9 +60,18 @@ export default function Hero() {
 
         {/* Action Buttons Group */}
         <div className="button-group-responsive mt-8">
+          <Link
+            href="/copilot"
+            className="touch-target px-6 py-3.5 rounded-xl text-sm font-bold bg-blue-600 text-white shadow-md hover:bg-blue-700 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-2 group cursor-pointer"
+          >
+            <Sparkles size={16} className="text-amber-300 animate-pulse" />
+            <span>⚡ AI Career Copilot (Thực Chiến)</span>
+            <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+          </Link>
+
           <a
             href="#projects"
-            className="touch-target px-6 py-3.5 rounded-xl text-sm font-semibold bg-blue-600 text-white shadow-sm hover:bg-blue-700 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-2 group cursor-pointer"
+            className="touch-target px-6 py-3.5 rounded-xl text-sm font-semibold border border-[var(--surface-border)] bg-[var(--surface)] text-[var(--foreground)] hover:border-blue-600 hover:text-blue-600 transition-all flex items-center justify-center gap-2 group cursor-pointer shadow-sm"
           >
             <span>Xem 6 Dự Án Tiêu Biểu</span>
             <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />

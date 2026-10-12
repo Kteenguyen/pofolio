@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ktee CMS • Quản Trị Leads & Nội Dung Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
+  <style>
+    :root {
+      --bg: #0b0f19;
+      --surface: #111827;
+      --border: #1f2937;
+      --accent: #2563eb;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', -apple-system, sans-serif;
+      padding: 1.5rem;
+      min-height: 100vh;
+    }
+    .container { max-width: 1200px; margin: 0 auto; }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 1.5rem;
+    }
+    .brand { display: flex; align-items: center; gap: 0.75rem; }
+    .logo-badge {
+      width: 36px; height: 36px; border-radius: 10px;
+      background: linear-gradient(135deg, #2563eb, #38bdf8);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 16px;
+    }
+    .nav-tabs { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; }
+    .tab-btn {
+      padding: 0.6rem 1.2rem; border-radius: 10px;
+      background: var(--surface); color: var(--muted);
+      border: 1px solid var(--border); cursor: pointer;
+      font-weight: 600; font-size: 13px; transition: all 0.2s;
+    }
+    .tab-btn.active {
+      background: var(--accent); color: white; border-color: var(--accent);
+    }
+    .stats-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem; margin-bottom: 2rem;
+    }
+    .stat-card {
+      background: var(--surface); border: 1px solid var(--border);
+      padding: 1.25rem; border-radius: 14px;
+    }
+    .stat-val { font-size: 1.75rem; font-weight: 800; color: #38bdf8; margin-top: 0.25rem; }
+    .stat-label { font-size: 12px; color: var(--muted); font-weight: 500; }
+    
+    .card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 16px; padding: 1.5rem; margin-bottom: 1.5rem;
+    }
+    .card-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; }
+    
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th { text-align: left; padding: 0.75rem; color: var(--muted); border-bottom: 1px solid var(--border); }
+    td { padding: 0.85rem 0.75rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+    
+    .badge {
+      display: inline-block; padding: 0.2rem 0.6rem; border-radius: 6px;
+      font-size: 11px; font-weight: 700; font-family: 'JetBrains Mono', monospace;
+    }
+    .badge-new { background: rgba(56, 189, 248, 0.15); color: #38bdf8; }
+    .badge-contacted { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
+    .badge-closed { background: rgba(16, 185, 129, 0.15); color: #10b981; }
+    .badge-pending { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
+
+    .btn {
+      padding: 0.45rem 0.85rem; border-radius: 8px; font-size: 12px; font-weight: 600;
+      border: 1px solid var(--border); background: var(--surface); color: var(--text);
+      cursor: pointer; transition: all 0.2s;
+    }
+    .btn:hover { border-color: var(--accent); color: var(--accent); }
+    .btn-primary { background: var(--accent); color: white; border-color: var(--accent); }
+    .btn-primary:hover { background: #1d4ed8; }
+    .btn-danger { color: #f87171; border-color: rgba(239, 68, 68, 0.3); }
+    .btn-danger:hover { background: rgba(239, 68, 68, 0.15); }
+
+    .input-field {
+      width: 100%; padding: 0.6rem 0.85rem; border-radius: 8px;
+      background: var(--bg); border: 1px solid var(--border);
+      color: var(--text); font-size: 13px; margin-top: 0.25rem; margin-bottom: 0.75rem;
+    }
+    .input-field:focus { outline: none; border-color: var(--accent); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="logo-badge">K</div>
+        <div>
+          <h1 style="font-size: 18px; font-weight: 800;">Ktee Portfolio CMS Dashboard</h1>
+          <p style="font-size: 12px; color: var(--muted);">Quản trị Leads Tuyển Dụng & Cập Nhật Nội Dung Dynamic</p>
+        </div>
+      </div>
+      <div>
+        <a href="http://localhost:3000" target="_blank" class="btn btn-primary">Xem Website Frontend (Port 3000) ↗</a>
+      </div>
+    </header>
+
+    <!-- Stats Bar -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">Tổng Tin Nhắn / Leads</div>
+        <div class="stat-val" id="stat-total">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Tin Nhắn Mới Chưa Xử Lý</div>
+        <div class="stat-val" id="stat-new" style="color: #38bdf8;">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Đang Liên Hệ / Đã Chốt</div>
+        <div class="stat-val" id="stat-done" style="color: #10b981;">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Dự Án Cần Bổ Sung Link/Ảnh</div>
+        <div class="stat-val" id="stat-pending" style="color: #f59e0b;">0</div>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="nav-tabs">
+      <button class="tab-btn active" onclick="switchTab('leads')">📬 Quản Lý Leads & Liên Hệ</button>
+      <button class="tab-btn" onclick="switchTab('projects')">🚀 Quản Lý Dự Án & Link/Ảnh Dynamic</button>
+    </div>
+
+    <!-- TAB 1: LEADS -->
+    <div id="tab-leads" class="card">
+      <div class="card-title">Danh Sách Tin Nhắn & Yêu Cầu Tuyển Dụng Từ Frontend</div>
+      <div style="overflow-x: auto;">
+        <table>
+          <thead>
+            <tr>
+              <th>Họ và Tên</th>
+              <th>Email & Số ĐT</th>
+              <th>Nội Dung Trao Đổi</th>
+              <th>Trạng Thái</th>
+              <th>Thao Tác</th>
+            </tr>
+          </thead>
+          <tbody id="leads-tbody">
+            <tr><td colspan="5" style="text-align: center; color: var(--muted);">Đang tải dữ liệu...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TAB 2: PROJECTS CMS -->
+    <div id="tab-projects" class="card" style="display: none;">
+      <div class="card-title">Cập Nhật Link Live Demo, Source Code & Ảnh Mockup Cho 6 Dự Án</div>
+      <p style="font-size: 12px; color: var(--muted); margin-bottom: 1.5rem;">
+        Khi Sếp điền Link hoặc Ảnh vào đây và ấn "Lưu Cập Nhật", Website Frontend sẽ tự động nhận diện và mở khóa nút Demo, không còn báo nhãn <code>[Vui lòng bổ sung trong CRM]</code> nữa.
+      </p>
+      <div id="projects-list">
+        <!-- Render dynamic project forms -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    async function loadStats() {
+      try {
+        const res = await fetch('/api/stats');
+        const { data } = await res.json();
+        document.getElementById('stat-total').innerText = data.totalLeads;
+        document.getElementById('stat-new').innerText = data.newLeads;
+        document.getElementById('stat-done').innerText = data.contactedLeads + data.closedLeads;
+        document.getElementById('stat-pending').innerText = data.pendingProjects;
+      } catch (e) { console.error(e); }
+    }
+
+    async function loadLeads() {
+      try {
+        const res = await fetch('/api/leads');
+        const { data } = await res.json();
+        const tbody = document.getElementById('leads-tbody');
+        if (!data || data.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding: 2rem; color: var(--muted);">Chưa có tin nhắn nào được gửi từ website.</td></tr>';
+          return;
+        }
+
+        tbody.innerHTML = data.map(l => `
+          <tr>
+            <td><strong>${l.name}</strong><br><small style="color:var(--muted)">${new Date(l.createdAt).toLocaleString('vi-VN')}</small></td>
+            <td><a href="mailto:${l.email}" style="color:#38bdf8">${l.email}</a><br><small style="color:var(--muted)">${l.phone || 'Chưa cung cấp SĐT'}</small></td>
+            <td style="max-width: 320px; line-height: 1.5;">${l.message}</td>
+            <td>
+              <span class="badge ${l.status === 'new' ? 'badge-new' : (l.status === 'contacted' ? 'badge-contacted' : 'badge-closed')}">
+                ${l.status === 'new' ? 'Chưa Xử Lý' : (l.status === 'contacted' ? 'Đang Liên Hệ' : 'Đã Chốt')}
+              </span>
+            </td>
+            <td>
+              <div style="display: flex; gap: 0.4rem; flex-wrap: wrap;">
+                ${l.status !== 'contacted' ? `<button class="btn" onclick="updateLeadStatus('${l.id}', 'contacted')">Đang liên hệ</button>` : ''}
+                ${l.status !== 'closed' ? `<button class="btn btn-primary" onclick="updateLeadStatus('${l.id}', 'closed')">Đã chốt</button>` : ''}
+                <button class="btn btn-danger" onclick="deleteLead('${l.id}')">Xóa</button>
+              </div>
+            </td>
+          </tr>
+        `).join('');
+      } catch (e) { console.error(e); }
+    }
+
+    async function updateLeadStatus(id, status) {
+      await fetch(`/api/leads/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status })
+      });
+      loadLeads();
+      loadStats();
+    }
+
+    async function deleteLead(id) {
+      if (!confirm('Sếp có chắc chắn muốn xóa tin nhắn này không?')) return;
+      await fetch(`/api/leads/${id}`, { method: 'DELETE' });
+      loadLeads();
+      loadStats();
+    }
+
+    async function loadProjects() {
+      try {
+        const res = await fetch('/api/projects');
+        const { data } = await res.json();
+        const list = document.getElementById('projects-list');
+
+        list.innerHTML = data.map(p => `
+          <div style="background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem; margin-bottom: 1.25rem;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem;">
+              <div>
+                <span class="badge" style="background: rgba(37,99,235,0.15); color: #60a5fa">${p.category}</span>
+                <h3 style="font-size: 15px; font-weight: 700; margin-top: 0.35rem;">${p.title}</h3>
+                <p style="font-size: 12px; color: var(--muted);">${p.subtitle}</p>
+              </div>
+              <span class="badge ${p.liveUrl ? 'badge-closed' : 'badge-pending'}">
+                ${p.liveUrl ? '✓ Đã có Live Demo' : '! Vui lòng bổ sung trong CRM'}
+              </span>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+              <div>
+                <label style="font-size: 12px; color: var(--muted); font-weight: 600;">Link Trải Nghiệm Live Demo:</label>
+                <input type="url" id="live-${p.id}" value="${p.liveUrl || ''}" placeholder="https://example.com/demo..." class="input-field">
+              </div>
+              <div>
+                <label style="font-size: 12px; color: var(--muted); font-weight: 600;">Link Mã Nguồn GitHub Repo:</label>
+                <input type="url" id="github-${p.id}" value="${p.githubUrl || ''}" placeholder="https://github.com/Kteenguyen/repo-name..." class="input-field">
+              </div>
+            </div>
+
+            <div style="margin-top: 0.5rem; display: flex; justify-content: flex-end;">
+              <button class="btn btn-primary" onclick="saveProject('${p.id}')">💾 Lưu Cập Nhật Cho Dự Án Này</button>
+            </div>
+          </div>
+        `).join('');
+      } catch (e) { console.error(e); }
+    }
+
+    async function saveProject(id) {
+      const liveUrl = document.getElementById(`live-${id}`).value.trim();
+      const githubUrl = document.getElementById(`github-${id}`).value.trim();
+
+      const res = await fetch(`/api/projects/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ liveUrl, githubUrl })
+      });
+      const data = await res.json();
+      alert('Đã lưu thông tin dự án vào Backend CMS thành công! Website Frontend sẽ tự động đồng bộ.');
+      loadProjects();
+      loadStats();
+    }
+
+    function switchTab(tab) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      if (tab === 'leads') {
+        document.querySelector('.tab-btn:nth-child(1)').classList.add('active');
+        document.getElementById('tab-leads').style.display = 'block';
+        document.getElementById('tab-projects').style.display = 'none';
+      } else {
+        document.querySelector('.tab-btn:nth-child(2)').classList.add('active');
+        document.getElementById('tab-leads').style.display = 'none';
+        document.getElementById('tab-projects').style.display = 'block';
+      }
+    }
+
+    // Init
+    loadStats();
+    loadLeads();
+    loadProjects();
+  </script>
+</body>
+</html>

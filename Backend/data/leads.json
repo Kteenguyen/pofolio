@@ -1,0 +1,11 @@
+[
+  {
+    "id": "lead-demo-1",
+    "name": "Nguyễn Hoàng Minh (Tech Lead / HR Recruiter)",
+    "email": "minh.nguyen@techcorp.vn",
+    "phone": "0909123456",
+    "message": "Chào Tài, bên mình đang tìm kiếm Software Engineer có nền tảng vững vàng về React/Next.js và tư duy BA để tham gia dự án ERP. Rất ấn tượng với kinh nghiệm của bạn tại FPT IS!",
+    "status": "new",
+    "createdAt": "2026-10-12T08:00:00.000Z"
+  }
+]
