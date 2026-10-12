@@ -5,8 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import ThemeToggle from "./ThemeToggle";
 import CVDownloadModal from "./CVDownloadModal";
-import { portfolioData } from "@/data/portfolioData";
-import { Menu, X, FileDown, Code2 } from "lucide-react";
+import { Menu, X, FileDown, ChevronRight } from "lucide-react";
 
 export default function Header() {
   const pathname = usePathname();
@@ -29,22 +28,7 @@ export default function Header() {
         mobileMenuOpen ? "bg-[var(--background)] shadow-xl" : "bg-[var(--background)]/90 backdrop-blur-md"
       }`}
     >
-      <div className="portfolio-container h-16 flex items-center justify-between gap-2 sm:gap-4">
-        {/* Brand Logo */}
-        <Link href="/" className="flex items-center gap-2.5 group cursor-pointer shrink-0">
-          <div className="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center text-white shadow-sm shadow-blue-500/25 group-hover:scale-105 transition-transform">
-            <Code2 size={19} />
-          </div>
-          <div className="flex flex-col">
-            <span className="font-extrabold text-sm tracking-tight text-[var(--foreground)] group-hover:text-blue-600 transition-colors">
-              {portfolioData.personal.nickname}
-              <span className="text-blue-600 dark:text-sky-400">.dev</span>
-            </span>
-            <span className="text-[10px] text-[var(--muted-foreground)] leading-none hidden sm:inline font-mono">
-              ĐH Tôn Đức Thắng (2021-2026)
-            </span>
-          </div>
-        </Link>
+      <div className="portfolio-container h-16 flex items-center justify-between gap-4">
 
         {/* Desktop Navigation Tabs (>= 1024px) */}
         <nav className="hidden lg:flex items-center gap-1 bg-slate-100 dark:bg-slate-800/60 p-1 rounded-xl border border-[var(--surface-border)] shrink-0">
@@ -67,7 +51,7 @@ export default function Header() {
         </nav>
 
         {/* Right CTA Group */}
-        <div className="flex items-center gap-2 shrink-0">
+        <div className="flex items-center gap-2 shrink-0 ml-auto lg:ml-0">
           <ThemeToggle />
           <button
             onClick={() => setCvModalOpen(true)}
@@ -107,7 +91,7 @@ export default function Header() {
                   }`}
                 >
                   <span>{route.label}</span>
-                  <span className="text-xs opacity-70">→</span>
+                  <ChevronRight size={16} className="opacity-70" />
                 </Link>
               );
             })}

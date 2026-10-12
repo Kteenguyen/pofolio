@@ -40,12 +40,15 @@
 \renewcommand{\headrulewidth}{0pt}
 \renewcommand{\footrulewidth}{0pt}
 
-% Căn chỉnh lề trang tối ưu cho mật độ thông tin cao (High Information Density)
+% Thiết lập độ giãn dòng toàn văn bản (thoáng đãng, thanh thoát, tối ưu dấu tiếng Việt)
+\linespread{1.12}
+
+% Căn chỉnh lề trang tối ưu cho mật độ thông tin cao và thẩm mỹ hiện đại
 \addtolength{\oddsidemargin}{-0.55in}
 \addtolength{\evensidemargin}{-0.55in}
 \addtolength{\textwidth}{1.1in}
-\addtolength{\topmargin}{-.65in}
-\addtolength{\textheight}{1.3in}
+\addtolength{\topmargin}{-.6in}
+\addtolength{\textheight}{1.25in}
 
 \urlstyle{same}
 
@@ -60,37 +63,35 @@
 \definecolor{subtleSlate}{RGB}{71, 85, 105}     % Xám chì Slate #475569
 \definecolor{borderGray}{RGB}{226, 232, 240}    % Xám nhạt viền
 
-% Định dạng tiêu đề các phần (Sections Formatting)
+% Định dạng tiêu đề các phần (Sections Formatting với khoảng cách thoáng đãng)
 \titleformat{\section}{
-  \vspace{-5pt}\scshape\raggedright\large\bfseries\color{primaryDark}
-}{}{0em}{}[\color{accentBlue}\titlerule \vspace{-4pt}]
+  \vspace{-2pt}\scshape\raggedright\large\bfseries\color{primaryDark}
+}{}{0em}{}[\color{accentBlue}\titlerule \vspace{-1pt}]
 
-% Định nghĩa các lệnh tùy biến danh sách và đầu mục
+% Định nghĩa các lệnh tùy biến danh sách và đầu mục với khoảng cách chuẩn mực
 \newcommand{\resumeItem}[1]{
-  \item\small{
-    {#1 \vspace{-2pt}}
-  }
+  \item\small{{#1}}
 }
 
 \newcommand{\resumeSubheading}[4]{
-  \vspace{-2pt}\item
+  \vspace{3pt}\item
     \begin{tabular*}{0.98\textwidth}[t]{l@{\extracolsep{\fill}}r}
       \textbf{\color{primaryDark}#1} & \textit{\small\color{subtleSlate}#2} \\
       \textit{\small#3} & \textit{\small\color{subtleSlate}#4} \\
-    \end{tabular*}\vspace{-6pt}
+    \end{tabular*}\vspace{-2pt}
 }
 
 \newcommand{\resumeProjectHeading}[2]{
-    \item
+  \vspace{3pt}\item
     \begin{tabular*}{0.98\textwidth}{l@{\extracolsep{\fill}}r}
       \small#1 & \textit{\small\color{subtleSlate}#2} \\
-    \end{tabular*}\vspace{-6pt}
+    \end{tabular*}\vspace{-2pt}
 }
 
-\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.15in, label={}]}
-\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
-\newcommand{\resumeItemListStart}{\begin{itemize}[leftmargin=0.15in]}
-\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-4pt}}
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.15in, label={}, itemsep=5pt, topsep=2pt]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}\vspace{-2pt}}
+\newcommand{\resumeItemListStart}{\begin{itemize}[leftmargin=0.15in, itemsep=2.5pt, parsep=0pt, topsep=2pt]}
+\newcommand{\resumeItemListEnd}{\end{itemize}}
 
 %----------------------------------------------------------------------------------------
 % NỘI DUNG CV
@@ -99,40 +100,40 @@
 
 %----------HEADER: AVATAR VÀ THÔNG TIN LIÊN HỆ----------
 \noindent
-\begin{minipage}[c]{0.18\textwidth}
+\begin{minipage}[c]{0.17\textwidth}
   \begin{tikzpicture}
     % Viền bo màu sắc tinh xảo
-    \draw[draw=accentBlue!60, line width=1.6pt, rounded corners=9pt] (-0.04,-0.04) rectangle (2.44cm, 2.94cm);
+    \draw[draw=accentBlue!60, line width=1.5pt, rounded corners=8pt] (-0.03,-0.03) rectangle (2.33cm, 2.83cm);
     % Cắt ảnh theo khung góc bo mềm mại
-    \clip[rounded corners=8pt] (0,0) rectangle (2.4cm, 2.9cm);
+    \clip[rounded corners=7pt] (0,0) rectangle (2.3cm, 2.8cm);
     \node[anchor=south west, inner sep=0pt] at (0,0) {
-      \includegraphics[width=2.4cm, height=2.9cm]{avatar.jpg}
+      \includegraphics[width=2.3cm, height=2.8cm]{avatar.jpg}
     };
   \end{tikzpicture}
 \end{minipage}%
 \hfill
-\begin{minipage}[c]{0.80\textwidth}
+\begin{minipage}[c]{0.81\textwidth}
   {\Huge \scshape \textbf{\color{primaryDark}Nguyễn Khoa Tài (Ktee)}} \\ \vspace{2pt}
-  {\large \textbf{\color{accentBlue}Kỹ Sư Phần Mềm (Web/App) $|$ Định Hướng Fullstack AI Agent Workflow}} \\ \vspace{4pt}
+  {\large \textbf{\color{accentBlue}Kỹ Sư Phần Mềm (Web/App) $|$ Định Hướng Fullstack AI Agent Workflow}} \\ \vspace{3pt}
   \small
   \faPhone\ (+84) 852 723 945 ~ $|$ ~
   \faEnvelope\ \href{mailto:nguyenkhoatai2003@gmail.com}{nguyenkhoatai2003@gmail.com} ~ $|$ ~
-  \faMapMarker*\ TP. Hồ Chí Minh, Việt Nam \\ \vspace{3pt}
-  \faGlobe\ \textbf{Portfolio Trực Tuyến (Vercel Live):} \href{https://pofolio-b3w9.vercel.app/}{\color{accentBlue}\underline{\textbf{pofolio-b3w9.vercel.app}}} \\ \vspace{2pt}
-  \faGithub\ \href{https://github.com/Kteenguyen}{github.com/Kteenguyen} ~ $|$ ~
+  \faMapMarker*\ TP. Hồ Chí Minh, Việt Nam \\ \vspace{2pt}
+  \faGlobe\ \textbf{Portfolio Trực Tuyến (Live):} \href{https://pofolio-b3w9.vercel.app/}{\color{accentBlue}\underline{\textbf{pofolio-b3w9.vercel.app}}} ~ $|$ ~
+  \faGithub\ \href{https://github.com/Kteenguyen}{github.com/Kteenguyen} \\ \vspace{2pt}
   \faLanguage\ \textbf{Tiếng Anh: Aptis ESOL B1 (136/200)}
 \end{minipage}
-\vspace{6pt}
+\vspace{4pt}
 
 %-----------TÓM TẮT HỒ SƠ NĂNG LỰC (THEO ĐÚNG THỰC TẾ CỦA KTEE)-----------
 \section{Tóm Tắt Năng Lực (Executive Summary)}
 \small{
-Kỹ sư CNTT mới tốt nghiệp tại \textbf{Đại học Tôn Đức Thắng} (\textbf{GPA: 3.0 / 4.0}), sở hữu kinh nghiệm thực tập doanh nghiệp (\textbf{FPT IS, HomeNest}) cùng năng lực triển khai các dự án Web/App thực tế. Tinh thần tự giác, ham học hỏi cao, liên tục trau dồi công nghệ mới và định hướng phát triển chuyên sâu mảng \textbf{AI Agent Workflow}. Mục tiêu năm tới xác lập vị trí chính thức ổn định trong ngành và vững vàng tài chính; rất mong có cơ hội đồng hành, cống hiến lâu dài cùng team và Quý doanh nghiệp.
+Kỹ sư CNTT tốt nghiệp \textbf{Đại học Tôn Đức Thắng} (\textbf{GPA: 3.0 / 4.0}), sở hữu kinh nghiệm thực tập doanh nghiệp (\textbf{FPT IS, HomeNest}) cùng năng lực phát triển các dự án Web/App thực tế. Tinh thần tự giác, ham học hỏi cao, liên tục làm chủ công nghệ mới và định hướng chuyên sâu mảng \textbf{Fullstack \& AI Agent Workflow}. Mục tiêu năm tới xác lập vị trí chính thức ổn định trong ngành và vững vàng tài chính; rất mong muốn đồng hành, cống hiến lâu dài cùng Quý doanh nghiệp.
 }
 
 %-----------KỸ NĂNG CỐT LÕI-----------
 \section{Năng Lực Kỹ Thuật \& Trí Tuệ Nhân Tạo Tác Tử (Core Competencies)}
- \begin{itemize}[leftmargin=0.15in, label={}]
+ \begin{itemize}[leftmargin=0.15in, label={}, itemsep=3pt, topsep=1pt]
     \small{\item{
      \textbf{AI Agentic \& Workflow Automation:} {Xây dựng luồng tác tử tự trị (Multi-Agent Workflow), Tự động hóa Make.com \& Webhook Ingress, Giao thức Model Context Protocol (MCP 2.0), Tool/Function Calling, Tối ưu Context Prompt, RAG \& Hybrid Search, Tích hợp LLM APIs} \\
      \textbf{Front-End \& Xây Dựng Web Trọn Gói:} {Next.js 15 (App Router, Server Actions), React 19, TypeScript, Tailwind CSS, Framer Motion, Lenis Smooth Scroll, Tối ưu Mobile-First (Viewport 430px không tràn viền), Triệt tiêu Layout Shift (CLS = 0), Core Web Vitals 95+} \\
@@ -159,16 +160,15 @@ Kỹ sư CNTT mới tốt nghiệp tại \textbf{Đại học Tôn Đức Thắn
 
     \resumeSubheading
       {Dự Án Doanh Nghiệp Khách Hàng Luklak}{05/2026}
-      {Lập Trình Viên Fullstack Web \& Kỹ Sư Triển Khai (Freelance)}{TP. Hồ Chí Minh, Việt Nam}
+      {Kỹ Sư Lập Trình Front-End Web (Freelance)}{TP. Hồ Chí Minh, Việt Nam}
       \resumeItemListStart
-        \resumeItem{Xây dựng hoàn thiện website thương hiệu gồm \textbf{7 trang hoàn chỉnh và 17 components}, chuyển đổi trực tiếp bản vẽ Figma sang mã nguồn Next.js/Tailwind CSS chuẩn mực.}
-        \resumeItem{Tích hợp hiệu ứng cuộn điện ảnh \textbf{Cinematic Scroll 60 FPS} (Lenis Scroll kết hợp Framer Motion parallax video và spring physics).}
-        \resumeItem{Trực tiếp cấu hình máy chủ VPS Linux, cài đặt Nginx Reverse Proxy, cấp chứng chỉ SSL Let's Encrypt và tối ưu bộ nhớ đệm HTTP Caching.}
+        \resumeItem{Thiết kế và phát triển giao diện Front-End website thương hiệu gồm \textbf{7 trang hoàn chỉnh và 17 components}, chuyển đổi trực tiếp bản vẽ Figma sang mã nguồn Next.js và Tailwind CSS chuẩn mực.}
+        \resumeItem{Tích hợp hiệu ứng cuộn điện ảnh \textbf{Cinematic Scroll 60 FPS} (Lenis Scroll kết hợp Framer Motion parallax video và spring physics), tối ưu trải nghiệm tương tác mượt mà.}
       \resumeItemListEnd
 
     \resumeSubheading
       {Công Ty Phần Mềm FPT IS (Hà Nội)}{12/2025 -- 01/2026}
-      {Thực Tập Sinh / Trưởng Nhóm Triển Khai Phần Mềm \& UAT}{Hà Nội -- TP. Hồ Chí Minh}
+      {Trưởng Nhóm Triển Khai Phần Mềm}{Hà Nội -- Đồng Tháp}
       \resumeItemListStart
         \resumeItem{Tham gia dự án số hóa trọng điểm cho \textbf{Cơ quan Thi Hành Án Dân Sự}; điều phối quy trình triển khai phần mềm, hỗ trợ UAT và go-live hệ thống.}
         \resumeItem{Trực tiếp đứng lớp tổ chức \textbf{15 buổi đào tạo (Training) cho hơn 230 cán bộ và người dùng cuối}, chuyển đổi quy trình thủ công sang số hóa.}
@@ -180,10 +180,10 @@ Kỹ sư CNTT mới tốt nghiệp tại \textbf{Đại học Tôn Đức Thắn
       {Công Ty HomeNest Software}{2025}
       {Thực Tập Sinh Phân Tích Nghiệp Vụ (Business Analyst -- BA)}{TP. Hồ Chí Minh, Việt Nam}
       \resumeItemListStart
-        \resumeItem{Khảo sát và thu thập yêu cầu bài toán số hóa của khách hàng thông qua Google Meet trực tiếp với khách; mô hình hóa quy trình nghiệp vụ thông qua sơ đồ Use Case, Activity Diagram và tài liệu đặc tả yêu cầu phần mềm (SRS).}
-        \resumeItem{Đóng vai trò cầu nối nghiệp vụ giữa khách hàng và đội ngũ lập trình, làm rõ logic chức năng và kiểm thử chấp nhận để đảm bảo sản phẩm chuyển giao đúng kỳ vọng.}
-        \resumeItem{Đề xuất tạo cuộc họp để triển khai ngôn ngữ thiết kế; thiết lập Timeline tiến độ công việc theo chuẩn mô hình Agile/Scrum.}
-        \resumeItem{Phối hợp nhuần nhuyễn thông tin liên phòng ban: Developers, UI/UX, Graphic Design và cập nhật báo cáo tiến độ liên tục.}
+        \resumeItem{Khảo sát và thu thập yêu cầu bài toán số hóa qua Google Meet trực tiếp với khách hàng; mô hình hóa quy trình qua sơ đồ Use Case, Activity Diagram và tài liệu đặc tả SRS.}
+        \resumeItem{Đóng vai trò cầu nối nghiệp vụ giữa khách hàng và đội ngũ lập trình, làm rõ logic chức năng và kiểm thử UAT để đảm bảo sản phẩm chuyển giao đúng kỳ vọng.}
+        \resumeItem{Đề xuất và điều phối cuộc họp chuẩn hóa UI/UX; thiết lập Timeline tiến độ công việc theo chuẩn mô hình Agile/Scrum.}
+        \resumeItem{Phối hợp nhịp nhàng liên phòng ban: Developers, UI/UX, Graphic Design và duy trì cập nhật báo cáo tiến độ liên tục.}
       \resumeItemListEnd
 
   \resumeSubHeadingListEnd
@@ -231,7 +231,7 @@ Kỹ sư CNTT mới tốt nghiệp tại \textbf{Đại học Tôn Đức Thắn
 
 %-----------CHỨNG CHỈ-----------
 \section{Chứng Chỉ Chuyên Môn \& Ngoại Ngữ (Certifications \& Languages)}
- \begin{itemize}[leftmargin=0.15in, label={}]
+ \begin{itemize}[leftmargin=0.15in, label={}, itemsep=3pt, topsep=1pt]
     \small{\item{
      $\bullet$ \textbf{Chứng Chỉ Tiếng Anh:} \textbf{Aptis ESOL B1 (136/200)} -- Đọc hiểu tài liệu kỹ thuật chuyên sâu, nghiên cứu công nghệ và giao tiếp công việc \\
      $\bullet$ \textbf{Công Ty FPT IS:} Chứng chỉ Triển Khai Phần Mềm Chuyên Nghiệp \& Nghiệm Thu Khách Hàng (2026)
