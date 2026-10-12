@@ -925,58 +925,7 @@ export default function CosmicGalaxy4D() {
           </span>
         </div>
 
-        {/* Center: VIEW CONTROLS & THEATER MODE TOGGLE */}
-        <div className="flex items-center gap-1 p-1 rounded-full bg-slate-900/90 border border-slate-700/80 backdrop-blur-xl shadow-lg pointer-events-auto">
-          <button
-            onClick={() => {
-              setViewMode("UNIVERSE");
-              setIsTheaterMode(false);
-            }}
-            className={`px-2.5 sm:px-3 py-1 rounded-full text-xs font-mono font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
-              viewMode === "UNIVERSE" && !isTheaterMode
-                ? "bg-sky-500 text-slate-950 shadow-md shadow-sky-500/30"
-                : "text-slate-400 hover:text-white"
-            }`}
-          >
-            <Sparkles size={12} />
-            <span className="hidden xs:inline">Vũ Trụ 4D</span>
-            <span className="xs:hidden">4D</span>
-          </button>
 
-          {/* NÚT BẬT/TẮT CHẾ ĐỘ RẠP CHIẾU PHIM ĐIỆN ẢNH (THEATER MODE) */}
-          <button
-            onClick={() => {
-              if (viewMode !== "UNIVERSE") setViewMode("UNIVERSE");
-              setIsTheaterMode(!isTheaterMode);
-            }}
-            className={`px-2.5 sm:px-3 py-1 rounded-full text-xs font-mono font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
-              isTheaterMode
-                ? "bg-purple-600 text-white shadow-md shadow-purple-500/40 ring-1 ring-purple-400"
-                : "text-slate-400 hover:text-purple-300"
-            }`}
-            title="Bật/Tắt Chế độ Rạp Chiếu Phim Vũ Trụ (Ẩn thẻ chữ để ngắm 100% không gian 3D)"
-          >
-            <Film size={12} className={isTheaterMode ? "animate-pulse" : ""} />
-            <span className="hidden sm:inline">{isTheaterMode ? "Thoát Rạp" : "🎬 Theater Mode"}</span>
-            <span className="sm:hidden">{isTheaterMode ? "Thoát" : "🎬 Rạp"}</span>
-          </button>
-
-          <button
-            onClick={() => {
-              setViewMode("DOSSIER");
-              setIsTheaterMode(false);
-            }}
-            className={`px-2.5 sm:px-3 py-1 rounded-full text-xs font-mono font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
-              viewMode === "DOSSIER"
-                ? "bg-amber-400 text-slate-950 shadow-md shadow-amber-400/30"
-                : "text-slate-400 hover:text-amber-300"
-            }`}
-          >
-            <Zap size={12} />
-            <span className="hidden xs:inline">Hồ Sơ Tinh Anh</span>
-            <span className="xs:hidden">15s</span>
-          </button>
-        </div>
 
         {/* Right: Audio Control & Coordinates */}
         <div className="flex items-center gap-2 pointer-events-auto">
@@ -1004,29 +953,7 @@ export default function CosmicGalaxy4D() {
         </div>
       </header>
 
-      {/* 3. RIGHT PLANETARY NAVIGATOR (BẤM ĐỂ FLY-TO HÀNH TINH) */}
-      <aside
-        aria-label="Thanh điều hướng hành tinh vũ trụ"
-        className="fixed right-3 sm:right-6 top-1/2 -translate-y-1/2 z-30 flex flex-col gap-1.5 pointer-events-auto"
-      >
-        {COSMIC_STATIONS.map((station, i) => {
-          const isActive = activeStationIndex === i && isDocked;
-          return (
-            <button
-              key={station.id}
-              onClick={() => flyToStation(i)}
-              className={`group flex items-center gap-2.5 px-3 py-1.5 rounded-xl transition-all font-mono text-xs cursor-pointer ${
-                isActive
-                  ? "bg-sky-500 text-slate-950 font-bold shadow-lg shadow-sky-500/30 scale-105 border border-sky-400"
-                  : "bg-slate-900/75 hover:bg-slate-800 text-slate-400 border border-slate-800 hover:border-slate-700"
-              }`}
-            >
-              <span className="text-[10px]">{station.index}</span>
-              <span className="hidden lg:inline text-xs">{station.planetName.split(" (")[0]}</span>
-            </button>
-          );
-        })}
-      </aside>
+
 
       {/* 4. VIRTUAL SCROLL TRACK & CINEMATIC DOCKED THEATER HUD */}
       <div className="relative z-10 min-h-[600vh] pointer-events-none">
