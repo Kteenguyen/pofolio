@@ -120,7 +120,7 @@ async function run() {
     throw new Error('Không thể kết nối đến Google Chrome CDP trên port 9222.');
   }
 
-  const pageTarget = targets.find((t) => t.type === 'page') || targets[0];
+  const pageTarget = targets.find((t) => t.type === 'page' && t.url && t.url.includes('3000')) || targets.find((t) => t.type === 'page') || targets[0];
   console.log(`[2/6] Kết nối WebSocket CDP: ${pageTarget.webSocketDebuggerUrl}`);
 
   const client = new CDPClient(pageTarget.webSocketDebuggerUrl);
@@ -129,6 +129,7 @@ async function run() {
   await client.send('Page.enable');
   await client.send('DOM.enable');
   await client.send('Runtime.enable');
+  await client.send('Page.navigate', { url: `http://localhost:3000${ROUTE}` });
 
   console.log('[3/6] Chờ trang tải và render hoàn tất (2s)...');
   await sleep(2000);

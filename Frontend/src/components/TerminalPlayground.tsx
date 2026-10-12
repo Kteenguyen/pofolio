@@ -85,14 +85,13 @@ export default function TerminalPlayground() {
       case "experience":
         output = (
           <div className="text-xs space-y-2">
-            <div>
-              <p className="text-amber-400 font-bold">[12/2025 – 01/2026] FPT IS (Thi Hành Án Dân Sự)</p>
-              <p className="text-slate-300">• Trưởng nhóm triển khai, đào tạo 230+ người dùng, xử lý 60 bugs/CR.</p>
-            </div>
-            <div>
-              <p className="text-amber-400 font-bold">[05/2026] Luklak (Freelance)</p>
-              <p className="text-slate-300">• Front-End & Deployment: 7 trang, 17 components, Lenis Smooth Scroll, VPS Linux.</p>
-            </div>
+            {portfolioData.experience.map((e) => (
+              <div key={e.id}>
+                <p className="text-amber-400 font-bold">[{e.period}] {e.company}</p>
+                <p className="text-slate-300">• {e.role}</p>
+                <p className="text-slate-400 text-[11px]">• {e.achievements[0]}</p>
+              </div>
+            ))}
           </div>
         );
         break;

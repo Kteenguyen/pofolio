@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { Project } from "@/data/portfolioData";
 import { X, ExternalLink, CheckCircle2, AlertCircle, Lightbulb, TrendingUp } from "lucide-react";
 import { GithubIcon } from "./SocialIcons";
@@ -12,6 +13,12 @@ interface ProjectModalProps {
 }
 
 export default function ProjectModal({ project, onClose }: ProjectModalProps) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
@@ -19,6 +26,8 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
     if (project) {
       document.body.style.overflow = "hidden";
       window.addEventListener("keydown", handleKeyDown);
+    } else {
+      document.body.style.overflow = "auto";
     }
     return () => {
       document.body.style.overflow = "auto";
@@ -26,9 +35,9 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
     };
   }, [project, onClose]);
 
-  if (!project) return null;
+  if (!project || !mounted) return null;
 
-  return (
+  return createPortal(
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-fade-in">
       <div
         className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto card-glass rounded-3xl p-6 lg:p-8 border border-[var(--surface-border)] shadow-2xl bg-[var(--surface)] text-[var(--foreground)]"
@@ -147,6 +156,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
           )}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

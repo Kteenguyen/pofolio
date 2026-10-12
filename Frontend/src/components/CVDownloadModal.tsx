@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { X, FileText, Download, CheckCircle2 } from "lucide-react";
 
 interface CVDownloadModalProps {
@@ -52,6 +53,12 @@ export const CV_LIST = [
 ];
 
 export default function CVDownloadModal({ isOpen, onClose }: CVDownloadModalProps) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
@@ -68,9 +75,9 @@ export default function CVDownloadModal({ isOpen, onClose }: CVDownloadModalProp
     };
   }, [isOpen, onClose]);
 
-  if (!isOpen) return null;
+  if (!isOpen || !mounted) return null;
 
-  return (
+  return createPortal(
     <div
       role="dialog"
       aria-modal="true"
@@ -171,6 +178,7 @@ export default function CVDownloadModal({ isOpen, onClose }: CVDownloadModalProp
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

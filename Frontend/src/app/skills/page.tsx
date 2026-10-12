@@ -1,7 +1,6 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import TechStack from "@/components/TechStack";
-import TerminalPlayground from "@/components/TerminalPlayground";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 
@@ -22,9 +21,6 @@ export default function SkillsPage() {
 
         {/* Tech Stack Component */}
         <TechStack />
-
-        {/* Terminal Playground Component */}
-        <TerminalPlayground />
 
         {/* Bottom Route Navigation Bar */}
         <div className="pt-4 border-t border-[var(--surface-border)] flex items-center justify-between">

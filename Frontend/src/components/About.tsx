@@ -9,7 +9,7 @@ export default function About() {
   ];
 
   return (
-    <section id="about" className="py-20 border-t border-[var(--surface-border)] bg-[var(--surface-subtle)]/50 relative">
+    <section id="about" className="py-10 sm:py-14 lg:py-18 border-t border-[var(--surface-border)] bg-[var(--surface-subtle)]/50 relative">
       <div className="portfolio-container">
         {/* Section Header */}
         <div className="flex flex-col items-start mb-12">

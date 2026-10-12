@@ -5,7 +5,6 @@ import Education from "@/components/Education";
 import Experience from "@/components/Experience";
 import Projects from "@/components/Projects";
 import TechStack from "@/components/TechStack";
-import TerminalPlayground from "@/components/TerminalPlayground";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 
@@ -29,7 +28,7 @@ export default function Home() {
         <Experience />
 
         {/* 6. Projects (Kho 6 Dự Án Thực Chiến CAR Framework) */}
-        <section id="projects" className="py-20 border-t border-[var(--surface-border)] bg-[var(--background)]">
+        <section id="projects" className="py-10 sm:py-14 lg:py-18 border-t border-[var(--surface-border)] bg-[var(--background)]">
           <div className="portfolio-container">
             <Projects />
           </div>
@@ -38,15 +37,8 @@ export default function Home() {
         {/* 7. Tech Stack (Khung Công Nghệ & Kỹ Năng) */}
         <TechStack />
 
-        {/* 8. Interactive CLI Terminal */}
-        <section id="terminal" className="py-20 border-t border-[var(--surface-border)] bg-[var(--surface-subtle)]/40">
-          <div className="portfolio-container">
-            <TerminalPlayground />
-          </div>
-        </section>
-
-        {/* 9. Contact Section */}
-        <section id="contact" className="py-20 border-t border-[var(--surface-border)] bg-[var(--background)]">
+        {/* 8. Contact Section */}
+        <section id="contact" className="py-10 sm:py-14 lg:py-18 border-t border-[var(--surface-border)] bg-[var(--background)]">
           <div className="portfolio-container">
             <Contact />
           </div>

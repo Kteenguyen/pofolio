@@ -3,17 +3,17 @@ import { GraduationCap, Award, CheckCircle, BookOpen, Star } from "lucide-react"
 
 export default function Education() {
   return (
-    <section id="education" className="py-20 border-t border-[var(--surface-border)] bg-[var(--background)] relative">
+    <section id="education" className="py-10 sm:py-14 lg:py-18 border-t border-[var(--surface-border)] bg-[var(--background)] relative">
       <div className="portfolio-container">
         {/* Section Header */}
-        <div className="flex flex-col items-start mb-12">
+        <div className="flex flex-col items-start mb-8 sm:mb-12">
           <div className="text-xs font-mono font-semibold tracking-widest text-blue-600 dark:text-blue-400 uppercase mb-2">
             // HỌC THUẬT & NỀN TẢNG ĐÀO TẠO 5 NĂM
           </div>
-          <h2 className="text-3xl lg:text-4xl font-extrabold text-[var(--foreground)] tracking-tight">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[var(--foreground)] tracking-tight">
             Chương Trình Đào Tạo Kỹ Sư Tại ĐH Tôn Đức Thắng
           </h2>
-          <p className="text-[var(--muted-foreground)] mt-3 max-w-2xl text-base leading-relaxed">
+          <p className="text-[var(--muted-foreground)] mt-2 sm:mt-3 max-w-2xl text-xs sm:text-sm lg:text-base leading-relaxed">
             Hành trình 5 năm toàn thời gian (2021 – 2026) trang bị tư duy toán học, thuật toán sâu sắc và năng lực làm chủ công nghệ từ tầng gốc rễ.
           </p>
         </div>
@@ -22,50 +22,50 @@ export default function Education() {
         {portfolioData.education.map((edu) => (
           <div
             key={edu.id}
-            className="card-glass rounded-3xl p-6 lg:p-8 border border-blue-200 dark:border-blue-900/60 bg-gradient-to-br from-white via-slate-50/50 to-blue-50/30 dark:from-[var(--surface)] dark:via-[var(--surface)] dark:to-blue-950/20 mb-10"
+            className="card-glass rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 border border-blue-200 dark:border-blue-900/60 bg-gradient-to-br from-white via-slate-50/50 to-blue-50/30 dark:from-[var(--surface)] dark:via-[var(--surface)] dark:to-blue-950/20 mb-8 sm:mb-10"
           >
             {/* Degree Title Bar */}
-            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 border-b border-[var(--surface-border)]">
-              <div className="flex items-start gap-4">
-                <div className="w-14 h-14 rounded-2xl bg-blue-600 text-white flex items-center justify-center shrink-0 shadow-md shadow-blue-500/20">
-                  <GraduationCap size={30} />
+            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-5 sm:pb-6 border-b border-[var(--surface-border)]">
+              <div className="flex items-start gap-3 sm:gap-4">
+                <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-blue-600 text-white flex items-center justify-center shrink-0 shadow-md shadow-blue-500/20">
+                  <GraduationCap size={26} />
                 </div>
                 <div>
-                  <div className="inline-block px-3 py-1 rounded-full text-xs font-mono font-semibold bg-blue-100 text-blue-800 dark:bg-blue-950/60 dark:text-blue-300 border border-blue-200 dark:border-blue-800 mb-2">
+                  <div className="inline-block px-2.5 py-0.5 rounded-full text-[11px] font-mono font-semibold bg-blue-100 text-blue-800 dark:bg-blue-950/60 dark:text-blue-300 border border-blue-200 dark:border-blue-800 mb-1.5">
                     {edu.duration}
                   </div>
-                  <h3 className="text-2xl font-bold text-[var(--foreground)]">
+                  <h3 className="text-lg sm:text-2xl font-bold text-[var(--foreground)] leading-snug">
                     {edu.degree}
                   </h3>
-                  <div className="text-sm font-semibold text-blue-600 dark:text-blue-400 mt-1">
+                  <div className="text-xs sm:text-sm font-semibold text-blue-600 dark:text-blue-400 mt-1">
                     {edu.institution} • <span className="font-mono text-[var(--muted-foreground)] font-normal">{edu.period}</span>
                   </div>
                 </div>
               </div>
 
               {edu.grade && (
-                <div className="self-start lg:self-center px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 border border-[var(--surface-border)] text-[var(--foreground)] text-xs font-semibold flex items-center gap-1.5 shadow-sm">
-                  <Star size={14} className="text-amber-500 fill-amber-500" />
+                <div className="self-start lg:self-center px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-slate-100 dark:bg-slate-800 border border-[var(--surface-border)] text-[var(--foreground)] text-xs font-semibold flex items-center gap-1.5 shadow-sm">
+                  <Star size={14} className="text-amber-500 fill-amber-500 shrink-0" />
                   <span>{edu.grade}</span>
                 </div>
               )}
             </div>
 
-            {/* Coursework Score Cards - Apple Grid Style */}
-            <div className="my-8">
-              <div className="text-xs font-mono font-semibold text-[var(--muted-foreground)] uppercase mb-3">
+            {/* Coursework Score Cards - Apple Grid Style (2 cols on mobile) */}
+            <div className="my-6 sm:my-8">
+              <div className="text-[11px] sm:text-xs font-mono font-semibold text-[var(--muted-foreground)] uppercase mb-2.5 sm:mb-3">
                 // ĐIỂM SỐ CÁC MÔN CHUYÊN NGÀNH CỐT LÕI (BẢNG ĐIỂM CHỨNG THỰC):
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3">
                 {edu.coursework.map((course) => (
                   <div
                     key={course.name}
-                    className="p-4 rounded-xl bg-[var(--surface)] border border-[var(--surface-border)] shadow-sm flex flex-col justify-between"
+                    className="p-3 sm:p-4 rounded-xl bg-[var(--surface)] border border-[var(--surface-border)] shadow-sm flex flex-col justify-between"
                   >
-                    <span className="text-xs font-semibold text-[var(--foreground)] leading-snug">
+                    <span className="text-[11px] sm:text-xs font-semibold text-[var(--foreground)] leading-snug line-clamp-2">
                       {course.name}
                     </span>
-                    <span className="mt-3 text-lg font-black text-blue-600 dark:text-blue-400 font-mono">
+                    <span className="mt-2.5 sm:mt-3 text-base sm:text-lg font-black text-blue-600 dark:text-blue-400 font-mono">
                       {course.score}
                     </span>
                   </div>
