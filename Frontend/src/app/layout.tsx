@@ -1,5 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import "@/styles/ux-desktop.css";
+import "@/styles/ux-tablet.css";
+import "@/styles/ux-mobile.css";
+import "@/styles/copilot.css";
 import FloatingThumbDock from "@/components/FloatingThumbDock";
 
 export const metadata: Metadata = {

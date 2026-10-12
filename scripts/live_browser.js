@@ -402,12 +402,11 @@ async function run() {
   // Click Header "Tải CV" button
   await client.eval(`
     (() => {
-      const header = document.querySelector('header');
-      const cvBtn = Array.from(header.querySelectorAll('button')).find(b => b.innerText.includes('Tải CV'));
+      const cvBtn = Array.from(document.querySelectorAll('button')).find(b => b.innerText.includes('Tải CV') || b.innerText.includes('Xem CV'));
       if (cvBtn) cvBtn.click();
     })()
   `);
-  await sleep(800);
+  await sleep(1000);
 
   const cvModalCheck = await client.eval(`
     (() => {
