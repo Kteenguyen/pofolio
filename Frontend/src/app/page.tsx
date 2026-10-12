@@ -1,5 +1,5 @@
-import Spatial4DPortfolio from "@/components/Spatial4DPortfolio";
+import CosmicGalaxy4D from "@/components/CosmicGalaxy4D";
 
 export default function Home() {
-  return <Spatial4DPortfolio />;
+  return <CosmicGalaxy4D />;
 }
