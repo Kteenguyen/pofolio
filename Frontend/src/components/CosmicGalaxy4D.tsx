@@ -787,8 +787,10 @@ export default function CosmicGalaxy4D() {
         // QUANG HỌC PHÂN TẦNG ĐIỆN ẢNH (CINEMATIC VIEW OFFSET ARCHITECTURE)
         // Ma trận chiếu phối cảnh (Projection Matrix View Offset) chính thức của Three.js:
         // - Desktop (w >= 1024): Đẩy tâm hiển thị 3D sang BÊN PHẢI (+26% width) -> Thiên thể nằm ở ~76% X bên phải, thẻ card nằm ở 5-35% X bên trái!
-        // - Mobile (w < 768): Đẩy tâm hiển thị 3D lên NỬA TRÊN (-18% height) -> Thiên thể nằm ở ~32% Y nửa trên, thẻ card nằm ở đáy!
-        // - Tablet (768-1023): Đẩy sang BÊN PHẢI (+18% width).
+        // Kỹ thuật Cinematic Staging & 3D Staggered Depth Layer (Awwwards Standard):
+        // - Desktop (w >= 1024): Đặt tâm hành tinh 3D tại ~57% X (-w * 0.07). Thẻ card kính mờ bên phải lướt đè nhẹ 10-15% lên mép phải hành tinh.
+        // - Mobile (w < 768): Đẩy tâm hiển thị 3D lên NỬA TRÊN (+18% height) -> Thiên thể nằm ở nửa trên, thẻ card nằm ở đáy!
+        // - Tablet (768-1023): Cân đối thiên thể ở nửa trên để vừa vặn drawer (+10% height).
         // - Theater Mode: Xóa offset để hành tinh quay về chính giữa màn hình vũ trụ (50% X, 50% Y).
         const w = window.innerWidth;
         const h = window.innerHeight;
@@ -801,13 +803,16 @@ export default function CosmicGalaxy4D() {
           if (activeViewMode === "theater") {
             camera.clearViewOffset();
           } else if (activeViewMode === "desktop") {
-            // -w * 0.26 đẩy toàn bộ 3D sang bên PHẢI 26% màn hình!
-            camera.setViewOffset(w, h, -w * 0.26, 0, w, h);
+            // Tinh chỉnh Three.js camera.setViewOffset:
+            // -w * 0.07 đặt tâm hành tinh 3D ở khoảng giữa/lệch phải (~57% X).
+            // Thẻ card kính mờ bên phải lướt đè nhẹ lên mép phải của hành tinh đúng 1 xíu (khoảng 10-15%),
+            // tạo chiều sâu phân tầng 3D depth layer siêu thực chuẩn Awwwards.
+            camera.setViewOffset(w, h, -w * 0.07, 0, w, h);
           } else if (activeViewMode === "mobile") {
             // h * 0.18 đẩy toàn bộ 3D lên NỬA TRÊN 18% màn hình!
             camera.setViewOffset(w, h, 0, h * 0.18, w, h);
           } else {
-            camera.setViewOffset(w, h, -w * 0.18, 0, w, h);
+            camera.setViewOffset(w, h, 0, h * 0.10, w, h);
           }
         }
 
@@ -958,15 +963,15 @@ export default function CosmicGalaxy4D() {
       {/* 4. VIRTUAL SCROLL TRACK & CINEMATIC DOCKED THEATER HUD */}
       <div className="relative z-10 min-h-[600vh] pointer-events-none">
         {/* HUD STAGING CONTAINER:
-            - Desktop: Left Docked HUD (items-start, justify-center, max-w-[490px] - max-w-[520px])
+            - Desktop: Right Docked HUD (items-end, justify-center, max-w-[490px] - max-w-[520px], lg:pr-10 xl:pr-14)
             - Mobile: Sleek Bottom Drawer (items-center, justify-end, max-h-[50vh])
             - Theater Mode: opacity-0 scale-95 pointer-events-none (100% không bị che lấp)
         */}
-        <div className="fixed inset-0 z-20 pointer-events-none flex flex-col justify-end lg:justify-center items-center lg:items-start p-3 sm:p-6 lg:p-10 xl:p-14 pb-20 sm:pb-6">
+        <div className="fixed inset-0 z-20 pointer-events-none flex flex-col justify-end lg:justify-center items-center lg:items-end p-3 sm:p-6 lg:p-10 xl:p-14 lg:pr-10 xl:pr-14 pb-20 sm:pb-6">
           <div
             className={`w-full max-w-[430px] sm:max-w-md lg:max-w-[490px] xl:max-w-[520px] transition-all duration-700 ease-out transform ${
               isTheaterMode
-                ? "opacity-0 scale-95 pointer-events-none translate-y-6 lg:translate-x-[-24px]"
+                ? "opacity-0 scale-95 pointer-events-none translate-y-6 lg:translate-x-[24px]"
                 : "opacity-100 scale-100 pointer-events-auto translate-y-0 translate-x-0"
             }`}
           >
@@ -989,11 +994,11 @@ export default function CosmicGalaxy4D() {
               </div>
             )}
 
-            {/* [B] BẢNG NỘI DUNG CHI TIẾT (TINH GỌN, LỆCH TRÁI, ĐỂ LỘ 100% THIÊN THỂ BÊN PHẢI) */}
-            <div className="w-full">
+            {/* [B] BẢNG NỘI DUNG CHI TIẾT: RIGHT DOCKED HUD VỚI 3D DEPTH LAYER (KÍNH MỜ ĐÈ NHẸ 10-15% MÉP PHẢI HÀNH TINH) */}
+            <div key={activeStationIndex} className="w-full hud-card-entrance">
               {/* TRẠM 1: SAO THÁI DƯƠNG - KTEE IDENTITY */}
               {activeStationIndex === 0 && (
-                <div className="pointer-events-auto card-glass bg-slate-950/80 backdrop-blur-2xl p-5 sm:p-7 rounded-3xl border border-sky-500/40 shadow-2xl space-y-3.5 max-h-[50vh] lg:max-h-[82vh] overflow-y-auto animate-fade-in">
+                <div className="pointer-events-auto card-glass bg-slate-950/80 backdrop-blur-2xl p-5 sm:p-7 rounded-3xl border border-sky-500/40 shadow-2xl space-y-3.5 max-h-[50vh] lg:max-h-[82vh] overflow-y-auto">
                   <div className="flex flex-wrap items-center gap-2">
                     <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sky-500/10 text-sky-400 border border-sky-500/30 text-xs font-mono font-bold">
                       <Radio size={12} className="animate-pulse" />
@@ -1004,12 +1009,28 @@ export default function CosmicGalaxy4D() {
                     </span>
                   </div>
 
-                  <h1 className="text-xl sm:text-2xl lg:text-3xl font-black tracking-tight text-white leading-tight">
-                    {portfolioData.personal.name}
-                    <span className="block text-sm sm:text-base font-semibold text-sky-400 mt-1">
-                      {portfolioData.personal.title}
-                    </span>
-                  </h1>
+                  {/* Profile Header với Chân Dung Ktee Avatar Bo Tròn Viền Phát Sáng */}
+                  <div className="flex items-center gap-3.5 sm:gap-4 pt-1">
+                    <div className="relative shrink-0">
+                      <img
+                        src="/avatar.jpg"
+                        alt={portfolioData.personal.name}
+                        className="w-14 h-14 sm:w-16 sm:h-16 rounded-full object-cover object-top avatar-glow-sky"
+                      />
+                      <span
+                        className="absolute bottom-0.5 right-0.5 w-3.5 h-3.5 rounded-full bg-emerald-500 border-2 border-slate-950 shadow-sm"
+                        title="Available for Senior Roles & Projects"
+                      />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <h1 className="text-xl sm:text-2xl lg:text-3xl font-black tracking-tight text-white leading-tight">
+                        {portfolioData.personal.name}
+                      </h1>
+                      <span className="block text-xs sm:text-sm font-semibold text-sky-400 mt-0.5 font-mono truncate">
+                        {portfolioData.personal.title}
+                      </span>
+                    </div>
+                  </div>
 
                   <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
                     {portfolioData.personal.bio}

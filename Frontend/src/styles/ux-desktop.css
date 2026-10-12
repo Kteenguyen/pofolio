@@ -60,4 +60,61 @@
     border: 1px solid var(--surface-border);
     box-shadow: var(--card-shadow);
   }
+
+  /* Hiệu ứng trôi vào hiện ra mượt mà từ bên phải khi chuyển trạm (Entrance Animation) */
+  @keyframes stationSlideInRight {
+    0% {
+      opacity: 0;
+      transform: translateX(42px) scale(0.97);
+      filter: blur(8px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0) scale(1);
+      filter: blur(0px);
+    }
+  }
+
+  .animate-station-entrance {
+    animation: stationSlideInRight 0.65s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
 }
+
+
+/* ==============================================================================
+   CINEMATIC 3D HUD ENTRANCE ANIMATIONS (SMOOTH SLIDE-IN FROM RIGHT WITH BLUR-TO-CLEAR)
+   ============================================================================== */
+@keyframes hudSlideInRight {
+  0% {
+    opacity: 0;
+    transform: translate3d(36px, 0, 0) scale(0.97);
+    filter: blur(12px);
+  }
+  60% {
+    opacity: 0.92;
+    filter: blur(2px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    filter: blur(0px);
+  }
+}
+
+.hud-card-entrance {
+  animation: hudSlideInRight 0.65s cubic-bezier(0.16, 1, 0.3, 1) both;
+  will-change: transform, opacity, filter;
+}
+
+/* Avatar Cosmic Glow Ring - Ktee Identity & CV Modal */
+.avatar-glow-sky {
+  border: 2px solid rgba(56, 189, 248, 0.85);
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.45), inset 0 0 10px rgba(56, 189, 248, 0.25);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.avatar-glow-sky:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 28px rgba(56, 189, 248, 0.7), inset 0 0 14px rgba(56, 189, 248, 0.4);
+}
+

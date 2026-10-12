@@ -84,9 +84,17 @@ export default function CVDownloadModal({ isOpen, onClose }: CVDownloadModalProp
       <div className="relative w-full max-w-lg bg-[var(--surface)] text-[var(--foreground)] rounded-t-2xl sm:rounded-2xl border border-[var(--surface-border)] shadow-2xl overflow-hidden z-10 max-h-[90vh] flex flex-col">
         {/* Header */}
         <div className="p-4 sm:p-5 border-b border-[var(--surface-border)] flex items-center justify-between bg-[var(--surface-subtle)]">
-          <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-xl bg-blue-600 text-white flex items-center justify-center shadow-sm">
-              <FileText size={18} />
+          <div className="flex items-center gap-3">
+            <div className="relative shrink-0">
+              <img
+                src="/avatar.jpg"
+                alt="Nguyễn Khoa Tài (Ktee)"
+                className="w-11 h-11 sm:w-12 sm:h-12 rounded-full object-cover object-top avatar-glow-sky"
+              />
+              <span
+                className="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-emerald-500 border-2 border-[var(--surface)]"
+                title="Verified Ktee Identity"
+              />
             </div>
             <div>
               <h3 id="cv-modal-title" className="text-sm sm:text-base font-black tracking-tight">
