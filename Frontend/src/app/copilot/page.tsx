@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import ThemeToggle from "@/components/ThemeToggle";
-import { initialJobFeed, defaultCandidateProfile } from "@/data/mockJobFeed";
+import { defaultCandidateProfile } from "@/data/mockJobFeed";
 import { JobPosting, MatchAnalysis } from "@/types/job-copilot";
 import { calculateMatch } from "@/lib/careerEngine";
 import JDAggregatorFeed from "@/components/copilot/JDAggregatorFeed";
@@ -17,13 +17,51 @@ import {
   TrendingUp,
   AlertCircle,
   FileCheck2,
+  Globe,
+  Radio,
 } from "lucide-react";
 
 export default function CopilotPage() {
-  const [jobs, setJobs] = useState<JobPosting[]>(initialJobFeed);
-  const [selectedJobId, setSelectedJobId] = useState<string>(initialJobFeed[0].id);
+  const [jobs, setJobs] = useState<JobPosting[]>([]);
+  const [selectedJobId, setSelectedJobId] = useState<string>("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [mobileTab, setMobileTab] = useState<"FEED" | "DETAILS">("DETAILS");
+  const [isLoading, setIsLoading] = useState(true);
+  const [apiError, setApiError] = useState<string | null>(null);
+  const [lastFetchedSource, setLastFetchedSource] = useState<string>("RemoteOK Official Live API");
+
+  // Fetch 100% real live jobs from API (Zero Mock / Zero Fallback)
+  const fetchRealLiveJobs = async (query = "react") => {
+    setIsLoading(true);
+    setApiError(null);
+    try {
+      const res = await fetch(`/api/jobs/search?q=${encodeURIComponent(query)}`);
+      if (!res.ok) {
+        throw new Error(`Máy chủ trả về mã HTTP ${res.status}`);
+      }
+      const json = await res.json();
+      if (json.success && Array.isArray(json.data)) {
+        setJobs(json.data);
+        if (json.data.length > 0) {
+          setSelectedJobId(json.data[0].id);
+        }
+        setLastFetchedSource(json.source || "RemoteOK Official Live API");
+      } else {
+        throw new Error(json.error || "Không thể tải danh sách việc làm thực tế");
+      }
+    } catch (err) {
+      console.error("Lỗi fetch real jobs:", err);
+      setApiError(err instanceof Error ? err.message : "Lỗi kết nối API");
+      setJobs([]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Initial mount: load real jobs
+  useEffect(() => {
+    fetchRealLiveJobs("react");
+  }, []);
 
   // Precompute match analysis for all jobs
   const matchesMap = useMemo(() => {
@@ -35,21 +73,25 @@ export default function CopilotPage() {
   }, [jobs]);
 
   const selectedJob = useMemo(() => {
+    if (jobs.length === 0) return null;
     return jobs.find((j) => j.id === selectedJobId) || jobs[0];
   }, [jobs, selectedJobId]);
 
   const selectedMatch = useMemo(() => {
+    if (!selectedJob) return null;
     return matchesMap.get(selectedJob.id) || calculateMatch(selectedJob, defaultCandidateProfile);
   }, [selectedJob, matchesMap]);
 
   // Overall Statistics
   const avgMatchScore = useMemo(() => {
+    if (matchesMap.size === 0) return 0;
     let sum = 0;
     matchesMap.forEach((m) => (sum += m.overallScore));
-    return Math.round(sum / Math.max(1, matchesMap.size));
+    return Math.round(sum / matchesMap.size);
   }, [matchesMap]);
 
   const totalCriticalGaps = useMemo(() => {
+    if (!selectedMatch) return 0;
     return selectedMatch.criticalGaps.length;
   }, [selectedMatch]);
 
@@ -81,12 +123,12 @@ export default function CopilotPage() {
               <div>
                 <h1 className="text-sm sm:text-base font-bold tracking-tight text-[var(--foreground)] flex items-center gap-1.5">
                   <span>AI Career Copilot</span>
-                  <span className="px-1.5 py-0.5 rounded text-[9px] font-bold uppercase bg-blue-600 text-white">
-                    Live
+                  <span className="px-1.5 py-0.5 rounded text-[9px] font-bold uppercase bg-emerald-600 text-white flex items-center gap-1">
+                    <Radio size={10} className="animate-pulse" /> 100% Real Live
                   </span>
                 </h1>
                 <p className="text-[10px] text-[var(--muted-foreground)] hidden sm:block">
-                  Đối soát CV & Kiến trúc Proof-of-Work thực chiến
+                  Dữ liệu thời gian thực từ RemoteOK & Global Job Boards • Zero Mock Fluff
                 </p>
               </div>
             </div>
@@ -108,18 +150,32 @@ export default function CopilotPage() {
 
       {/* Main Container */}
       <main className="copilot-container pt-6 space-y-6">
+        {/* Live Source Status Indicator Banner */}
+        <div className="p-3 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex flex-wrap items-center justify-between gap-2 text-xs">
+          <div className="flex items-center gap-2 text-emerald-800 dark:text-emerald-300 font-medium">
+            <span className="relative flex h-2.5 w-2.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+            </span>
+            <span>Nguồn Dữ Liệu Thực Tế: <strong>{lastFetchedSource}</strong></span>
+          </div>
+          <div className="text-[11px] text-emerald-700 dark:text-emerald-400 font-mono">
+            Trạng thái: 100% Realtime • Tuyệt đối không fallback
+          </div>
+        </div>
+
         {/* 4 Stats Grid: Mandatory 2x2 grid on mobile (iPhone 14 Pro Max 430px) */}
         <section className="copilot-stats-grid">
           {/* Box 1 */}
           <div className="p-3.5 sm:p-4 rounded-2xl bg-[var(--surface)] border border-[var(--surface-border)] shadow-sm flex flex-col justify-between">
             <div className="flex items-center justify-between text-[var(--muted-foreground)] mb-1">
-              <span className="text-[11px] font-medium">JD Quét Realtime</span>
+              <span className="text-[11px] font-medium">JD Quét Realtime Thật</span>
               <Briefcase size={15} className="text-blue-600" />
             </div>
             <div className="text-xl sm:text-2xl font-bold font-mono text-[var(--foreground)]">
-              {jobs.length} Tin
+              {isLoading ? "Đang tải..." : `${jobs.length} Tin`}
             </div>
-            <span className="text-[10px] text-[var(--muted-foreground)] mt-1">ITviec, TopCV, LinkedIn</span>
+            <span className="text-[10px] text-[var(--muted-foreground)] mt-1">Live Official Free API</span>
           </div>
 
           {/* Box 2 */}
@@ -129,7 +185,7 @@ export default function CopilotPage() {
               <TrendingUp size={15} className="text-emerald-600" />
             </div>
             <div className="text-xl sm:text-2xl font-bold font-mono text-emerald-600 dark:text-emerald-400">
-              {avgMatchScore}%
+              {isLoading ? "--" : `${avgMatchScore}%`}
             </div>
             <span className="text-[10px] text-[var(--muted-foreground)] mt-1">Chuẩn Fullstack & BA</span>
           </div>
@@ -137,13 +193,13 @@ export default function CopilotPage() {
           {/* Box 3 */}
           <div className="p-3.5 sm:p-4 rounded-2xl bg-[var(--surface)] border border-[var(--surface-border)] shadow-sm flex flex-col justify-between">
             <div className="flex items-center justify-between text-[var(--muted-foreground)] mb-1">
-              <span className="text-[11px] font-medium">Lỗ Hổng Cần Bù Đắp</span>
+              <span className="text-[11px] font-medium">Lỗ Hổng Kỹ Năng (Job Đang Chọn)</span>
               <AlertCircle size={15} className="text-amber-600" />
             </div>
             <div className="text-xl sm:text-2xl font-bold font-mono text-amber-600 dark:text-amber-400">
-              {totalCriticalGaps} Skill
+              {isLoading ? "--" : `${totalCriticalGaps} Skill`}
             </div>
-            <span className="text-[10px] text-[var(--muted-foreground)] mt-1">Có Roadmap 48h</span>
+            <span className="text-[10px] text-[var(--muted-foreground)] mt-1">Có Roadmap bù đắp 48h</span>
           </div>
 
           {/* Box 4 */}
@@ -155,7 +211,7 @@ export default function CopilotPage() {
             <div className="text-xl sm:text-2xl font-bold font-mono text-purple-600 dark:text-purple-400">
               3 Demos
             </div>
-            <span className="text-[10px] text-[var(--muted-foreground)] mt-1">Live Interactive Widget</span>
+            <span className="text-[10px] text-[var(--muted-foreground)] mt-1">Live Interactive Sandbox</span>
           </div>
         </section>
 
@@ -170,7 +226,7 @@ export default function CopilotPage() {
                   : "text-[var(--muted-foreground)] hover:text-[var(--foreground)]"
               }`}
             >
-              Sàn JD Tuyển Dụng ({jobs.length})
+              Sàn JD Realtime ({jobs.length})
             </button>
             <button
               onClick={() => setMobileTab("DETAILS")}
@@ -195,13 +251,15 @@ export default function CopilotPage() {
           >
             <JDAggregatorFeed
               jobs={jobs}
-              selectedJobId={selectedJob.id}
+              selectedJobId={selectedJob?.id || ""}
               onSelectJob={(j) => {
                 setSelectedJobId(j.id);
                 setMobileTab("DETAILS");
               }}
               onOpenNewModal={() => setIsModalOpen(true)}
               matchesMap={matchesMap}
+              isLoading={isLoading}
+              onSearchLive={(q) => fetchRealLiveJobs(q)}
             />
           </div>
 
@@ -211,11 +269,29 @@ export default function CopilotPage() {
               mobileTab === "DETAILS" ? "block" : "hidden lg:block"
             }`}
           >
-            <MatchDetailsPanel
-              job={selectedJob}
-              candidate={defaultCandidateProfile}
-              match={selectedMatch}
-            />
+            {apiError ? (
+              <div className="p-8 rounded-2xl bg-red-500/10 border border-red-500/30 text-center space-y-3">
+                <AlertCircle size={32} className="mx-auto text-red-500" />
+                <h3 className="text-base font-bold text-red-600">Lỗi Kết Nối API Realtime</h3>
+                <p className="text-xs text-red-700 dark:text-red-300">{apiError}</p>
+                <button
+                  onClick={() => fetchRealLiveJobs("react")}
+                  className="touch-target px-4 py-2 rounded-xl text-xs font-bold bg-red-600 text-white hover:bg-red-700 transition-colors"
+                >
+                  Thử Lại Kết Nối
+                </button>
+              </div>
+            ) : selectedJob && selectedMatch ? (
+              <MatchDetailsPanel
+                job={selectedJob}
+                candidate={defaultCandidateProfile}
+                match={selectedMatch}
+              />
+            ) : (
+              <div className="p-8 rounded-2xl bg-[var(--surface)] border border-dashed border-[var(--surface-border)] text-center text-xs text-[var(--muted-foreground)]">
+                {isLoading ? "Đang truy vấn dữ liệu thời gian thực từ RemoteOK..." : "Chưa có việc làm nào được chọn. Hãy chọn một công việc bên trái."}
+              </div>
+            )}
           </div>
         </section>
       </main>

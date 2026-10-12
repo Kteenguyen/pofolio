@@ -72,11 +72,11 @@ export default function TerminalPlayground() {
         output = (
           <div className="text-xs space-y-1">
             <p className="font-bold text-white">Đại học Tôn Đức Thắng (Ton Duc Thang University - 2021 – 2026)</p>
-            <p className="text-blue-400">Bảng điểm môn cốt lõi:</p>
-            <p>• Lập trình NodeJS: <span className="text-emerald-400 font-bold">8.3 / 10.0</span></p>
-            <p>• Thiết kế Giao diện Người dùng (UI/UX): <span className="text-emerald-400 font-bold">8.3 / 10.0</span></p>
-            <p>• Phân tích & Thiết kế Yêu cầu (BA): <span className="text-emerald-400 font-bold">8.1 / 10.0</span></p>
-            <p>• Quản trị Hệ thống Thông tin Doanh nghiệp: <span className="text-emerald-400 font-bold">7.3 / 10.0</span></p>
+            <p className="text-sky-400">Năng lực chuyên ngành cốt lõi:</p>
+            <p>• Lập trình NodeJS: <span className="text-emerald-400 font-bold">Hệ Thống APIs Chịu Tải & CSDL</span></p>
+            <p>• Thiết kế Giao diện Người dùng (UI/UX): <span className="text-emerald-400 font-bold">Design System & Three.js 4D</span></p>
+            <p>• Phân tích & Thiết kế Yêu cầu (BA): <span className="text-emerald-400 font-bold">Chuẩn Hóa BRD & UML</span></p>
+            <p>• Quản trị Hệ thống Thông tin: <span className="text-emerald-400 font-bold">Quy Trình Vận Hành Doanh Nghiệp</span></p>
           </div>
         );
         break;

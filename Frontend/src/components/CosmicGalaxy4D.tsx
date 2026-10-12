@@ -20,10 +20,33 @@ import {
   Rocket,
   ShieldCheck,
   Zap,
+  Volume2,
+  VolumeX,
+  CheckCircle2,
+  ExternalLink,
+  X,
+  FileText,
 } from "lucide-react";
 import { portfolioData } from "@/data/portfolioData";
 import CVDownloadModal from "./CVDownloadModal";
 import TechLogo from "./TechLogo";
+
+// Helper: Sinh Texture Hạt Vũ Trụ Tròn Mềm Soft-Alpha (64x64) trong RAM (Triệt tiêu hạt pixel vuông thô)
+function createSoftCircleTexture(): THREE.CanvasTexture {
+  const canvas = document.createElement("canvas");
+  canvas.width = 64;
+  canvas.height = 64;
+  const ctx = canvas.getContext("2d")!;
+  const grad = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
+  grad.addColorStop(0, "rgba(255, 255, 255, 1)");
+  grad.addColorStop(0.25, "rgba(255, 255, 255, 0.85)");
+  grad.addColorStop(0.65, "rgba(255, 255, 255, 0.2)");
+  grad.addColorStop(1, "rgba(255, 255, 255, 0)");
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, 64, 64);
+  const texture = new THREE.CanvasTexture(canvas);
+  return texture;
+}
 
 // 6 Trạm Tinh Hà được mở rộng khoảng cách trong không gian 3D sâu rộng (Cosmic Scale 18–57 units)
 export const COSMIC_STATIONS = [
@@ -236,13 +259,45 @@ export default function CosmicGalaxy4D() {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
-  // Trạng thái trạm & cơ chế Docking Arrival
+  // Trạng thái trạm, Dual-Mode & cơ chế Docking Arrival
+  const [viewMode, setViewMode] = useState<"UNIVERSE" | "DOSSIER">("UNIVERSE");
   const [activeStationIndex, setActiveStationIndex] = useState(0);
   const [isDocked, setIsDocked] = useState(true);
   const [approachingStation, setApproachingStation] = useState(COSMIC_STATIONS[0]);
   const [voyagePercent, setVoyagePercent] = useState(100);
   const [coords, setCoords] = useState({ x: "0.00", y: "3.80", z: "12.50" });
   const [isCVModalOpen, setIsCVModalOpen] = useState(false);
+
+  // Âm thanh không gian Web Audio API (0 MB file tĩnh, sinh trực tiếp bằng thuật toán dao động)
+  const [isAudioMuted, setIsAudioMuted] = useState(true);
+  const audioCtxRef = useRef<AudioContext | null>(null);
+  const lastDockedRef = useRef(true);
+
+  const playDockChime = () => {
+    if (isAudioMuted) return;
+    try {
+      const AudioCtxClass = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+      if (!AudioCtxClass) return;
+      const ctx = audioCtxRef.current || new AudioCtxClass();
+      audioCtxRef.current = ctx;
+      if (ctx.state === "suspended") ctx.resume();
+
+      const now = ctx.currentTime;
+      const chord = [311.13, 466.16]; // Eb4, Bb4 hợp âm ngũ cung ấm áp
+      chord.forEach((freq, idx) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(freq, now + idx * 0.07);
+        gain.gain.setValueAtTime(0.035, now + idx * 0.07);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + idx * 0.07 + 0.45);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now + idx * 0.07);
+        osc.stop(now + idx * 0.07 + 0.5);
+      });
+    } catch {}
+  };
 
   const targetCamPos = useRef(new THREE.Vector3().copy(COSMIC_STATIONS[0].camPos));
   const currentCamPos = useRef(new THREE.Vector3().copy(COSMIC_STATIONS[0].camPos));
@@ -275,10 +330,18 @@ export default function CosmicGalaxy4D() {
       const nearestStationIndex = Math.round(continuousIndex);
       const distToNearest = Math.abs(continuousIndex - nearestStationIndex);
 
-      // THUẬT TOÁN DOCKING ARRIVAL: Chỉ cập bến (isDocked = true) khi camera cách trạm <= 0.12 đơn vị tiến trình
-      const arrived = distToNearest <= 0.12;
+      // THUẬT TOÁN DOCKING ARRIVAL: Ngưỡng 0.35 tạo cảm giác êm mượt, không giấu nội dung
+      const arrived = distToNearest <= 0.35;
       setIsDocked(arrived);
       setActiveStationIndex(nearestStationIndex);
+
+      if (arrived && !lastDockedRef.current) {
+        playDockChime();
+        if (typeof navigator !== "undefined" && navigator.vibrate) {
+          navigator.vibrate([12, 24]);
+        }
+      }
+      lastDockedRef.current = arrived;
 
       // Đích đến khi đang bay
       const dest = segmentProgress < 0.5 ? COSMIC_STATIONS[baseIndex] : COSMIC_STATIONS[nextIndex];
@@ -293,7 +356,7 @@ export default function CosmicGalaxy4D() {
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [isAudioMuted]);
 
   const flyToStation = (index: number) => {
     const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
@@ -330,11 +393,13 @@ export default function CosmicGalaxy4D() {
     const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
     renderer.setPixelRatio(dpr);
     renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.15;
 
     // ==========================================
     // ÁNH SÁNG VŨ TRỤ (COSMIC LIGHTING)
     // ==========================================
-    const ambient = new THREE.AmbientLight(0xffffff, 0.75);
+    const ambient = new THREE.AmbientLight(0xffffff, 0.22);
     scene.add(ambient);
 
     // Nguồn sáng từ Sao Thái Dương tỏa sáng khắp hệ thiên hà
@@ -349,6 +414,8 @@ export default function CosmicGalaxy4D() {
     // ==========================================
     // 1. DẢI TINH HÀ SÂU & HẠT BỤI VŨ TRỤ (3,500 HẠT)
     // ==========================================
+    const softStarTex = createSoftCircleTexture();
+
     // [A] Dải sao sâu vô tận (Distant Deep Starfield - 1,500 hạt)
     const deepStarCount = 1500;
     const deepStarGeo = new THREE.BufferGeometry();
@@ -367,10 +434,12 @@ export default function CosmicGalaxy4D() {
     }
     deepStarGeo.setAttribute("position", new THREE.BufferAttribute(deepStarPos, 3));
     const deepStarMat = new THREE.PointsMaterial({
-      size: 0.8,
-      color: 0xffffff,
+      size: 1.3,
+      map: softStarTex,
       transparent: true,
-      opacity: 0.7,
+      opacity: 0.75,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
     });
     const deepStars = new THREE.Points(deepStarGeo, deepStarMat);
     scene.add(deepStars);
@@ -409,10 +478,13 @@ export default function CosmicGalaxy4D() {
     galaxyGeo.setAttribute("color", new THREE.BufferAttribute(galaxyColors, 3));
 
     const galaxyMat = new THREE.PointsMaterial({
-      size: 0.12,
+      size: 0.35,
+      map: softStarTex,
       vertexColors: true,
       transparent: true,
-      opacity: 0.85,
+      opacity: 0.88,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
     });
     const galaxyPoints = new THREE.Points(galaxyGeo, galaxyMat);
     scene.add(galaxyPoints);
@@ -787,8 +859,9 @@ export default function CosmicGalaxy4D() {
         />
       </div>
 
-      {/* 2. TOP HUD STATUS STRIP */}
-      <header className="fixed top-0 left-0 right-0 z-30 pointer-events-none p-3 sm:p-5 flex items-center justify-between">
+      {/* 2. TOP HUD STATUS STRIP & DUAL-MODE CONTROLS */}
+      <header className="fixed top-0 left-0 right-0 z-30 pointer-events-none p-3 sm:p-5 flex items-center justify-between gap-2">
+        {/* Left: Identity Pill */}
         <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/85 backdrop-blur-xl border border-slate-700/60 pointer-events-auto shadow-lg">
           <span className={`w-2.5 h-2.5 rounded-full ${isDocked ? "bg-emerald-400 animate-ping" : "bg-sky-400 animate-pulse"}`} />
           <span className="text-xs font-mono font-bold text-white tracking-wide">
@@ -800,13 +873,56 @@ export default function CosmicGalaxy4D() {
           </span>
         </div>
 
-        <div className="hidden sm:flex items-center gap-3 px-3.5 py-1.5 rounded-full bg-slate-900/85 backdrop-blur-xl border border-slate-700/60 text-xs font-mono text-slate-400 shadow-lg">
-          <Compass size={13} className="text-sky-400" />
-          <span>TỌA ĐỘ VŨ TRỤ: <strong className="text-white">{coords.x}</strong>, <strong className="text-white">{coords.y}</strong>, <strong className="text-white">{coords.z}</strong></span>
-          <span>•</span>
-          <span className={isDocked ? "text-emerald-400 font-bold" : "text-sky-400 font-bold animate-pulse"}>
-            {isDocked ? "ORBIT DOCKED" : "WARP SPEED 0.92c"}
-          </span>
+        {/* Center: DUAL-MODE SWITCHER (Vũ Trụ 4D vs Hồ Sơ Tinh Anh 15s) */}
+        <div className="flex items-center gap-1 p-1 rounded-full bg-slate-900/90 border border-slate-700/80 backdrop-blur-xl shadow-lg pointer-events-auto">
+          <button
+            onClick={() => setViewMode("UNIVERSE")}
+            className={`px-3 py-1 rounded-full text-xs font-mono font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
+              viewMode === "UNIVERSE"
+                ? "bg-sky-500 text-slate-950 shadow-md shadow-sky-500/30"
+                : "text-slate-400 hover:text-white"
+            }`}
+          >
+            <Sparkles size={12} />
+            <span>Vũ Trụ 4D</span>
+          </button>
+          <button
+            onClick={() => setViewMode("DOSSIER")}
+            className={`px-3 py-1 rounded-full text-xs font-mono font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
+              viewMode === "DOSSIER"
+                ? "bg-amber-400 text-slate-950 shadow-md shadow-amber-400/30"
+                : "text-slate-400 hover:text-amber-300"
+            }`}
+          >
+            <Zap size={12} />
+            <span className="hidden xs:inline">Hồ Sơ Tinh Anh</span>
+            <span>(15s)</span>
+          </button>
+        </div>
+
+        {/* Right: Audio Control & Coordinates */}
+        <div className="flex items-center gap-2 pointer-events-auto">
+          <button
+            onClick={() => {
+              setIsAudioMuted(!isAudioMuted);
+              if (isAudioMuted) playDockChime();
+            }}
+            title={isAudioMuted ? "Bật âm thanh không gian Web Audio API" : "Tắt âm thanh"}
+            aria-label="Bật/Tắt âm thanh không gian"
+            className="px-2.5 py-1.5 rounded-full bg-slate-900/85 hover:bg-slate-800 border border-slate-700/60 text-xs font-mono text-slate-400 hover:text-white flex items-center gap-1.5 cursor-pointer shadow-lg transition-colors"
+          >
+            {isAudioMuted ? <VolumeX size={13} className="text-slate-500" /> : <Volume2 size={13} className="text-emerald-400 animate-pulse" />}
+            <span className="hidden md:inline text-[11px]">{isAudioMuted ? "Âm Thanh Tắt" : "Âm Thanh Bật"}</span>
+          </button>
+
+          <div className="hidden lg:flex items-center gap-3 px-3.5 py-1.5 rounded-full bg-slate-900/85 backdrop-blur-xl border border-slate-700/60 text-xs font-mono text-slate-400 shadow-lg">
+            <Compass size={13} className="text-sky-400" />
+            <span>TỌA ĐỘ: <strong className="text-white">{coords.x}</strong>, <strong className="text-white">{coords.y}</strong>, <strong className="text-white">{coords.z}</strong></span>
+            <span>•</span>
+            <span className={isDocked ? "text-emerald-400 font-bold" : "text-sky-400 font-bold animate-pulse"}>
+              {isDocked ? "DOCKED" : "WARP 0.92c"}
+            </span>
+          </div>
         </div>
       </header>
 
@@ -839,54 +955,27 @@ export default function CosmicGalaxy4D() {
         <div className="fixed inset-0 z-20 flex items-center justify-center pointer-events-none p-4 sm:p-8 lg:p-12">
           <div className="w-full max-w-4xl mx-auto flex flex-col justify-center items-center">
 
-            {/* [A] HUD DU HÀNH VŨ TRỤ (HIỂN THỊ KHI ĐANG BAY GIỮA CÁC HÀNH TINH) */}
+            {/* [A] HUD DU HÀNH VŨ TRỤ (HIỂN THỊ TINH TẾ KHI ĐANG BAY, KHÔNG GIẤU NỘI DUNG) */}
             {!isDocked && (
-              <div className="pointer-events-auto flex flex-col items-center justify-center text-center space-y-3.5 p-6 sm:p-8 rounded-3xl bg-slate-950/85 backdrop-blur-2xl border border-sky-500/40 shadow-[0_0_60px_rgba(56,189,248,0.25)] animate-fade-in max-w-md w-full">
-                <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-sky-500/10 text-sky-400 border border-sky-500/30 text-xs font-mono font-bold">
+              <div className="pointer-events-auto mb-3 flex items-center justify-between gap-3 px-4 py-2 rounded-2xl bg-slate-950/85 backdrop-blur-xl border border-sky-500/40 shadow-lg text-xs font-mono max-w-xl mx-auto w-full animate-fade-in">
+                <div className="flex items-center gap-2 text-sky-400 font-bold">
                   <Rocket size={13} className="animate-bounce" />
-                  <span>WARP SPEED FLIGHT • 0.92c</span>
+                  <span>WARP: Đang bay đến {approachingStation.planetName.split(" (")[0]}</span>
                 </div>
-
-                <div className="space-y-1">
-                  <span className="text-[11px] font-mono uppercase text-slate-400 tracking-wider">Đang Du Hành Đến:</span>
-                  <h3 className={`text-xl sm:text-2xl font-black font-mono ${approachingStation.accent}`}>
-                    {approachingStation.planetName.split(" (")[0]}
-                  </h3>
-                  <p className="text-xs text-slate-300 font-mono">
-                    {approachingStation.title} • {approachingStation.subtitle}
-                  </p>
+                <div className="flex items-center gap-2">
+                  <span className="text-[11px] text-slate-400 font-bold">{voyagePercent}%</span>
+                  <button
+                    onClick={() => flyToStation(Number(approachingStation.index) - 1)}
+                    className="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-sky-500 hover:bg-sky-400 text-slate-950 transition-colors shadow-sm cursor-pointer"
+                  >
+                    Cập Bến Ngay →
+                  </button>
                 </div>
-
-                {/* Thanh tiến trình tiếp cận hành tinh */}
-                <div className="w-full space-y-1.5 pt-1">
-                  <div className="flex justify-between text-[11px] font-mono text-slate-400">
-                    <span>Tiến trình tiếp cận:</span>
-                    <span className="text-sky-400 font-bold">{voyagePercent}%</span>
-                  </div>
-                  <div className="w-full h-2 rounded-full bg-slate-800/80 overflow-hidden border border-slate-700/50">
-                    <div
-                      className="h-full bg-gradient-to-r from-sky-500 via-indigo-400 to-purple-500 transition-all duration-150"
-                      style={{ width: `${voyagePercent}%` }}
-                    />
-                  </div>
-                </div>
-
-                <p className="text-[11px] text-slate-400 italic">
-                  Lăn chuột chậm lại để camera cập bến quỹ đạo và mở thẻ nội dung
-                </p>
-
-                <button
-                  onClick={() => flyToStation(Number(approachingStation.index) - 1)}
-                  className="px-4 py-1.5 rounded-xl text-xs font-mono font-bold bg-sky-500 hover:bg-sky-400 text-slate-950 transition-colors shadow-md shadow-sky-500/20 cursor-pointer"
-                >
-                  Cập Bến Ngay Vào Quỹ Đạo →
-                </button>
               </div>
             )}
 
-            {/* [B] BẢNG NỘI DUNG CHI TIẾT (CHỈ HIỂN THỊ KHI ĐÃ CẬP BẾN - isDocked === true) */}
-            {isDocked && (
-              <div className="w-full max-w-4xl transition-all duration-500 ease-out transform scale-100 opacity-100">
+            {/* [B] BẢNG NỘI DUNG CHI TIẾT (LUÔN HIỂN THỊ RÕ RÀNG KHÔNG BỊ TRỪNG PHẠT CUỘN CHUỘT) */}
+            <div className="w-full max-w-4xl transition-all duration-500 ease-out transform scale-100 opacity-100">
 
                 {/* TRẠM 1: SAO THÁI DƯƠNG - KTEE IDENTITY */}
                 {activeStationIndex === 0 && (
@@ -1219,11 +1308,190 @@ export default function CosmicGalaxy4D() {
                 )}
 
               </div>
-            )}
 
           </div>
         </div>
       </div>
+
+      {/* 5. EXECUTIVE FAST DOSSIER (15S FLOW CHO RECRUITER & CTO) */}
+      {viewMode === "DOSSIER" && (
+        <div className="fixed inset-0 z-40 bg-slate-950/95 backdrop-blur-2xl overflow-y-auto p-4 sm:p-8 animate-fade-in pointer-events-auto">
+          <div className="max-w-4xl mx-auto space-y-6 pt-16 pb-24">
+            {/* Top Bar Banner / Switcher */}
+            <div className="flex items-center justify-between p-3.5 sm:p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30">
+              <div className="flex items-center gap-2 text-amber-300 font-mono text-xs font-bold">
+                <Zap size={15} />
+                <span>CHẾ ĐỘ EXECUTIVE FAST DOSSIER • DÀNH CHO RECRUITER & CTO DUYỆT TRONG 15S</span>
+              </div>
+              <button
+                onClick={() => setViewMode("UNIVERSE")}
+                className="px-3 py-1.5 rounded-xl text-xs font-mono font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 flex items-center gap-1.5 cursor-pointer transition-colors shadow-sm"
+              >
+                <Sparkles size={13} className="text-sky-400" />
+                <span>Xem Vũ Trụ 4D</span>
+                <X size={13} className="ml-0.5 text-slate-400" />
+              </button>
+            </div>
+
+            {/* Header Profile Hero Card */}
+            <div className="card-glass bg-slate-900/90 backdrop-blur-2xl p-6 sm:p-8 rounded-3xl border border-sky-500/30 shadow-2xl space-y-4">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div>
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/10 text-sky-400 border border-sky-500/30 text-xs font-mono font-bold mb-2">
+                    <ShieldCheck size={13} />
+                    <span>TOP 1% CREATIVE TECHNOLOGIST & FULLSTACK ARCHITECT</span>
+                  </div>
+                  <h1 className="text-2xl sm:text-4xl font-black text-white tracking-tight leading-tight">
+                    {portfolioData.personal.name} ({portfolioData.personal.nickname})
+                  </h1>
+                  <p className="text-xs sm:text-sm text-sky-400 font-mono mt-1">
+                    {portfolioData.personal.title} • {portfolioData.personal.degreeLabel}
+                  </p>
+                </div>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => setIsCVModalOpen(true)}
+                    className="touch-target px-4 py-2.5 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-xs flex items-center gap-2 shadow-lg shadow-sky-500/25 cursor-pointer transition-all active:scale-95"
+                  >
+                    <FileDown size={15} />
+                    <span>Tải Master CV (PDF)</span>
+                  </button>
+                  <a
+                    href="https://t.me/kteenguyen"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="touch-target px-4 py-2.5 rounded-xl border border-slate-700 bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs flex items-center gap-2 cursor-pointer transition-all active:scale-95"
+                  >
+                    <Send size={14} className="text-sky-400" />
+                    <span>Telegram 1-Chạm</span>
+                  </a>
+                </div>
+              </div>
+
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed border-t border-slate-800/80 pt-3">
+                {portfolioData.personal.bio}
+              </p>
+
+              {/* 4 Chỉ Số Thực Chiến Cốt Lõi (ROI Metrics) */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-1">
+                {portfolioData.stats.map((s) => (
+                  <div key={s.label} className="p-3 rounded-2xl bg-slate-800/70 border border-slate-700/60">
+                    <div className="text-lg sm:text-xl font-black text-sky-400 font-mono">{s.value}</div>
+                    <div className="text-[11px] text-slate-300 font-medium truncate mt-0.5">{s.label}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* 3 Bento Blocks: Dự Án Thực Chiến Doanh Nghiệp */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {/* Bento 1: PowerTech */}
+              <div className="p-5 rounded-3xl bg-slate-900/90 border border-slate-800 space-y-3 flex flex-col justify-between">
+                <div>
+                  <div className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-bold inline-block">
+                    DOANH NGHIỆP • 96/100 SPEED
+                  </div>
+                  <h3 className="text-sm font-bold text-white mt-2">Cổng Năng Lượng PowerTech Sài Gòn</h3>
+                  <p className="text-xs text-slate-300 mt-1 leading-relaxed">
+                    Tái cấu trúc từ WordPress cũ tải chậm (&gt;4s) sang Next.js 15 App Router. Google Mobile đạt 96/100, CLS = 0 tuyệt đối, Bounce Rate giảm từ 58% xuống 21%.
+                  </p>
+                </div>
+                <div className="pt-3 border-t border-slate-800 flex items-center justify-between text-xs">
+                  <span className="font-mono text-emerald-400 font-bold">CLS = 0 • 96 Mobile</span>
+                  <span className="text-slate-400 text-[10px] font-mono">07/2026 - Nay</span>
+                </div>
+              </div>
+
+              {/* Bento 2: Luklak */}
+              <div className="p-5 rounded-3xl bg-slate-900/90 border border-slate-800 space-y-3 flex flex-col justify-between">
+                <div>
+                  <div className="text-[10px] font-mono px-2 py-0.5 rounded bg-sky-500/10 text-sky-400 border border-sky-500/20 font-bold inline-block">
+                    THƯƠNG HIỆU • 60 FPS MOTION
+                  </div>
+                  <h3 className="text-sm font-bold text-white mt-2">Website Doanh Nghiệp Luklak</h3>
+                  <p className="text-xs text-slate-300 mt-1 leading-relaxed">
+                    Xây dựng 7 trang hoàn chỉnh, 17 component chuẩn mực, hiệu ứng cuộn điện ảnh Lenis Scroll và Framer Motion parallax mượt mà 60 FPS trên máy chủ VPS Linux.
+                  </p>
+                </div>
+                <div className="pt-3 border-t border-slate-800 flex items-center justify-between text-xs">
+                  <span className="font-mono text-sky-400 font-bold">7 Trang • 60 FPS Lenis</span>
+                  <span className="text-slate-400 text-[10px] font-mono">05/2026</span>
+                </div>
+              </div>
+
+              {/* Bento 3: FPT IS */}
+              <div className="p-5 rounded-3xl bg-slate-900/90 border border-slate-800 space-y-3 flex flex-col justify-between">
+                <div>
+                  <div className="text-[10px] font-mono px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20 font-bold inline-block">
+                    HỆ THỐNG NHÀ NƯỚC • 230+ USERS
+                  </div>
+                  <h3 className="text-sm font-bold text-white mt-2">Triển Khai Phần Mềm THADS (FPT IS)</h3>
+                  <p className="text-xs text-slate-300 mt-1 leading-relaxed">
+                    Trực tiếp điều phối go-live, tổ chức 15 buổi đào tạo cho hơn 230 cán bộ, xử lý dứt điểm 60 lỗi API/UI, cấu hình chữ ký số và nghiệm thu đúng tiến độ.
+                  </p>
+                </div>
+                <div className="pt-3 border-t border-slate-800 flex items-center justify-between text-xs">
+                  <span className="font-mono text-purple-400 font-bold">230+ Users • 60 Bugs</span>
+                  <span className="text-slate-400 text-[10px] font-mono">12/2025 - 01/2026</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Core Architectural Stack Badges */}
+            <div className="p-6 rounded-3xl bg-slate-900/90 border border-slate-800 space-y-3">
+              <h3 className="text-xs font-mono font-bold text-slate-300 uppercase tracking-wider">
+                Ngăn Xếp Công Nghệ Kiến Trúc Chủ Lực (Architectural Stack)
+              </h3>
+              <div className="flex flex-wrap gap-2">
+                {[
+                  "Next.js 15 (App Router)", "React 19", "Three.js 4D WebGL", "TypeScript", "Tailwind CSS",
+                  "Node.js Distributed APIs", "ASP.NET Core MVC", "PostgreSQL & Supabase 3NF", "Redis Caching <50ms",
+                  "Framer Motion & Lenis 60 FPS", "Nghiệp Vụ BA (BRD/SRS/UML)", "UAT Testing (Jira)", "VPS Linux & Docker", "AI Agents & MCP"
+                ].map((tech) => (
+                  <span
+                    key={tech}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800/80 border border-slate-700 text-xs font-mono text-slate-200"
+                  >
+                    <TechLogo name={tech} size={14} />
+                    <span>{tech}</span>
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* Direct Connect Action Hub */}
+            <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-sky-950/40 via-purple-950/40 to-slate-900 border border-sky-500/40 flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div>
+                <h4 className="text-base sm:text-lg font-bold text-white">Sẵn Sàng Trao Đổi Vị Trí Senior / Architect</h4>
+                <p className="text-xs text-slate-300 mt-0.5">Full-Stack Architect • Creative Technologist • Senior Software Engineer • Business Analyst</p>
+              </div>
+              <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+                <button
+                  onClick={() => setIsCVModalOpen(true)}
+                  className="flex-1 sm:flex-initial touch-target px-4 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs flex items-center justify-center gap-1.5 cursor-pointer shadow-md"
+                >
+                  <FileDown size={15} />
+                  <span>Tải CV PDF</span>
+                </button>
+                <a
+                  href={`tel:${portfolioData.personal.phone}`}
+                  className="flex-1 sm:flex-initial touch-target px-4 py-2.5 rounded-xl border border-slate-700 bg-slate-800 hover:bg-slate-700 text-white font-semibold text-xs flex items-center justify-center gap-1.5 cursor-pointer"
+                >
+                  <Phone size={14} className="text-emerald-400" />
+                  <span>Gọi Ngay</span>
+                </a>
+                <button
+                  onClick={() => setViewMode("UNIVERSE")}
+                  className="touch-target px-4 py-2.5 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-1.5 cursor-pointer shadow-md"
+                >
+                  <Sparkles size={14} />
+                  <span>Xem Vũ Trụ 4D</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       <CVDownloadModal isOpen={isCVModalOpen} onClose={() => setIsCVModalOpen(false)} />
     </div>

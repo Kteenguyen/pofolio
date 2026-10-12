@@ -20,13 +20,10 @@ export default function FloatingThumbDock() {
             onClick={() => setIsModalOpen(true)}
             aria-haspopup="dialog"
             aria-expanded={isModalOpen}
-            className="touch-target flex-[3] min-h-[48px] px-3.5 rounded-xl bg-blue-600 active:bg-blue-700 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-md shadow-blue-500/20 active:scale-[0.98] transition-all"
+            className="touch-target flex-[3] min-h-[48px] px-3.5 rounded-xl bg-sky-600 active:bg-sky-700 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-md shadow-sky-500/25 active:scale-[0.98] transition-all cursor-pointer"
           >
             <FileDown size={17} className="shrink-0" />
-            <span className="truncate">Tải CV (5 Ngành)</span>
-            <span className="hidden sm:inline-block text-[10px] font-mono px-1.5 py-0.5 rounded bg-blue-700/60 uppercase">
-              PDF
-            </span>
+            <span className="truncate">Tải Hồ Sơ Kỹ Sư (PDF)</span>
           </button>
 
           {/* Secondary Action (40% Width): Direct Chat / Contact */}

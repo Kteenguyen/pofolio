@@ -636,8 +636,8 @@ export default function Spatial4DPortfolio() {
                 <div className="flex flex-wrap gap-1.5">
                   {[
                     "ReactJS (v18+)", "Next.js 15", "TypeScript", "Tailwind CSS", "Framer Motion", "Lenis Scroll",
-                    "Node.js (8.3/10)", "Express", "ASP.NET Core", "Redis Caching", "MongoDB", "MS SQL Server",
-                    "Phân Tích Nghiệp Vụ BA (8.1/10)", "UAT Testing (Jira)", "WordPress CMS & SEO", "VPS Linux & SSL", "AI Agents"
+                    "Node.js Distributed APIs", "Express", "ASP.NET Core", "Redis Caching <50ms", "MongoDB", "PostgreSQL 3NF",
+                    "Phân Tích Nghiệp Vụ BA (BRD/UML)", "UAT Testing (Jira)", "WordPress CMS & SEO", "VPS Linux & Docker", "AI Agents"
                   ].map((s) => (
                     <span
                       key={s}

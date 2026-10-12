@@ -10,49 +10,44 @@ interface CVDownloadModalProps {
 
 export const CV_LIST = [
   {
+    id: "master",
+    title: "Master Engineering Dossier (Hồ Sơ Toàn Diện)",
+    subtitle: "Creative Technologist • Full-Stack Next.js 15 • Hệ Thống & BA",
+    filename: "NguyenKhoaTai_s_CV.pdf",
+    href: "/cv/NguyenKhoaTai_s_CV.pdf",
+    badge: "Khuyên Dùng Cho Recruiter/CTO",
+    badgeColor: "bg-sky-500/15 text-sky-600 dark:text-sky-300 border-sky-500/30 font-bold",
+    isPrimary: true,
+  },
+  {
     id: "frontend",
-    title: "Front-End Software Engineer",
-    subtitle: "ReactJS, Next.js 15, TypeScript, Tailwind, WebGL",
+    title: "Front-End & Creative WebGL Specialist",
+    subtitle: "Next.js 15, Three.js 4D, React 19, TypeScript, Lenis 60 FPS",
     filename: "Front-end.pdf",
     href: "/cv/Front-end.pdf",
-    badge: "Thực Chiến Luklak & FPT",
+    badge: "Thực Chiến Luklak & PowerTech",
     badgeColor: "bg-blue-500/10 text-blue-600 dark:text-sky-400 border-blue-500/20",
+    isPrimary: false,
   },
   {
     id: "ba",
     title: "Chuyên Viên Phân Tích Nghiệp Vụ (BA)",
-    subtitle: "UML, SRS, User Stories, UAT, TDTU 8.1/10",
+    subtitle: "BRD, SRS, User Stories, UML Sequence Modeling, UAT",
     filename: "BA.pdf",
     href: "/cv/BA.pdf",
-    badge: "Nghiệp Vụ Chuẩn 5 Năm",
+    badge: "Chuẩn Hóa Nghiệp Vụ 5 Năm",
     badgeColor: "bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/20",
+    isPrimary: false,
   },
   {
     id: "tester",
-    title: "Software Tester (QA/QC Engineer)",
-    subtitle: "Test Case, Regression, Jira, Selenium, UAT",
+    title: "Software Quality & UAT Testing (QA/QC)",
+    subtitle: "Test Case Design, 60+ UAT Scenarios, Jira Bug Lifecycle",
     filename: "Tester_en.pdf",
     href: "/cv/Tester_en.pdf",
-    badge: "FPT IS 60+ Test Scenarios",
+    badge: "FPT IS THADS Verification",
     badgeColor: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20",
-  },
-  {
-    id: "helpdesk",
-    title: "Kỹ Sư Helpdesk & Hệ Thống IT",
-    subtitle: "Linux VPS, Windows Server, Mạng, Triển Khai 230 Users",
-    filename: "Heldesk_VI.pdf",
-    href: "/cv/Heldesk_VI.pdf",
-    badge: "Hỗ Trợ Người Dùng FPT",
-    badgeColor: "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20",
-  },
-  {
-    id: "seo",
-    title: "Chuyên Viên Technical SEO",
-    subtitle: "Core Web Vitals, Schema JSON-LD, On-page, Performance",
-    filename: "SEO.pdf",
-    href: "/cv/SEO.pdf",
-    badge: "Tối Ưu 100/100 Lighthouse",
-    badgeColor: "bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border-cyan-500/20",
+    isPrimary: false,
   },
 ];
 
@@ -95,29 +90,36 @@ export default function CVDownloadModal({ isOpen, onClose }: CVDownloadModalProp
             </div>
             <div>
               <h3 id="cv-modal-title" className="text-sm sm:text-base font-black tracking-tight">
-                Kho 5 Bản CV Chuyên Ngành (PDF)
+                Hồ Sơ Năng Lực Kỹ Sư & CV Chuyên Ngành (PDF)
               </h3>
               <p className="text-[11px] text-[var(--muted-foreground)]">
-                Kỹ sư Nguyễn Khoa Tài (Ktee) • ĐH Tôn Đức Thắng
+                Kỹ sư Nguyễn Khoa Tài (Ktee) • Nền tảng Kỹ thuật 5 Năm TDTU
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
             aria-label="Đóng cửa sổ"
-            className="w-10 h-10 rounded-xl flex items-center justify-center text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--surface)] border border-transparent hover:border-[var(--surface-border)] transition-colors"
+            className="w-10 h-10 rounded-xl flex items-center justify-center text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--surface)] border border-transparent hover:border-[var(--surface-border)] transition-colors cursor-pointer"
           >
             <X size={18} />
           </button>
         </div>
 
         {/* Content list */}
-        <div className="p-4 sm:p-5 overflow-y-auto space-y-2.5 divide-y divide-[var(--surface-border)]">
+        <div className="p-4 sm:p-5 overflow-y-auto space-y-3">
           {CV_LIST.map((cv) => (
-            <div key={cv.id} className="pt-2.5 first:pt-0 flex items-center justify-between gap-3">
-              <div className="space-y-0.5 min-w-0">
+            <div
+              key={cv.id}
+              className={`p-3.5 rounded-2xl border transition-all flex items-center justify-between gap-3 ${
+                cv.isPrimary
+                  ? "bg-sky-500/10 dark:bg-sky-950/30 border-sky-500/40 shadow-sm ring-1 ring-sky-500/20"
+                  : "bg-[var(--surface-subtle)]/70 border-[var(--surface-border)] hover:border-slate-400 dark:hover:border-slate-600"
+              }`}
+            >
+              <div className="space-y-1 min-w-0">
                 <div className="flex items-center gap-2 flex-wrap">
-                  <span className="text-xs font-bold truncate text-[var(--foreground)]">
+                  <span className={`text-xs font-bold truncate ${cv.isPrimary ? "text-sky-600 dark:text-sky-300 font-black" : "text-[var(--foreground)]"}`}>
                     {cv.title}
                   </span>
                   <span className={`text-[10px] font-mono px-2 py-0.5 rounded-full border ${cv.badgeColor}`}>
@@ -134,10 +136,14 @@ export default function CVDownloadModal({ isOpen, onClose }: CVDownloadModalProp
                 download={cv.filename}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="touch-target shrink-0 px-3.5 py-2 rounded-xl text-xs font-semibold bg-blue-600 text-white hover:bg-blue-700 transition-colors flex items-center gap-1.5 shadow-sm min-h-[44px]"
+                className={`touch-target shrink-0 px-3.5 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 shadow-sm min-h-[44px] cursor-pointer transition-colors ${
+                  cv.isPrimary
+                    ? "bg-sky-600 hover:bg-sky-500 text-white font-bold"
+                    : "bg-blue-600 hover:bg-blue-700 text-white"
+                }`}
               >
                 <Download size={14} />
-                <span className="hidden sm:inline">Tải PDF</span>
+                <span>Tải PDF</span>
               </a>
             </div>
           ))}
