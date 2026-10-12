@@ -12,9 +12,12 @@ import {
   Building,
   MapPin,
   Clock,
-  Layers,
   ArrowUpRight,
   Sparkles,
+  Globe,
+  ExternalLink,
+  ShieldCheck,
+  Send,
 } from "lucide-react";
 
 interface MatchDetailsPanelProps {
@@ -33,27 +36,39 @@ export default function MatchDetailsPanel({ job, candidate, match }: MatchDetail
     scoreBadgeColor = "text-red-600 bg-red-500/10 border-red-500/20";
   }
 
+  // Work mode badge style
+  let workModeBadge = "bg-blue-500/10 text-blue-600 border-blue-500/20";
+  if (job.workMode === "Freelance / Contract") workModeBadge = "bg-emerald-500/10 text-emerald-600 border-emerald-500/20";
+  if (job.workMode === "Hybrid") workModeBadge = "bg-purple-500/10 text-purple-600 border-purple-500/20";
+  if (job.workMode === "Onsite") workModeBadge = "bg-slate-500/10 text-slate-700 dark:text-slate-300 border-slate-500/20";
+
   return (
     <div className="space-y-6">
-      {/* 1. Header Card */}
+      {/* 1. Header Card with Deep Link Application CTA */}
       <div className="p-4 sm:p-6 rounded-2xl bg-[var(--surface)] border border-[var(--surface-border)] shadow-sm">
         <div className="flex flex-wrap items-start justify-between gap-3 mb-3">
-          <div>
-            <div className="flex items-center gap-2 mb-1.5">
-              <span className="px-2 py-0.5 rounded-md text-[10px] font-bold uppercase bg-blue-600/10 text-blue-600 tracking-wider">
+          <div className="min-w-0 flex-1">
+            {/* Meta Tags Row */}
+            <div className="flex flex-wrap items-center gap-1.5 mb-2">
+              <span className="px-2 py-0.5 rounded-md text-[10px] font-bold uppercase bg-blue-600 text-white tracking-wider">
                 {job.platform}
               </span>
-              <span className="text-xs text-[var(--muted-foreground)] flex items-center gap-1">
+              <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold border ${workModeBadge}`}>
+                {job.workMode}
+              </span>
+              <span className="px-2 py-0.5 rounded-md text-[10px] font-semibold bg-slate-100 dark:bg-slate-800 text-[var(--foreground)] border border-[var(--surface-border)]">
+                {job.market}
+              </span>
+              <span className="text-xs text-[var(--muted-foreground)] flex items-center gap-1 ml-1">
                 <Clock size={12} /> {job.postedAt}
               </span>
-              <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-[var(--surface-subtle)] text-[var(--muted-foreground)]">
-                {job.domain}
-              </span>
             </div>
+
             <h2 className="text-lg sm:text-xl font-bold text-[var(--foreground)] tracking-tight">
               {job.title}
             </h2>
-            <div className="flex flex-wrap items-center gap-3 text-xs text-[var(--muted-foreground)] mt-1.5">
+
+            <div className="flex flex-wrap items-center gap-3 text-xs text-[var(--muted-foreground)] mt-2">
               <span className="font-semibold text-[var(--foreground)] flex items-center gap-1">
                 <Building size={13} className="text-blue-600" /> {job.company}
               </span>
@@ -62,26 +77,36 @@ export default function MatchDetailsPanel({ job, candidate, match }: MatchDetail
                 <MapPin size={13} /> {job.location}
               </span>
               <span>•</span>
-              <span className="font-mono font-semibold text-emerald-600 dark:text-emerald-400">
+              <span className="font-mono font-bold text-emerald-600 dark:text-emerald-400 text-sm">
                 {job.salary}
               </span>
             </div>
           </div>
 
-          {job.url && (
+          {/* Deep Link Button - High Priority Real Application */}
+          <div className="shrink-0 flex flex-col items-end gap-1.5 w-full sm:w-auto">
             <a
               href={job.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="touch-target px-3 py-1.5 rounded-xl text-xs font-semibold bg-[var(--surface-subtle)] border border-[var(--surface-border)] hover:border-[var(--accent)] text-[var(--foreground)] flex items-center gap-1 transition-colors"
+              className="touch-target w-full sm:w-auto px-4 py-2.5 rounded-xl text-xs font-bold bg-blue-600 hover:bg-blue-700 text-white flex items-center justify-center gap-2 transition-all shadow-md hover:scale-[1.02] active:scale-[0.98]"
             >
-              <span>Xem Tin Gốc</span>
-              <ArrowUpRight size={13} />
+              <span>Truy Cập Bài Đăng Thật Để Ứng Tuyển</span>
+              <ExternalLink size={14} />
             </a>
-          )}
+            <span className="text-[10px] text-[var(--muted-foreground)] flex items-center gap-1 font-mono">
+              <ShieldCheck size={11} className="text-emerald-500" /> Deep Link chuẩn 100%
+            </span>
+          </div>
         </div>
 
-        <p className="text-xs leading-relaxed text-[var(--muted-foreground)] border-t border-[var(--surface-border)] pt-3 mt-3">
+        {/* Deep URL Inspector Preview */}
+        <div className="p-2.5 rounded-xl bg-[var(--surface-subtle)] border border-[var(--surface-border)] text-[11px] font-mono text-[var(--muted-foreground)] truncate mt-3 flex items-center gap-2">
+          <Globe size={13} className="text-blue-600 shrink-0" />
+          <span className="truncate">{job.url}</span>
+        </div>
+
+        <p className="text-xs leading-relaxed text-[var(--foreground)] border-t border-[var(--surface-border)] pt-3 mt-3">
           {job.summary}
         </p>
       </div>
@@ -130,7 +155,7 @@ export default function MatchDetailsPanel({ job, candidate, match }: MatchDetail
               />
             </div>
             <span className="block text-[10px] text-[var(--muted-foreground)] mt-1.5">
-              FPT IS 230+ users, 5 năm ĐH TDTU
+              FPT IS 230+ users, ĐH TDTU 5 năm
             </span>
           </div>
 

@@ -1,0 +1,228 @@
+%----------------------------------------------------------------------------------------
+% HỒ SƠ ỨNG TUYỂN CHUYÊN NGHIỆP / CURRICULUM VITAE (TIẾNG VIỆT)
+% Ứng viên: Nguyễn Khoa Tài (Ktee)
+% Vị trí ứng tuyển: Kỹ Sư Fullstack AI Agentic / Senior Fullstack Systems Engineer
+% Định dạng: Chuẩn ATS Quốc Tế, Mật Độ Thông Tin Cao, Tích Hợp Avatar & Link Vercel
+% Tương thích: Overleaf (pdfLaTeX / XeLaTeX), TeX Live 2020+
+%----------------------------------------------------------------------------------------
+
+\documentclass[letterpaper,10pt]{article}
+
+\usepackage[utf8]{vietnam}
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage{tabularx}
+\usepackage{fontawesome5}
+\usepackage{graphicx}
+\usepackage{tikz}
+
+\pagestyle{fancy}
+\fancyhf{} % Xóa header và footer mặc định
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% Căn chỉnh lề trang tối ưu cho mật độ thông tin cao (High Information Density)
+\addtolength{\oddsidemargin}{-0.55in}
+\addtolength{\evensidemargin}{-0.55in}
+\addtolength{\textwidth}{1.1in}
+\addtolength{\topmargin}{-.6in}
+\addtolength{\textheight}{1.2in}
+
+\urlstyle{same}
+
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+% Bảng màu chuyên nghiệp & hiện đại (Slate & Tech Indigo)
+\definecolor{primaryDark}{RGB}{15, 23, 42}      % Xanh than đậm #0f172a
+\definecolor{accentBlue}{RGB}{2, 132, 199}      % Xanh công nghệ Sky #0284c7
+\definecolor{deepBlue}{RGB}{30, 58, 138}        % Xanh Blue 900
+\definecolor{subtleSlate}{RGB}{71, 85, 105}     % Xám chì Slate #475569
+\definecolor{borderGray}{RGB}{226, 232, 240}    % Xám nhạt viền
+
+% Định dạng tiêu đề các phần (Sections Formatting)
+\titleformat{\section}{
+  \vspace{-5pt}\scshape\raggedright\large\bfseries\color{primaryDark}
+}{}{0em}{}[\color{accentBlue}\titlerule \vspace{-4pt}]
+
+% Định nghĩa các lệnh tùy biến danh sách và đầu mục
+\newcommand{\resumeItem}[1]{
+  \item\small{
+    {#1 \vspace{-2pt}}
+  }
+}
+
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{0.98\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{\color{primaryDark}#1} & \textit{\small\color{subtleSlate}#2} \\
+      \textit{\small#3} & \textit{\small\color{subtleSlate}#4} \\
+    \end{tabular*}\vspace{-6pt}
+}
+
+\newcommand{\resumeProjectHeading}[2]{
+    \item
+    \begin{tabular*}{0.98\textwidth}{l@{\extracolsep{\fill}}r}
+      \small#1 & \textit{\small\color{subtleSlate}#2} \\
+    \end{tabular*}\vspace{-6pt}
+}
+
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.15in, label={}]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}[leftmargin=0.15in]}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-4pt}}
+
+%----------------------------------------------------------------------------------------
+% NỘI DUNG CV
+%----------------------------------------------------------------------------------------
+\begin{document}
+
+%----------HEADER: AVATAR & THÔNG TIN LIÊN HỆ----------
+\begin{table*}[t]
+\centering
+\begin{tabularx}{\textwidth}{@{} m{2.6cm} @{\hspace{0.4cm}} X @{}}
+  % Cột trái: Khung Avatar bo góc tinh xảo
+  \begin{tikzpicture}
+    % Viền bo nghệ thuật bên ngoài
+    \draw[draw=accentBlue!50, line width=1.5pt, rounded corners=9pt] (-0.04,-0.04) rectangle (2.44cm, 2.94cm);
+    % Cắt ảnh theo góc bo mềm mại
+    \clip[rounded corners=8pt] (0,0) rectangle (2.4cm, 2.9cm);
+    \node[anchor=south west, inner sep=0pt] at (0,0) {
+      \includegraphics[width=2.4cm, height=2.9cm]{avatar.jpg}
+    };
+  \end{tikzpicture}
+  &
+  % Cột phải: Họ tên, Danh xưng, Portfolio Vercel & Liên hệ
+  \begin{minipage}[c]{\linewidth}
+    {\Huge \scshape \textbf{\color{primaryDark}Nguyễn Khoa Tài (Ktee)}} \\ \vspace{2pt}
+    {\large \textbf{\color{accentBlue}Kỹ Sư Fullstack AI Agentic $|$ Kiến Trúc Sư Hệ Thống Đa Tác Tử \& Next.js 15}} \\ \vspace{4pt}
+    \small
+    \faPhone\ (+84) 852 723 945 ~ $|$ ~
+    \faEnvelope\ \href{mailto:nguyenkhoatai2003@gmail.com}{nguyenkhoatai2003@gmail.com} ~ $|$ ~
+    \faMapMarker*\ TP. Hồ Chí Minh, Việt Nam \\ \vspace{3pt}
+    \faGlobe\ \textbf{Portfolio Trực Tuyến (Vercel):} \href{https://pofolio-kteenguyen.vercel.app}{\color{accentBlue}\underline{\textbf{pofolio-kteenguyen.vercel.app}}} \\ \vspace{2pt}
+    \faGithub\ \href{https://github.com/Kteenguyen}{github.com/Kteenguyen} ~ $|$ ~
+    \faLinkedin\ \href{https://linkedin.com}{linkedin.com/in/kteenguyen}
+  \end{minipage}
+\end{tabularx}
+\end{table*}
+\vspace{-10pt}
+
+%-----------TÓM TẮT HỒ SƠ NĂNG LỰC-----------
+\section{Tóm Tắt Hồ Sơ Năng Lực (Executive Summary)}
+\small{
+Kỹ sư Công nghệ Thông tin tốt nghiệp chương trình đào tạo chính quy 5 năm tại \textbf{Đại học Tôn Đức Thắng} với điểm số môn học chuyên ngành nổi bật: Lập trình NodeJS phân tán (\textbf{8.3/10.0}), Thiết kế Giao diện Người dùng UI/UX (\textbf{8.3/10.0}) và Phân tích Thiết kế Yêu cầu Hệ thống (\textbf{8.1/10.0}). Sở hữu kinh nghiệm thực chiến doanh nghiệp với vai trò Trưởng nhóm triển khai phần mềm cho \textbf{230+ cán bộ tại FPT Information System (FPT IS)}. Chuyên sâu trong việc kết hợp kỹ thuật Fullstack hiệu năng cao (Next.js 15 App Router, React 19, TypeScript, Redis tải cao) với \textbf{Kiến trúc AI Agentic hiện đại}---bao gồm điều phối biệt đội đa tác tử (Multi-Agent Squads), giao thức Model Context Protocol (MCP 2.0), vòng lặp tự trị ReAct, tích hợp RAG vector CSDL, và quy trình kiểm thử chất lượng đa tầng chống rủi ro hệ thống.
+}
+
+%-----------KỸ NĂNG CỐT LÕI-----------
+\section{Năng Lực Kỹ Thuật \& Trí Tuệ Nhân Tạo Tác Tử (Core Competencies)}
+ \begin{itemize}[leftmargin=0.15in, label={}]
+    \small{\item{
+     \textbf{Kiến Trúc AI Agentic:} {Điều phối Đa Tác tử (Hierarchical 4-Tier Squads), Vòng lặp ReAct tự trị, Giao thức Model Context Protocol (MCP 2.0), LLM Tool/Function Calling, RAG (Retrieval-Augmented Generation), Supabase pgvector, Quản trị Ngữ cảnh (Context Compression), Chaos Engineering (giả lập 429/502), Webhook HMAC SHA-256} \\
+     \textbf{Kỹ Thuật Front-End:} {Next.js 15 (App Router, Server Actions, Streaming UI), React 19, TypeScript (Strict Typing), Tailwind CSS, Framer Motion, Lenis Smooth Scroll, Tối ưu Mobile-First (Viewport iPhone 430px không tràn viền), Triệt tiêu Layout Shift (CLS = 0), Core Web Vitals 95+} \\
+     \textbf{Back-End \& Dữ Liệu Phân Tán:} {Node.js, Express.js, C\# ASP.NET Core MVC/Identity, PostgreSQL, Supabase, Redis Distributed Caching (Độ trễ Flash Sale <50ms), MongoDB, Microsoft SQL Server, Thiết kế CSDL chuẩn 3NF, RESTful \& WebSocket APIs, JWT Auth} \\
+     \textbf{Vận Hành DevOps \& Nghiệp Vụ:} {Quản trị VPS Linux (Ubuntu), Nginx Reverse Proxy, Tự động hóa SSL/TLS Let's Encrypt, Docker Containerization, GitHub Actions CI/CD, Triển khai Vercel Edge, Kiểm thử UAT, Quản lý lỗi Jira, Vẽ sơ đồ nghiệp vụ UML (Use Case/Sequence), Chữ ký số}
+    }}
+ \end{itemize}
+
+%-----------KINH NGHIỆM LÀM VIỆC-----------
+\section{Kinh Nghiệm Thực Chiến Doanh Nghiệp (Professional Experience)}
+  \resumeSubHeadingListStart
+
+    \resumeSubheading
+      {Công Ty Phần Mềm FPT IS (FPT Information System)}{12/2025 -- 01/2026}
+      {Trưởng Nhóm Triển Khai Phần Mềm \& Kiểm Thử UAT -- Dự Án Cơ Quan Nhà Nước}{TP. Hồ Chí Minh, Việt Nam}
+      \resumeItemListStart
+        \resumeItem{Đảm nhiệm vai trò Trưởng nhóm triển khai, điều phối trực tiếp và từ xa quá trình go-live hệ thống phần mềm nghiệp vụ cho \textbf{Cơ quan Thi Hành Án Dân Sự}, dẫn dắt quy trình nghiệm thu bàn giao UAT đúng tiến độ.}
+        \resumeItem{Trực tiếp đứng lớp tổ chức \textbf{15 buổi đào tạo (Training) thực chiến cho hơn 230 cán bộ và người dùng cuối}, chuyển đổi thành công 100\% quy trình thủ công sang vận hành số hóa.}
+        \resumeItem{Phát hiện, phân tích và phối hợp chặt chẽ với đội ngũ Back-End xử lý dứt điểm \textbf{60+ lỗi nghiệp vụ logic (Bugs) và yêu cầu thay đổi (Change Requests)}, chuẩn hóa định dạng dữ liệu API trên giao diện.}
+        \resumeItem{Cấu hình môi trường phần mềm, tích hợp token chữ ký số bảo mật, hỗ trợ kỹ thuật qua UltraViewer/Zalo và hoàn thiện hồ sơ nghiệm thu dự án đúng hạn.}
+      \resumeItemListEnd
+
+    \resumeSubheading
+      {Dự Án Doanh Nghiệp Khách Hàng Luklak}{05/2026}
+      {Lập Trình Viên Fullstack Web \& Kỹ Sư Hạ Tầng (Hợp Đồng Freelance)}{TP. Hồ Chí Minh, Việt Nam}
+      \resumeItemListStart
+        \resumeItem{Xây dựng hoàn thiện cổng thông tin thương hiệu gồm \textbf{7 trang hoàn chỉnh và 17 components tái sử dụng}, chuyển đổi trực tiếp Design System từ Figma sang mã nguồn Next.js/Tailwind CSS tối ưu.}
+        \resumeItem{Phát triển hệ thống \textbf{Cinematic Scroll đạt chuẩn 60 FPS}, tích hợp thư viện cuộn siêu mượt Lenis, Framer Motion useScroll/useTransform cho hiệu ứng parallax video, scroll-scrubbing và spring physics.}
+        \resumeItem{Trực tiếp cấu hình máy chủ VPS Linux, cài đặt Nginx Reverse Proxy, cấp chứng chỉ bảo mật SSL tự động và tối ưu hóa bộ nhớ đệm HTTP Caching phục vụ tải cao.}
+      \resumeItemListEnd
+
+    \resumeSubheading
+      {Tổ Chức Quản Trị Kênh Số TSC}{2023 -- Hiện tại}
+      {Quản Trị Kênh Số \& Phân Tích Dữ Liệu Tương Tác Người Dùng}{TP. Hồ Chí Minh, Việt Nam}
+      \resumeItemListStart
+        \resumeItem{Vận hành nội dung số, chuẩn hóa cấu trúc dữ liệu và phân tích các chỉ số tương tác (Reach, CTR, Tỷ lệ giữ chân) nhằm nâng cao tỷ lệ chuyển đổi và tăng trưởng tự nhiên.}
+      \resumeItemListEnd
+
+  \resumeSubHeadingListEnd
+
+%-----------DỰ ÁN TIÊU BIỂU-----------
+\section{Dự Án Kỹ Thuật Tiêu Biểu (Featured AI Agentic \& Fullstack Projects)}
+    \resumeSubHeadingListStart
+
+      \resumeProjectHeading
+          {\textbf{Nền Tảng AI Agentic Tự Trị 4 Tầng \& Động Cơ Giao Thức MCP} $|$ \emph{TypeScript, Next.js 15, MCP 2.0, LLMs}}{2026}
+          \resumeItemListStart
+            \resumeItem{Thiết kế và triển khai kiến trúc 4 tầng tự trị: \textbf{Tổng Chỉ Huy (NLP Leader)}, \textbf{Kiến Trúc Sư CSDL (3NF/Supabase)}, \textbf{Bộ Tứ Tester QA} (Webhook HMAC Sentinel, Chaos 429/502 Simulator, Contract Tests), và \textbf{DevOps Parity Officer}.}
+            \resumeItem{Tích hợp máy chủ \textbf{Model Context Protocol (MCP 2.0)} qua JSON-RPC, cho phép các AI coding agents tự động đọc cấu trúc thư mục, gọi công cụ an toàn và bắn nhật ký đo đạc thời gian thực với độ trễ 0ms.}
+            \resumeItem{Thiết lập quy trình kiểm thử giao diện trực quan tự động qua Chrome DevTools Protocol (CDP), đảm bảo 100\% layout đạt chuẩn Responsive trên Mobile (430px iPhone 14 Pro Max) và Desktop (1440px).}
+          \resumeItemListEnd
+
+      \resumeProjectHeading
+          {\textbf{Cổng Doanh Nghiệp Năng Lượng Powertech Sài Gòn (PowerTech)} $|$ \emph{Next.js 15, Core Web Vitals, Clean Architecture}}{2026}
+          \resumeItemListStart
+            \resumeItem{Tái cấu trúc toàn diện website năng lượng cũ (từ nền tảng WordPress bị lỗi giật khung hình CLS 0.38 và tải chậm >4s) sang nền tảng \textbf{Next.js 15 App Router} với kiến trúc phân tầng độc lập.}
+            \resumeItem{Áp dụng kỹ thuật tối ưu hóa tài nguyên cực hạn: \texttt{next/font} với thuộc tính \texttt{display: 'optional'} triệt tiêu hoàn toàn hiện tượng FOIT/FOUT, cố định Explicit Aspect Ratio Container cho banner và hình ảnh kỹ thuật.}
+            \resumeItem{\textbf{Hiệu quả thực tế:} Điểm Google PageSpeed Mobile tăng vọt từ \textbf{42 lên 96/100}, triệt tiêu hoàn toàn hiện tượng xê dịch bố cục (\textbf{CLS = 0 tuyệt đối}), tỷ lệ thoát trang (Bounce Rate) giảm sâu từ \textbf{58\% xuống 21\%}.}
+          \resumeItemListEnd
+
+      \resumeProjectHeading
+          {\textbf{Portfolio Trực Tuyến & Động Cơ Định Tuyến Nghề Nghiệp AI} $|$ \href{https://pofolio-kteenguyen.vercel.app}{\color{accentBlue}\underline{pofolio-kteenguyen.vercel.app}}}{2026}
+          \resumeItemListStart
+            \resumeItem{Xây dựng trang cá nhân cao cấp triển khai trên \textbf{Mạng lưới Vercel Edge} với Next.js 15 App Router, React 19 và Tailwind CSS; đạt chuẩn 0 phần tử tràn viền trên thiết bị di động.}
+            \resumeItem{Tích hợp động cơ AI Career Matcher (\texttt{careerEngine.ts}) phân tích yêu cầu công việc (JD), bóc tách kỹ năng bắt buộc và tính toán điểm số phù hợp ứng viên theo thuật toán trọng số.}
+          \resumeItemListEnd
+
+      \resumeProjectHeading
+          {\textbf{Sàn Thương Mại Điện Tử & Hệ Thống Đặt Hàng Flash Sale Tải Cao} $|$ \emph{Node.js, Express, Redis, MongoDB}}{2024 -- 2025}
+          \resumeItemListStart
+            \resumeItem{Xây dựng cơ chế khóa tồn kho phân tán bằng \textbf{bộ nhớ đệm Redis tốc độ cao}, giải quyết triệt để tình trạng Race Conditions và duy trì \textbf{độ trễ phản hồi <50ms} trong các khung giờ Flash Sale.}
+            \resumeItem{Tích hợp luồng API vận chuyển của Giao Hàng Tiết Kiệm (GHTK) để tự động tính phí vận chuyển theo địa giới hành chính và tạo vận đơn tự động.}
+          \resumeItemListEnd
+
+    \resumeSubHeadingListEnd
+
+%-----------HỌC VẤN-----------
+\section{Học Vấn & Nền Tảng Khoa Học Máy Tính (Education)}
+  \resumeSubHeadingListStart
+    \resumeSubheading
+      {Đại Học Tôn Đức Thắng (TDTU)}{TP. Hồ Chí Minh, Việt Nam}
+      {Kỹ Sư Công Nghệ Thông Tin (Chương Trình Đào Tạo Kỹ Sư 5 Năm Toàn Thời Gian)}{2021 -- 2026}
+      \resumeItemListStart
+        \resumeItem{\textbf{Điểm số môn học chuyên ngành xuất sắc:} Lập trình NodeJS phân tán (\textbf{8.3/10.0}), Thiết kế Giao diện Người dùng UI/UX (\textbf{8.3/10.0}), Phân tích \& Thiết kế Yêu cầu Phần mềm BA (\textbf{8.1/10.0}), Quản trị Hệ thống CNTT Doanh nghiệp (\textbf{7.3/10.0}).}
+        \resumeItem{Hoàn thành 150+ tín chỉ đại học: Cấu trúc Dữ liệu \& Giải thuật, Mạng Máy tính, Hệ Quản trị CSDL Quan hệ, Kiến trúc Phần mềm, và Đảm bảo Chất lượng Phần mềm (QA/QC).}
+      \resumeItemListEnd
+  \resumeSubHeadingListEnd
+
+%-----------CHỨNG CHỈ-----------
+\section{Chứng Chỉ Chuyên Môn & Xác Thực Năng Lực (Certifications)}
+ \begin{itemize}[leftmargin=0.15in, label={}]
+    \small{\item{
+     $\bullet$ \textbf{Công Ty FPT IS:} Chứng chỉ Triển Khai Phần Mềm Chuyên Nghiệp \& Nghiệm Thu Khách Hàng (2026) \\
+     $\bullet$ \textbf{Đại Học Tôn Đức Thắng:} Chứng nhận Lập trình NodeJS \& Kiến trúc Backend Phân tán (Điểm: 8.3/10.0) \\
+     $\bullet$ \textbf{Đại Học Tôn Đức Thắng:} Chứng nhận Thiết kế Giao diện Người dùng \& Tương tác Người-Máy (Điểm: 8.3/10.0) \\
+     $\bullet$ \textbf{Đại Học Tôn Đức Thắng:} Chứng nhận Phân tích Yêu cầu \& Mô hình hóa Hệ thống Doanh nghiệp (Điểm: 8.1/10.0)
+    }}
+ \end{itemize}
+
+\end{document}

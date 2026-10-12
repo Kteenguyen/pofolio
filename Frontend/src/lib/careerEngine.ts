@@ -1,4 +1,12 @@
-import { JobPosting, CVCandidateProfile, MatchAnalysis, PreEmployIdea } from "@/types/job-copilot";
+import {
+  JobPosting,
+  CVCandidateProfile,
+  MatchAnalysis,
+  PreEmployIdea,
+  WorkMode,
+  TargetMarket,
+  CurrencyType,
+} from "@/types/job-copilot";
 
 // Helper to normalize skill names for fuzzy comparison
 function normalizeSkill(str: string): string {
@@ -51,9 +59,9 @@ export function calculateMatch(job: JobPosting, profile: CVCandidateProfile): Ma
 
     if (!matched) {
       // Check if it's conceptual or BA related
-      if (req.toLowerCase().includes("ba") || req.toLowerCase().includes("yêu cầu") || req.toLowerCase().includes("uml")) {
+      if (req.toLowerCase().includes("ba") || req.toLowerCase().includes("yêu cầu") || req.toLowerCase().includes("uml") || req.toLowerCase().includes("async")) {
         hardSkillPoints += 8.8; // Ktee has 8.1 in Requirements Analysis & 88% BA
-        matchedSkills.push(`${req} (Thế mạnh BA thực chiến)`);
+        matchedSkills.push(`${req} (Thế mạnh nghiệp vụ & giao tiếp)`);
       } else {
         criticalGaps.push(req);
       }
@@ -82,31 +90,31 @@ export function calculateMatch(job: JobPosting, profile: CVCandidateProfile): Ma
   const hardSkillScore = Math.min(100, Math.round((hardSkillPoints / Math.max(1, totalHardPoints)) * 100));
 
   // Scale and experience score
-  let scaleAndExpScore = 78; // Base solid baseline for 5-year IT engineer
+  let scaleAndExpScore = 80;
   if (job.level === "Fresher / Junior") {
     scaleAndExpScore = 96;
   } else if (job.level === "Middle Fullstack") {
-    scaleAndExpScore = 84;
+    scaleAndExpScore = 85;
   } else {
-    scaleAndExpScore = 70;
+    scaleAndExpScore = 72;
   }
 
-  // Boost if job values enterprise or end-user deployment
-  if (job.summary.toLowerCase().includes("doanh nghiệp") || job.summary.toLowerCase().includes("nghiệp vụ")) {
-    scaleAndExpScore = Math.min(100, scaleAndExpScore + 10);
+  // Boost for Enterprise / Real-world deployment
+  if (job.summary.toLowerCase().includes("doanh nghiệp") || job.summary.toLowerCase().includes("fpt") || job.summary.toLowerCase().includes("quy trình")) {
+    scaleAndExpScore = Math.min(100, scaleAndExpScore + 8);
   }
 
   // Domain & BA Score
-  let domainBaScore = 85;
+  let domainBaScore = 86;
   if (job.domain === "Enterprise SaaS & B2B") {
-    domainBaScore = 95; // Ktee's sweet spot
+    domainBaScore = 95;
   } else if (job.domain === "E-commerce & Bán lẻ") {
-    domainBaScore = 90; // High frontend focus
+    domainBaScore = 90;
   } else if (job.domain === "Fintech / Ngân hàng") {
-    domainBaScore = 75; // Requires deeper financial logic understanding
+    domainBaScore = 78;
   }
 
-  // Weighted overall calculation: Hard Skill (45%) + Scale/Exp (35%) + Domain/BA (20%)
+  // Weighted overall calculation
   const overallScore = Math.round(
     hardSkillScore * 0.45 + scaleAndExpScore * 0.35 + domainBaScore * 0.20
   );
@@ -157,14 +165,20 @@ export function calculateMatch(job: JobPosting, profile: CVCandidateProfile): Ma
       `Cần bù đắp cấp tốc trong 48h các kỹ năng cốt lõi: ${criticalGaps.join(", ")} thông qua dự án mẫu thực hành.`
     );
   }
-  recommendations.push(
-    `Đính kèm trực tiếp đường dẫn Live Demo [${preEmployIdea.title}] vào đầu Cover Letter để chứng minh giải pháp thực tế.`
-  );
-  if (overallScore >= 80) {
-    recommendations.push("Hồ sơ thuộc nhóm Top 5% ứng viên phù hợp nhất cho vị trí này. Hãy chủ động kết nối trực tiếp với Hiring Manager qua LinkedIn.");
-  } else {
-    recommendations.push("Nên nhấn mạnh nền tảng đào tạo kỹ sư 5 năm tại ĐH Tôn Đức Thắng và kinh nghiệm chuyển giao thực địa tại FPT IS để bù đắp số năm thâm niên.");
+
+  if (job.workMode === "Freelance / Contract") {
+    recommendations.push(
+      "Với công việc Freelance/Dự án: Khách hàng chỉ quan tâm đến tốc độ hoàn thành và demo chạy được. Đính kèm ngay link Live Demo và bảng cam kết tiến độ (Milestone)."
+    );
+  } else if (job.workMode === "Remote 100%") {
+    recommendations.push(
+      "Với vị trí Global Remote: Hãy nhấn mạnh khả năng viết tài liệu chuẩn tiếng Anh, làm việc bất đồng bộ (Async First) và kỷ luật tự quản lý công việc."
+    );
   }
+
+  recommendations.push(
+    `Bấm nút 'Truy Cập Bài Viết Tuyển Dụng Thật' để nộp đơn trực tiếp, kèm link Proof-of-Work [${preEmployIdea.title}].`
+  );
 
   const strengthsHighlight = [
     "Khả năng thích ứng nhanh và nền tảng thuật toán / cấu trúc dữ liệu chuẩn mực",
@@ -187,21 +201,54 @@ export function calculateMatch(job: JobPosting, profile: CVCandidateProfile): Ma
   };
 }
 
-export function parseRawJobText(rawText: string, jobTitle = "Vị Trí Tự Nhập"): JobPosting {
+export function parseRawJobText(
+  rawText: string,
+  jobTitle = "Vị Trí Tự Nhập",
+  inputUrl = "",
+  inputWorkMode?: WorkMode,
+  inputMarket?: TargetMarket
+): JobPosting {
   const text = rawText.toLowerCase();
 
   // Detect platform
   let platform: JobPosting["platform"] = "Direct Paste";
-  if (text.includes("itviec")) platform = "ITviec";
-  else if (text.includes("topcv")) platform = "TopCV";
-  else if (text.includes("linkedin")) platform = "LinkedIn";
-  else if (text.includes("vietnamworks")) platform = "VietnamWorks";
+  if (text.includes("remoteok") || inputUrl.includes("remoteok.com")) platform = "RemoteOK";
+  else if (text.includes("upwork") || inputUrl.includes("upwork.com")) platform = "Upwork";
+  else if (text.includes("wellfound") || inputUrl.includes("wellfound.com")) platform = "Wellfound";
+  else if (text.includes("itviec") || inputUrl.includes("itviec.com")) platform = "ITviec";
+  else if (text.includes("topcv") || inputUrl.includes("topcv.vn")) platform = "TopCV";
+  else if (text.includes("linkedin") || inputUrl.includes("linkedin.com")) platform = "LinkedIn";
+  else if (text.includes("vietnamworks") || inputUrl.includes("vietnamworks.com")) platform = "VietnamWorks";
+
+  // Detect Work Mode
+  let workMode: WorkMode = inputWorkMode || "Remote 100%";
+  if (!inputWorkMode) {
+    if (text.includes("freelance") || text.includes("contract") || text.includes("khoán") || text.includes("dự án")) {
+      workMode = "Freelance / Contract";
+    } else if (text.includes("hybrid") || text.includes("linh hoạt")) {
+      workMode = "Hybrid";
+    } else if (text.includes("onsite") || text.includes("văn phòng") || text.includes("tại chỗ")) {
+      workMode = "Onsite";
+    } else if (text.includes("remote") || text.includes("từ xa") || text.includes("worldwide")) {
+      workMode = "Remote 100%";
+    }
+  }
+
+  // Detect Target Market & Currency
+  let market: TargetMarket = inputMarket || "Việt Nam";
+  let currency: CurrencyType = "VNĐ";
+  if (!inputMarket) {
+    if (text.includes("usd") || text.includes("$") || text.includes("worldwide") || text.includes("global") || platform === "RemoteOK" || platform === "Upwork" || platform === "Wellfound") {
+      market = "Global / Quốc Tế";
+      currency = "USD ($)";
+    }
+  }
 
   // Detect domain
   let domain: JobPosting["domain"] = "Enterprise SaaS & B2B";
-  if (text.includes("ngân hàng") || text.includes("bank") || text.includes("thanh toán") || text.includes("fintech") || text.includes("chứng khoán") || text.includes("ví điện tử")) {
+  if (text.includes("ngân hàng") || text.includes("bank") || text.includes("thanh toán") || text.includes("fintech") || text.includes("chứng khoán") || text.includes("crypto")) {
     domain = "Fintech / Ngân hàng";
-  } else if (text.includes("thương mại") || text.includes("ecommerce") || text.includes("bán lẻ") || text.includes("shop") || text.includes("d2c")) {
+  } else if (text.includes("thương mại") || text.includes("ecommerce") || text.includes("bán lẻ") || text.includes("shop") || text.includes("retail")) {
     domain = "E-commerce & Bán lẻ";
   }
 
@@ -211,6 +258,20 @@ export function parseRawJobText(rawText: string, jobTitle = "Vị Trí Tự Nh�
     level = "Senior Fullstack / Lead";
   } else if (text.includes("fresher") || text.includes("junior") || text.includes("thực tập")) {
     level = "Fresher / Junior";
+  }
+
+  // Extract direct URL if present in text and inputUrl is empty
+  let finalUrl = inputUrl.trim();
+  if (!finalUrl) {
+    const urlMatch = rawText.match(/https?:\/\/[^\s]+/i);
+    if (urlMatch) {
+      finalUrl = urlMatch[0];
+    } else {
+      // Default to real job search portal
+      finalUrl = market === "Global / Quốc Tế" 
+        ? "https://remoteok.com/remote-jobs"
+        : "https://itviec.com/it-jobs";
+    }
   }
 
   // Detect Tech Stack
@@ -228,7 +289,7 @@ export function parseRawJobText(rawText: string, jobTitle = "Vị Trí Tự Nh�
   }
 
   if (detectedTech.length === 0) {
-    detectedTech.push("React", "TypeScript", "Node.js", "SQL");
+    detectedTech.push("React", "TypeScript", "Next.js", "Tailwind CSS");
   }
 
   const mustHave = detectedTech.slice(0, 4);
@@ -240,12 +301,16 @@ export function parseRawJobText(rawText: string, jobTitle = "Vị Trí Tự Nh�
   return {
     id: `custom-job-${Date.now()}`,
     title: jobTitle,
-    company: "Doanh Nghiệp Tuyển Dụng",
-    logoText: "JD",
+    company: "Nhà Tuyển Dụng / Đối Tác",
+    logoText: jobTitle.substring(0, 2).toUpperCase(),
     platform,
-    salary: "Thoả thuận theo năng lực",
-    location: "TP. Hồ Chí Minh / Remote",
+    workMode,
+    market,
+    currency,
+    salary: currency === "USD ($)" ? "$2,500 - $4,200 USD / tháng" : "22.000.000 - 35.000.000 VNĐ",
+    location: workMode === "Remote 100%" ? "Worldwide Remote (Toàn Cầu)" : "TP. Hồ Chí Minh / Linh hoạt",
     postedAt: "Vừa tải lên",
+    url: finalUrl,
     domain,
     level,
     summary: rawText.slice(0, 180) + (rawText.length > 180 ? "..." : ""),
