@@ -11,7 +11,7 @@ export default function TechStack() {
   };
 
   return (
-    <section id="skills" className="py-20 border-t border-[var(--surface-border)] bg-[var(--background)]">
+    <section id="skills" className="py-10 sm:py-14 lg:py-18 border-t border-[var(--surface-border)] bg-[var(--background)]">
       <div className="portfolio-container">
         {/* Section Header */}
         <div className="flex flex-col items-start mb-12">
@@ -31,57 +31,42 @@ export default function TechStack() {
           {portfolioData.skillCategories.map((cat) => (
             <div
               key={cat.category}
-              className="card-glass rounded-3xl p-6 lg:p-7 border border-[var(--surface-border)] flex flex-col justify-between"
+              className="card-glass rounded-3xl p-6 lg:p-7 border border-[var(--surface-border)] flex flex-col"
             >
-              <div>
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center shrink-0">
-                    {categoryIcons[cat.category] || <Sparkles size={20} className="text-blue-600 dark:text-blue-400" />}
-                  </div>
-                  <div>
-                    <h3 className="text-sm lg:text-base font-bold text-[var(--foreground)]">
-                      {cat.category}
-                    </h3>
-                    <p className="text-xs text-[var(--muted-foreground)] mt-0.5">
-                      {cat.description}
-                    </p>
-                  </div>
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center shrink-0">
+                  {categoryIcons[cat.category] || <Sparkles size={20} className="text-blue-600 dark:text-blue-400" />}
                 </div>
-
-                <div className="flex flex-col gap-4 mt-6">
-                  {cat.skills.map((skill) => (
-                    <div key={skill.name} className="flex flex-col gap-1.5 p-2 rounded-xl bg-slate-50/50 dark:bg-slate-800/30 border border-slate-100 dark:border-slate-800">
-                      <div className="flex items-center justify-between text-xs">
-                        <div className="flex items-center gap-2">
-                          <TechLogo name={skill.name} size={16} />
-                          <span className="font-semibold text-[var(--foreground)]">
-                            {skill.name}
-                          </span>
-                        </div>
-                        <span className="font-mono text-blue-600 dark:text-blue-400 font-bold">
-                          {skill.level}%
-                        </span>
-                      </div>
-                      {skill.note && (
-                        <div className="text-[11px] text-[var(--muted-foreground)] font-mono pl-6">
-                          ↳ {skill.note}
-                        </div>
-                      )}
-                    </div>
-                  ))}
+                <div>
+                  <h3 className="text-sm lg:text-base font-bold text-[var(--foreground)]">
+                    {cat.category}
+                  </h3>
+                  <p className="text-xs text-[var(--muted-foreground)] mt-0.5">
+                    {cat.description}
+                  </p>
                 </div>
               </div>
 
-              {/* Badges footer với logo công nghệ */}
-              <div className="mt-6 pt-4 border-t border-[var(--surface-border)] flex flex-wrap gap-1.5">
+              <div className="flex flex-col gap-4 mt-6">
                 {cat.skills.map((skill) => (
-                  <span
-                    key={skill.name}
-                    className="inline-flex items-center gap-1 text-[10px] font-mono px-2 py-0.5 rounded-md bg-[var(--surface)] text-[var(--muted-foreground)] border border-[var(--surface-border)]"
-                  >
-                    <TechLogo name={skill.name} size={12} />
-                    <span>{skill.name.split(" ")[0]}</span>
-                  </span>
+                  <div key={skill.name} className="flex flex-col gap-1.5 p-2 rounded-xl bg-slate-50/50 dark:bg-slate-800/30 border border-slate-100 dark:border-slate-800">
+                    <div className="flex items-center justify-between text-xs">
+                      <div className="flex items-center gap-2">
+                        <TechLogo name={skill.name} size={16} />
+                        <span className="font-semibold text-[var(--foreground)]">
+                          {skill.name}
+                        </span>
+                      </div>
+                      <span className="font-mono text-blue-600 dark:text-blue-400 font-bold">
+                        {skill.level}%
+                      </span>
+                    </div>
+                    {skill.note && (
+                      <div className="text-[11px] text-[var(--muted-foreground)] font-mono pl-6">
+                        ↳ {skill.note}
+                      </div>
+                    )}
+                  </div>
                 ))}
               </div>
             </div>
