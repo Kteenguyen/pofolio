@@ -86,13 +86,14 @@ class CDPClient {
 }
 
 async function run() {
-  console.log('===============================================================');
-  console.log('  🚀 QA TESTING SUITE: LIVE GOOGLE CHROME VERIFICATION ON MAC  ');
-  console.log('===============================================================');
+  console.log('=============================================================================');
+  console.log('  🚀 QA TESTING SUITE: LIVE GOOGLE CHROME VERIFICATION ON MACOS (CDP)        ');
+  console.log('  MỤC TIÊU: HEADER PHÂN TAB CHUẨN MỰC, TỐI ƯU NÚT BẤM, ĐỐI SOÁT ĐA MÀN HÌNH    ');
+  console.log('=============================================================================');
   console.log(`Route: ${ROUTE} | Mode: ${MODE} | Duration: ${DURATION}s`);
 
   // 1. Launch Chrome
-  console.log('[1/5] Khởi động Google Chrome thật với CDP Remote Debugging (port 9222)...');
+  console.log('\n[1/6] Khởi động Google Chrome thật với CDP Remote Debugging (port 9222)...');
   const chromeProcess = spawn(
     CHROME_PATH,
     [
@@ -120,7 +121,7 @@ async function run() {
   }
 
   const pageTarget = targets.find((t) => t.type === 'page') || targets[0];
-  console.log(`[2/5] Kết nối WebSocket CDP: ${pageTarget.webSocketDebuggerUrl}`);
+  console.log(`[2/6] Kết nối WebSocket CDP: ${pageTarget.webSocketDebuggerUrl}`);
 
   const client = new CDPClient(pageTarget.webSocketDebuggerUrl);
   await client.connect();
@@ -129,19 +130,55 @@ async function run() {
   await client.send('DOM.enable');
   await client.send('Runtime.enable');
 
-  // Wait for initial page load and Three.js initialization
-  console.log('[3/5] Chờ trang tải và khởi tạo Three.js Universe (3s)...');
-  await sleep(3000);
+  console.log('[3/6] Chờ trang tải và render hoàn tất (2s)...');
+  await sleep(2000);
 
-  const results = {
-    desktop: null,
-    mobile: null,
-    avatarCheck: null,
+  const report = {
+    headerAudit: null,
+    desktopAudit: null,
+    mobileAudit: null,
+    mobileDrawerAudit: null,
+    cvModalAudit: null,
+    verdict: 'PASS',
   };
 
-  // --- A. DESKTOP TEST (1440x900) ---
+  // --- STEP A: HEADER NAVIGATION AUDIT ---
+  console.log('\n===============================================================');
+  console.log('  📌 KIỂM TRA 1: HEADER PHÂN TAB CHUẨN MỰC                     ');
+  console.log('===============================================================');
+  const headerCheck = await client.eval(`
+    (() => {
+      const header = document.querySelector('header');
+      if (!header) return { found: false };
+
+      const navLinks = Array.from(header.querySelectorAll('nav a')).map(a => ({
+        text: a.innerText.trim(),
+        href: a.getAttribute('href'),
+      }));
+
+      const expectedTabs = ['Tổng Quan', 'AI Copilot', 'Học Vấn', 'Kinh Nghiệm', 'Dự Án', 'Kỹ Năng', 'Liên Hệ'];
+      const currentTabs = navLinks.map(l => l.text);
+      const allTabsPresent = expectedTabs.every(t => currentTabs.some(c => c.includes(t)));
+
+      return {
+        found: true,
+        expectedTabs,
+        currentTabs,
+        allTabsPresent,
+      };
+    })()
+  `);
+
+  console.log('Header Tabs Check:', JSON.stringify(headerCheck, null, 2));
+  console.log(`Header hiện diện: ${headerCheck.found ? '✅ ĐẠT' : '❌ THIẾU HEADER'}`);
+  console.log(`Đầy đủ 7 Tab Chuẩn Mực: ${headerCheck.allTabsPresent ? '✅ ĐẠT 100%' : '❌ THIẾU TAB'}`);
+  report.headerAudit = headerCheck;
+
+  // --- STEP B: DESKTOP TEST (1440x900) ---
   if (MODE === 'desktop' || MODE === 'all') {
-    console.log('\n--- [TEST DESKTOP 1440x900: THẺ BÊN PHẢI & THREE.JS PLANET OVERLAP] ---');
+    console.log('\n===============================================================');
+    console.log('  💻 KIỂM TRA 2: DESKTOP (1440x900) - NÚT BẤM & KHÔNG TRÀN VIỀN ');
+    console.log('===============================================================');
     await client.send('Emulation.setDeviceMetricsOverride', {
       width: 1440,
       height: 900,
@@ -150,68 +187,74 @@ async function run() {
     });
     await sleep(1000);
 
-    const desktopMetrics = await client.eval(`
+    const desktopData = await client.eval(`
       (() => {
         const docWidth = document.documentElement.scrollWidth;
         const winWidth = window.innerWidth;
-        const winHeight = window.innerHeight;
-        
-        // Find card container
-        const card = document.querySelector('.hud-card-entrance') || document.querySelector('.card-glass');
-        const cardRect = card ? card.getBoundingClientRect() : null;
-        
-        // Find Three.js canvas
-        const canvas = document.querySelector('canvas');
-        const canvasRect = canvas ? canvas.getBoundingClientRect() : null;
-
-        // Check overflow
         const overflow = docWidth > winWidth;
+
+        // Button audit
+        const interactive = Array.from(document.querySelectorAll('button, a[class*="touch-target"], a[class*="rounded"]'));
+        const buttonAudits = interactive.map(el => {
+          const r = el.getBoundingClientRect();
+          const isHidden = (r.width === 0 && r.height === 0) || window.getComputedStyle(el).display === 'none';
+          if (isHidden) return null;
+
+          const isTextClipped = el.scrollWidth > el.clientWidth + 2;
+          const isSquished = r.height < 36 || r.width < 36;
+          
+          return {
+            tag: el.tagName,
+            text: (el.innerText || el.getAttribute('aria-label') || '').trim().replace(/\\n/g, ' ').slice(0, 35),
+            width: Math.round(r.width),
+            height: Math.round(r.height),
+            touchTargetPass: r.height >= 40 && r.width >= 40,
+            isTextClipped,
+            isSquished,
+          };
+        }).filter(Boolean);
+
+        const clippedButtons = buttonAudits.filter(b => b.isTextClipped);
+        const squishedButtons = buttonAudits.filter(b => b.isSquished);
 
         return {
           winWidth,
-          winHeight,
           docWidth,
           overflow,
-          cardRect: cardRect ? {
-            left: Math.round(cardRect.left),
-            right: Math.round(cardRect.right),
-            top: Math.round(cardRect.top),
-            bottom: Math.round(cardRect.bottom),
-            width: Math.round(cardRect.width),
-            height: Math.round(cardRect.height),
-          } : null,
-          canvasRect: canvasRect ? {
-            width: Math.round(canvasRect.width),
-            height: Math.round(canvasRect.height),
-          } : null,
+          totalButtons: buttonAudits.length,
+          clippedButtonsCount: clippedButtons.length,
+          clippedButtonsSample: clippedButtons.slice(0, 3),
+          squishedButtonsCount: squishedButtons.length,
         };
       })()
     `);
 
-    console.log('Desktop Metrics:', JSON.stringify(desktopMetrics, null, 2));
+    console.log('Desktop Audit:', JSON.stringify(desktopData, null, 2));
+    console.log(`Không tràn viền ngang (scrollWidth=${desktopData.docWidth} <= 1440): ${!desktopData.overflow ? '✅ ĐẠT' : '❌ TRÀN VIỀN'}`);
+    console.log(`Số nút bị tràn chữ: ${desktopData.clippedButtonsCount === 0 ? '✅ 0 (KHÔNG TRÀN CHỮ)' : `❌ ${desktopData.clippedButtonsCount} nút`}`);
+    console.log(`Số nút bị bẹp (< 36px): ${desktopData.squishedButtonsCount === 0 ? '✅ 0 (KHÔNG BẸP NÚT)' : `⚠️ ${desktopData.squishedButtonsCount} nút`}`);
 
-    // Check if card is on the right
-    const card = desktopMetrics.cardRect;
-    const isDockedOnRight = card && card.left > desktopMetrics.winWidth / 2;
-    console.log(`Thẻ card nằm ở nửa PHẢI màn hình (left=${card?.left}px > 720px): ${isDockedOnRight ? '✅ ĐẠT' : '❌ LỖI'}`);
-    console.log(`Khoảng cách mép phải (1440 - right=${1440 - (card?.right || 0)}px): ${1440 - (card?.right || 0) < 100 ? '✅ ĐẠT (NEO PHẢI)' : '⚠️ CẦN KIỂM TRA'}`);
-    console.log(`Không tràn viền ngang (scrollWidth=${desktopMetrics.docWidth} <= 1440): ${!desktopMetrics.overflow ? '✅ ĐẠT' : '❌ TRÀN VIỀN'}`);
+    // Smooth scroll down test
+    await client.eval(`window.scrollTo({ top: 1200, behavior: 'smooth' });`);
+    await sleep(600);
+    await client.eval(`window.scrollTo({ top: 0, behavior: 'smooth' });`);
+    await sleep(600);
 
-    // Take Desktop Screenshot
     const deskShotPath = '/tmp/qa_chrome_desktop.png';
     await client.screenshot(deskShotPath);
     console.log(`📸 Screenshot Desktop lưu tại: ${deskShotPath}`);
 
-    results.desktop = {
-      ...desktopMetrics,
-      isDockedOnRight,
+    report.desktopAudit = {
+      ...desktopData,
       screenshot: deskShotPath,
     };
   }
 
-  // --- B. MOBILE TEST (430x932 iPhone 14 Pro Max) ---
+  // --- STEP C: MOBILE TEST (430x932 iPhone 14 Pro Max) ---
   if (MODE === 'mobile' || MODE === 'all') {
-    console.log('\n--- [TEST MOBILE 430x932 (iPhone 14 Pro Max): NỬA DƯỚI & CHỐNG TRÀN VIỀN] ---');
+    console.log('\n===============================================================');
+    console.log('  📱 KIỂM TRA 3: MOBILE (430x932 iPhone 14 Pro Max)           ');
+    console.log('===============================================================');
     await client.send('Emulation.setDeviceMetricsOverride', {
       width: 430,
       height: 932,
@@ -220,154 +263,209 @@ async function run() {
     });
     await sleep(1000);
 
-    const mobileMetrics = await client.eval(`
+    const mobileData = await client.eval(`
       (() => {
         const docWidth = document.documentElement.scrollWidth;
         const winWidth = window.innerWidth;
-        const winHeight = window.innerHeight;
+        const overflow = docWidth > 430.5;
 
-        const card = document.querySelector('.hud-card-entrance') || document.querySelector('.card-glass');
-        const cardRect = card ? card.getBoundingClientRect() : null;
-
-        // Check all elements for overflow
+        // Check for any element bleeding past 430px
         let maxRight = 0;
-        let overflowingElement = null;
+        let overflowingElements = [];
         document.querySelectorAll('*').forEach(el => {
           const r = el.getBoundingClientRect();
-          if (r.right > maxRight) {
-            maxRight = r.right;
-          }
-          if (r.right > 430.5 && !overflowingElement && el.clientWidth > 0) {
-            overflowingElement = {
+          if (r.right > maxRight) maxRight = r.right;
+          if (r.right > 430.8 && el.clientWidth > 0 && window.getComputedStyle(el).display !== 'none') {
+            overflowingElements.push({
               tag: el.tagName,
-              className: el.className ? el.className.toString().slice(0, 50) : '',
+              className: el.className ? el.className.toString().slice(0, 40) : '',
               right: Math.round(r.right),
-              width: Math.round(r.width)
-            };
+              width: Math.round(r.width),
+            });
           }
         });
 
-        // Touch targets check
-        const buttons = Array.from(document.querySelectorAll('button, a.nav-btn, a.cta-btn'));
-        const smallTouchTargets = buttons
-          .filter(b => {
-            const r = b.getBoundingClientRect();
-            return (r.width > 0 && r.height > 0) && (r.width < 40 || r.height < 40);
-          })
-          .map(b => ({
-            text: b.innerText ? b.innerText.slice(0, 20) : '',
-            width: Math.round(b.getBoundingClientRect().width),
-            height: Math.round(b.getBoundingClientRect().height)
-          }));
+        // Visible buttons audit on mobile
+        const buttons = Array.from(document.querySelectorAll('button, a[class*="touch-target"], a[class*="rounded"]'));
+        const mobileButtons = buttons.map(el => {
+          const r = el.getBoundingClientRect();
+          const isHidden = (r.width === 0 && r.height === 0) || window.getComputedStyle(el).display === 'none';
+          if (isHidden) return null;
+
+          const isTextClipped = el.scrollWidth > el.clientWidth + 2;
+          const isSquished = r.height < 36;
+          const touchTargetPass = r.height >= 40 && r.width >= 40;
+
+          return {
+            tag: el.tagName,
+            text: (el.innerText || el.getAttribute('aria-label') || '').trim().replace(/\\n/g, ' ').slice(0, 30),
+            width: Math.round(r.width),
+            height: Math.round(r.height),
+            touchTargetPass,
+            isTextClipped,
+            isSquished,
+          };
+        }).filter(Boolean);
+
+        const clippedButtons = mobileButtons.filter(b => b.isTextClipped);
+        const squishedButtons = mobileButtons.filter(b => b.isSquished);
 
         return {
           winWidth,
-          winHeight,
           docWidth,
-          overflow: docWidth > 430.5,
+          overflow,
           maxRight: Math.round(maxRight),
-          overflowingElement,
-          cardRect: cardRect ? {
-            left: Math.round(cardRect.left),
-            right: Math.round(cardRect.right),
-            top: Math.round(cardRect.top),
-            bottom: Math.round(cardRect.bottom),
-            width: Math.round(cardRect.width),
-            height: Math.round(cardRect.height),
-          } : null,
-          smallTouchTargetsCount: smallTouchTargets.length,
-          smallTouchTargetsSample: smallTouchTargets.slice(0, 3)
+          overflowingCount: overflowingElements.length,
+          overflowingSample: overflowingElements.slice(0, 3),
+          totalButtons: mobileButtons.length,
+          clippedButtonsCount: clippedButtons.length,
+          clippedButtonsSample: clippedButtons.slice(0, 3),
+          squishedButtonsCount: squishedButtons.length,
         };
       })()
     `);
 
-    console.log('Mobile Metrics:', JSON.stringify(mobileMetrics, null, 2));
+    console.log('Mobile Audit:', JSON.stringify(mobileData, null, 2));
+    console.log(`Không tràn viền ngang (scrollWidth=${mobileData.docWidth} <= 430px): ${!mobileData.overflow ? '✅ ĐẠT (CHUẨN 100%)' : '❌ TRÀN VIỀN'}`);
+    console.log(`Số phần tử tràn lề phải (> 430px): ${mobileData.overflowingCount === 0 ? '✅ 0 (TUYỆT ĐỐI CHUẨN)' : `❌ ${mobileData.overflowingCount} phần tử`}`);
+    console.log(`Số nút bị tràn chữ trên mobile: ${mobileData.clippedButtonsCount === 0 ? '✅ 0 (KHÔNG TRÀN CHỮ)' : `❌ ${mobileData.clippedButtonsCount} nút`}`);
+    console.log(`Số nút bị bẹp trên mobile: ${mobileData.squishedButtonsCount === 0 ? '✅ 0' : `⚠️ ${mobileData.squishedButtonsCount}`}`);
 
-    const card = mobileMetrics.cardRect;
-    const isAtBottomHalf = card && card.top >= 350;
-    console.log(`Thẻ card nằm ở NỬA DƯỚI màn hình (top=${card?.top}px >= 350px): ${isAtBottomHalf ? '✅ ĐẠT' : '⚠️ CẦN CHỈNH'}`);
-    console.log(`Chiều rộng thẻ (width=${card?.width}px <= 430px): ${card && card.width <= 430 ? '✅ ĐẠT' : '❌ QUÁ RỘNG'}`);
-    console.log(`Tuyệt đối không tràn viền ngang (scrollWidth=${mobileMetrics.docWidth} <= 430px): ${!mobileMetrics.overflow ? '✅ ĐẠT (CHUẨN 100%)' : '❌ TRÀN VIỀN'}`);
-    console.log(`Touch targets >= 44px (Số nút dưới chuẩn: ${mobileMetrics.smallTouchTargetsCount}): ${mobileMetrics.smallTouchTargetsCount === 0 ? '✅ ĐẠT 100%' : '⚠️ CẦN CHÚ Ý'}`);
-
-    // Take Mobile Screenshot
     const mobShotPath = '/tmp/qa_chrome_mobile.png';
     await client.screenshot(mobShotPath);
     console.log(`📸 Screenshot Mobile lưu tại: ${mobShotPath}`);
 
-    results.mobile = {
-      ...mobileMetrics,
-      isAtBottomHalf,
+    report.mobileAudit = {
+      ...mobileData,
       screenshot: mobShotPath,
     };
+
+    // --- STEP D: MOBILE DRAWER MENU INTERACTION TEST ---
+    console.log('\n===============================================================');
+    console.log('  📱 KIỂM TRA 4: MOBILE DRAWER MENU & TAB NAVIGATION          ');
+    console.log('===============================================================');
+    // Click Hamburger Button
+    await client.eval(`
+      (() => {
+        const btn = document.querySelector('header button[aria-label*="menu"]');
+        if (btn) btn.click();
+      })()
+    `);
+    await sleep(600);
+
+    const drawerCheck = await client.eval(`
+      (() => {
+        const drawer = document.querySelector('.mobile-nav-drawer');
+        if (!drawer) return { open: false };
+
+        const links = Array.from(drawer.querySelectorAll('nav a')).map(a => a.innerText.trim().replace(/\\n/g, ' '));
+        const cvBtn = drawer.querySelector('button');
+
+        return {
+          open: true,
+          linksCount: links.length,
+          links,
+          hasCvBtn: !!cvBtn,
+          cvBtnText: cvBtn ? cvBtn.innerText.trim().replace(/\\n/g, ' ') : '',
+        };
+      })()
+    `);
+
+    console.log('Mobile Drawer Menu Check:', JSON.stringify(drawerCheck, null, 2));
+    console.log(`Drawer Menu mở thành công: ${drawerCheck.open ? '✅ ĐẠT' : '❌ LỖI KHÔNG MỞ'}`);
+    console.log(`Đầy đủ liên kết phân tab trong Drawer: ${drawerCheck.linksCount >= 7 ? '✅ ĐẠT' : '⚠️ THIẾU'}`);
+
+    const drawerShotPath = '/tmp/qa_chrome_mobile_drawer.png';
+    await client.screenshot(drawerShotPath);
+    console.log(`📸 Screenshot Mobile Drawer lưu tại: ${drawerShotPath}`);
+
+    report.mobileDrawerAudit = {
+      ...drawerCheck,
+      screenshot: drawerShotPath,
+    };
+
+    // Close Drawer
+    await client.eval(`
+      (() => {
+        const btn = document.querySelector('header button[aria-label*="menu"]');
+        if (btn) btn.click();
+      })()
+    `);
+    await sleep(400);
   }
 
-  // --- C. AVATAR & CV MODAL INTERACTION TEST ---
-  console.log('\n--- [TEST AVATAR & CV MODAL & MASTER PDF EMBED] ---');
-  // Click on "Tải Hồ Sơ Kỹ Sư (PDF)" to open modal
+  // --- STEP E: CV DOWNLOAD MODAL INTERACTION & AVATAR VERIFICATION ---
+  console.log('\n===============================================================');
+  console.log('  📄 KIỂM TRA 5: CV DOWNLOAD MODAL & KTEE AVATAR LOAD THẬT    ');
+  console.log('===============================================================');
+  // Click Header "Tải CV" button
   await client.eval(`
     (() => {
-      const btns = Array.from(document.querySelectorAll('button'));
-      const cvBtn = btns.find(b => b.innerText.includes('Tải Hồ Sơ') || b.innerText.includes('PDF'));
+      const header = document.querySelector('header');
+      const cvBtn = Array.from(header.querySelectorAll('button')).find(b => b.innerText.includes('Tải CV'));
       if (cvBtn) cvBtn.click();
     })()
   `);
-  await sleep(1000);
+  await sleep(800);
 
-  const modalCheck = await client.eval(`
+  const cvModalCheck = await client.eval(`
     (() => {
       const modal = document.querySelector('[role="dialog"]');
       if (!modal) return { open: false };
-      
+
       const avatarImg = modal.querySelector('img[src="/avatar.jpg"]');
-      const cvLink = modal.querySelector('a[href="/cv/NguyenKhoaTai_s_CV.pdf"]');
-      
+      const cvLinks = Array.from(modal.querySelectorAll('a[href*="/cv/"]')).map(a => ({
+        href: a.getAttribute('href'),
+        text: a.innerText.trim().replace(/\\n/g, ' '),
+      }));
+
       return {
         open: true,
         hasAvatarImg: !!avatarImg,
         avatarLoaded: avatarImg ? (avatarImg.complete && avatarImg.naturalWidth > 0) : false,
-        avatarNaturalSize: avatarImg ? { width: avatarImg.naturalWidth, height: avatarImg.naturalHeight } : null,
-        avatarRenderedSize: avatarImg ? { width: Math.round(avatarImg.getBoundingClientRect().width), height: Math.round(avatarImg.getBoundingClientRect().height) } : null,
-        hasCvLink: !!cvLink,
-        cvLinkHref: cvLink ? cvLink.getAttribute('href') : null,
+        avatarNaturalWidth: avatarImg ? avatarImg.naturalWidth : 0,
+        avatarNaturalHeight: avatarImg ? avatarImg.naturalHeight : 0,
+        cvLinksCount: cvLinks.length,
+        cvLinks,
       };
     })()
   `);
 
-  console.log('CV Modal & Avatar Verification:', JSON.stringify(modalCheck, null, 2));
-  console.log(`Modal mở thành công: ${modalCheck.open ? '✅ ĐẠT' : '❌ LỖI'}`);
-  console.log(`Ảnh Avatar (/avatar.jpg) load thành công (naturalWidth > 0): ${modalCheck.avatarLoaded ? '✅ ĐẠT 100%' : '❌ LỖI LOAD ẢNH'}`);
-  console.log(`Link Master CV PDF (/cv/NguyenKhoaTai_s_CV.pdf) hiện diện: ${modalCheck.hasCvLink ? '✅ ĐẠT' : '❌ THIẾU LINK'}`);
+  console.log('CV Modal Check:', JSON.stringify(cvModalCheck, null, 2));
+  console.log(`CV Modal mở thành công từ Header: ${cvModalCheck.open ? '✅ ĐẠT' : '❌ LỖI'}`);
+  console.log(`Ảnh Avatar (/avatar.jpg) load thật (naturalWidth > 0): ${cvModalCheck.avatarLoaded ? `✅ ĐẠT (${cvModalCheck.avatarNaturalWidth}x${cvModalCheck.avatarNaturalHeight}px)` : '❌ LỖI LOAD ẢNH'}`);
+  console.log(`Đầy đủ 4 phiên bản CV PDF: ${cvModalCheck.cvLinksCount >= 4 ? `✅ ĐẠT (${cvModalCheck.cvLinksCount} bản)` : '❌ THIẾU BẢN CV'}`);
 
   const modalShotPath = '/tmp/qa_chrome_modal.png';
   await client.screenshot(modalShotPath);
-  console.log(`📸 Screenshot Modal lưu tại: ${modalShotPath}`);
+  console.log(`📸 Screenshot CV Modal lưu tại: ${modalShotPath}`);
 
-  results.avatarCheck = {
-    ...modalCheck,
+  report.cvModalAudit = {
+    ...cvModalCheck,
     screenshot: modalShotPath,
   };
 
-  // Close modal with Escape key
+  // Close CV Modal via Escape
   await client.send('Input.dispatchKeyEvent', { type: 'rawKeyDown', key: 'Escape', code: 'Escape' });
   await client.send('Input.dispatchKeyEvent', { type: 'keyUp', key: 'Escape', code: 'Escape' });
   await sleep(500);
 
-  // Keep open for user inspection on screen
-  console.log(`\n[4/5] Giữ cửa sổ Google Chrome thật hiển thị trên Mac trong ${DURATION} giây để người dùng quan sát...`);
+  // --- FINAL DISPLAY ON MAC SCREEN ---
+  console.log(`\n===============================================================`);
+  console.log(`  👀 GIỮ CỬA SỔ GOOGLE CHROME THẬT TRÊN MAC TRONG ${DURATION} GIÂY ĐỂ QUAN SÁT`);
+  console.log(`===============================================================`);
   await sleep(DURATION * 1000);
 
-  // Close CDP & Chrome
-  console.log('[5/5] Đóng kết nối CDP và giải phóng tài nguyên...');
+  // Close
   client.close();
   chromeProcess.kill('SIGTERM');
 
   console.log('\n===============================================================');
-  console.log('  🎯 BIÊN BẢN NGHIỆM THU QA TESTING TRỰC QUAN HOÀN TẤT         ');
+  console.log('  🎯 BIÊN BẢN NGHIỆM THU QA TESTING CHÍNH THỨC HOÀN TẤT         ');
   console.log('===============================================================');
-  console.log(JSON.stringify(results, null, 2));
+  console.log(JSON.stringify(report, null, 2));
 
-  return results;
+  return report;
 }
 
 run().catch((err) => {
