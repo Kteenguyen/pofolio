@@ -92,7 +92,7 @@ export default function Hero() {
               </span>
               <span className="flex items-center gap-1.5 bg-[var(--surface)] px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-xl border border-[var(--surface-border)] shadow-xs">
                 <CheckCircle2 size={14} className="text-purple-600 dark:text-purple-400 shrink-0" />
-                <span>HomeNest BA (SRS & Agile)</span>
+                <span>HomeNest BA (Thực Tập 2 Tháng)</span>
               </span>
             </div>
 

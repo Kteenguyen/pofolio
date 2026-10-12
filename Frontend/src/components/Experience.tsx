@@ -220,7 +220,7 @@ export default function Experience() {
                         : milestone.id === "fpt-is"
                         ? "12/25-01/26"
                         : milestone.id === "homenest-software"
-                        ? "2025"
+                        ? "2025 (2T)"
                         : "2021-2026"}
                     </span>
 
@@ -229,7 +229,7 @@ export default function Experience() {
                       {milestone.id === "tdtu-engineering"
                         ? "ĐH Tôn Đức Thắng"
                         : milestone.id === "homenest-software"
-                        ? "HomeNest BA"
+                        ? "HomeNest (2T)"
                         : milestone.id === "fpt-is"
                         ? "FPT IS"
                         : milestone.id === "luklak-freelance"
