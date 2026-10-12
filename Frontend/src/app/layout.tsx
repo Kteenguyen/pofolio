@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import FloatingThumbDock from "@/components/FloatingThumbDock";
 
 export const metadata: Metadata = {
   title: "Nguyễn Khoa Tài (Ktee) | Full-Stack Software Engineer • ĐH Tôn Đức Thắng (2021 – 2026)",
@@ -45,8 +46,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="vi" className="scroll-smooth">
-      <body className="antialiased selection:bg-blue-600 selection:text-white bg-[var(--background)] text-[var(--foreground)]">
+      <body className="antialiased selection:bg-blue-600 selection:text-white bg-[var(--background)] text-[var(--foreground)] pb-20 md:pb-0">
         {children}
+        <FloatingThumbDock />
       </body>
     </html>
   );

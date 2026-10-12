@@ -17,6 +17,7 @@ import {
   Code2
 } from "lucide-react";
 import { GithubIcon } from "@/components/SocialIcons";
+import CreativeSculpture4D from "@/components/CreativeSculpture4D";
 
 export default function Home() {
   return (
@@ -27,7 +28,11 @@ export default function Home() {
         {/* ROW 1: PROFILE HERO STRIP (HIGH DENSITY) */}
         <section className="card-glass rounded-2xl p-4 lg:p-6 border border-[var(--surface-border)]">
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-            <div className="space-y-2">
+            <div className="flex flex-col sm:flex-row sm:items-start gap-3.5 flex-1 min-w-0">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 rounded-2xl bg-slate-100/80 dark:bg-slate-900/80 border border-[var(--surface-border)] p-1 shrink-0 flex items-center justify-center shadow-sm">
+                <CreativeSculpture4D className="w-full h-full" />
+              </div>
+              <div className="space-y-2 flex-1 min-w-0">
               <div className="flex flex-wrap items-center gap-2 text-xs">
                 <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-semibold border border-emerald-500/20">
                   <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
@@ -54,6 +59,7 @@ export default function Home() {
                 {portfolioData.personal.bio}
               </p>
             </div>
+          </div>
 
             {/* Quick Actions */}
             <div className="flex flex-wrap lg:flex-col gap-2 shrink-0">
@@ -217,8 +223,8 @@ export default function Home() {
                   <span className="font-mono text-emerald-600 dark:text-emerald-400 font-bold">
                     {p.metrics[0].value} {p.metrics[0].label}
                   </span>
-                  <span className="text-amber-600 dark:text-amber-400 font-mono text-[10px]">
-                    [Vui lòng bổ sung trong CRM]
+                  <span className="text-blue-600 dark:text-sky-400 font-semibold text-[10px] hover:underline">
+                    Chi tiết →
                   </span>
                 </div>
               </div>
@@ -242,7 +248,7 @@ export default function Home() {
                 {[
                   "ReactJS (v18+)", "Next.js 15", "TypeScript", "Tailwind CSS", "Framer Motion", "Lenis Scroll",
                   "Node.js (8.3/10)", "Express", "ASP.NET Core", "Redis Caching", "MongoDB", "MS SQL Server",
-                  "Phân Tích Nghiệp Vụ BA (8.1/10)", "UAT Testing (Jira)", "VPS Linux & SSL", "AI & AI Agents"
+                  "Phân Tích Nghiệp Vụ BA (8.1/10)", "UAT Testing (Jira)", "WordPress (CMS & SEO)", "VPS Linux & SSL", "AI & AI Agents"
                 ].map((s) => (
                   <span
                     key={s}

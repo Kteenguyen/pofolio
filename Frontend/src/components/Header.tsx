@@ -63,15 +63,6 @@ export default function Header() {
         {/* Right CTA Group */}
         <div className="hidden sm:flex items-center gap-2">
           <ThemeToggle />
-          <a
-            href="http://localhost:3001/admin"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="touch-target px-2.5 py-1.5 rounded-xl text-xs font-semibold border border-blue-500/30 text-blue-600 dark:text-sky-400 bg-blue-500/10 hover:bg-blue-500/20 transition-colors flex items-center gap-1"
-          >
-            <Sparkles size={13} />
-            <span>CMS Admin</span>
-          </a>
           <Link
             href="/contact"
             className="touch-target px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-blue-600 text-white shadow-sm hover:bg-blue-700 transition-colors flex items-center gap-1.5"
@@ -117,16 +108,6 @@ export default function Header() {
               );
             })}
             <div className="pt-2 flex flex-col gap-2">
-              <a
-                href="http://localhost:3001/admin"
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => setMobileMenuOpen(false)}
-                className="touch-target px-4 py-3 rounded-xl text-center text-xs font-semibold border border-blue-500/30 text-blue-600 dark:text-sky-400 bg-blue-500/10 flex items-center justify-center gap-1.5"
-              >
-                <Sparkles size={14} />
-                <span>Mở Backend CMS Quản Trị Leads & Link (Port 3001)</span>
-              </a>
               <Link
                 href="/contact"
                 onClick={() => setMobileMenuOpen(false)}

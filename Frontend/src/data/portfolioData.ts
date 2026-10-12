@@ -94,6 +94,7 @@ export const portfolioData = {
         { name: "Framer Motion & Lenis Scroll", level: 88, note: "Cinematic Scroll, Spring Physics" },
         { name: "TypeScript & JavaScript ES6+", level: 90, note: "Clean Code, Strict Typing" },
         { name: "UI/UX Design trên Figma", level: 88, note: "Wireframing, Interactive Prototype" },
+        { name: "WordPress CMS & Headless Migration", level: 88, note: "Theme Custom, Tối Ưu SEO, Di Chuyển Sang Next.js" },
       ],
     },
     {

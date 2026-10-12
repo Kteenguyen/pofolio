@@ -60,19 +60,9 @@ export default function Projects() {
             Kho Dự Án Kỹ Thuật Đã Triển Khai
           </h2>
           <p className="text-xs text-[var(--muted-foreground)] mt-1 max-w-2xl">
-            Tất cả dự án được chuẩn hóa theo mô hình CAR (Bối cảnh -&gt; Giải pháp -&gt; Kết quả). Link live demo và source code được đồng bộ trực tiếp từ Backend CMS.
+            Tất cả dự án được chuẩn hóa theo mô hình CAR (Bối cảnh -&gt; Giải pháp -&gt; Kết quả) với kiến trúc kỹ thuật thực chiến.
           </p>
         </div>
-
-        <a
-          href="http://localhost:3001/admin"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="touch-target px-3 py-1.5 rounded-xl text-xs font-semibold border border-blue-500/30 text-blue-600 dark:text-sky-400 bg-blue-500/10 hover:bg-blue-500/20 transition-all flex items-center gap-1.5 shrink-0"
-        >
-          <Sparkles size={14} />
-          <span>Cập nhật Link/Ảnh trong CRM ↗</span>
-        </a>
       </div>
 
       {/* Filter Pills */}
@@ -111,8 +101,8 @@ export default function Projects() {
                     ● Live Demo Sẵn Sàng
                   </span>
                 ) : (
-                  <span className="text-[10px] font-mono font-bold text-amber-600 dark:text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">
-                    [Vui lòng bổ sung trong CRM]
+                  <span className="text-[10px] font-mono font-medium text-[var(--muted-foreground)]">
+                    Nghiệp Vụ Enterprise
                   </span>
                 )}
               </div>

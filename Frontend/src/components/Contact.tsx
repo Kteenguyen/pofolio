@@ -65,16 +65,6 @@ export default function Contact() {
             Sẵn sàng trao đổi về các vị trí Software Engineer (Full-Stack, Front-End, Back-End), dự án chuyển đổi số hoặc vai trò Business Analyst.
           </p>
         </div>
-
-        <a
-          href="http://localhost:3001/admin"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="touch-target px-3 py-1.5 rounded-xl text-xs font-semibold border border-blue-500/30 text-blue-600 dark:text-sky-400 bg-blue-500/10 hover:bg-blue-500/20 transition-all flex items-center gap-1.5 shrink-0"
-        >
-          <Sparkles size={14} />
-          <span>Xem Danh Sách Leads Trong CMS (Port 3001) ↗</span>
-        </a>
       </div>
 
       {/* Contact Grid */}
@@ -207,7 +197,7 @@ export default function Contact() {
             Gửi Tin Nhắn / Lời Mời Phỏng Vấn Tới Ktee
           </h3>
           <p className="text-xs text-[var(--muted-foreground)] mb-4">
-            Dữ liệu tin nhắn sẽ được gửi trực tiếp vào Backend CMS của Ktee tại cổng 3001 và phản hồi trong 24 giờ.
+            Tin nhắn của bạn sẽ được chuyển trực tiếp tới hộp thư của Ktee và được phản hồi trong vòng 24 giờ.
           </p>
 
           {submitted ? (
