@@ -49,6 +49,9 @@ export default function Experience() {
   // Sorted list based on toggle
   const displayList = sortOrder === "reverse" ? [...filteredList].reverse() : filteredList;
 
+  // Tracker list following display sort order (CV order: PowerTech -> Luklak -> FPT IS -> HomeNest -> TDTU)
+  const trackerList = sortOrder === "reverse" ? [...chronologicalList].reverse() : chronologicalList;
+
   // Icon selector per milestone
   const getMilestoneIcon = (id: string) => {
     switch (id) {
@@ -181,10 +184,16 @@ export default function Experience() {
           {/* Timeline Nodes Grid */}
           <div className="relative">
             {/* Background connecting line on desktop */}
-            <div className="absolute top-4 sm:top-5 left-8 right-8 h-1 bg-gradient-to-r from-amber-500 via-purple-500 via-blue-500 via-emerald-500 to-sky-500 rounded-full opacity-60 hidden md:block" />
+            <div
+              className={`absolute top-4 sm:top-5 left-8 right-8 h-1 bg-gradient-to-r ${
+                sortOrder === "reverse"
+                  ? "from-sky-500 via-emerald-500 via-blue-500 via-purple-500 to-amber-500"
+                  : "from-amber-500 via-purple-500 via-blue-500 via-emerald-500 to-sky-500"
+              } rounded-full opacity-60 hidden md:block`}
+            />
 
             <div className="grid grid-cols-5 gap-1 sm:gap-3 w-full">
-              {chronologicalList.map((milestone) => {
+              {trackerList.map((milestone) => {
                 const isActive = activeMilestoneId === milestone.id;
                 const accent = getMilestoneAccent(milestone.id);
 
