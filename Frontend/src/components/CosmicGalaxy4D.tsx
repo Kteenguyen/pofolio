@@ -26,6 +26,7 @@ import {
   ExternalLink,
   X,
   FileText,
+  Film,
 } from "lucide-react";
 import { portfolioData } from "@/data/portfolioData";
 import CVDownloadModal from "./CVDownloadModal";
@@ -267,6 +268,25 @@ export default function CosmicGalaxy4D() {
   const [voyagePercent, setVoyagePercent] = useState(100);
   const [coords, setCoords] = useState({ x: "0.00", y: "3.80", z: "12.50" });
   const [isCVModalOpen, setIsCVModalOpen] = useState(false);
+
+  // Chế độ Rạp Chiếu Phim Điện Ảnh Toàn Cảnh (Cinematic Theater Mode: Ẩn 100% thẻ chữ để ngắm vũ trụ 3D)
+  const [isTheaterMode, setIsTheaterMode] = useState(false);
+  const isTheaterModeRef = useRef(false);
+
+  useEffect(() => {
+    isTheaterModeRef.current = isTheaterMode;
+  }, [isTheaterMode]);
+
+  // Phím tắt bàn phím: ESC để thoát Theater Mode
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && isTheaterMode) {
+        setIsTheaterMode(false);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isTheaterMode]);
 
   // Âm thanh không gian Web Audio API (0 MB file tĩnh, sinh trực tiếp bằng thuật toán dao động)
   const [isAudioMuted, setIsAudioMuted] = useState(true);
@@ -695,8 +715,9 @@ export default function CosmicGalaxy4D() {
     let mouseY = 0;
     const handleMouseMove = (e: MouseEvent) => {
       if (window.innerWidth < 768) return;
-      mouseX = (e.clientX / window.innerWidth - 0.5) * 0.7;
-      mouseY = (e.clientY / window.innerHeight - 0.5) * 0.7;
+      const sensitivity = isTheaterModeRef.current ? 2.2 : 0.8;
+      mouseX = (e.clientX / window.innerWidth - 0.5) * sensitivity;
+      mouseY = (e.clientY / window.innerHeight - 0.5) * sensitivity;
     };
     window.addEventListener("mousemove", handleMouseMove);
 
@@ -759,7 +780,39 @@ export default function CosmicGalaxy4D() {
         currentCamPos.current.y += (desiredY - currentCamPos.current.y) * lerpSpeed;
         currentCamPos.current.z += (desiredZ - currentCamPos.current.z) * lerpSpeed;
 
-        currentLookAt.current.lerp(targetLookAt.current, lerpSpeed);
+        // TÍNH TOÁN ĐIỂM NHÌN PHÂN TẦNG ĐIỆN ẢNH (CINEMATIC ASYMMETRICAL STAGING LOOKAT)
+        // Khi bình thường:
+        // - Desktop (>= 1024px): Camera hướng sang trái -> Hành tinh hiển thị trọn vẹn ở 1/2 bên PHẢI (~67% viewport width)
+        // - Tablet (768-1023px): Đẩy nhẹ sang phải
+        // - Mobile (< 768px): Camera chúc nhẹ xuống -> Hành tinh hiển thị trọn vẹn ở 1/2 TRÊN (~33% viewport height)
+        // Khi bật Theater Mode (isTheaterMode = true):
+        // - Không áp dụng offset -> Hành tinh trượt êm ái về chính giữa trung tâm màn hình (50% X, 50% Y)
+        const camToTarget = new THREE.Vector3().subVectors(targetLookAt.current, currentCamPos.current);
+        const dist = camToTarget.length();
+        const forward = camToTarget.clone().normalize();
+        const worldUp = new THREE.Vector3(0, 1, 0);
+        const right = new THREE.Vector3().crossVectors(forward, worldUp).normalize();
+        const trueUp = new THREE.Vector3().crossVectors(right, forward).normalize();
+
+        const isMobileScreen = window.innerWidth < 768;
+        const isTabletScreen = window.innerWidth >= 768 && window.innerWidth < 1024;
+
+        const stagedLookAt = targetLookAt.current.clone();
+
+        if (!isTheaterModeRef.current) {
+          if (isMobileScreen) {
+            // Mobile: Đẩy hành tinh lên nửa trên (Camera hướng chúc xuống)
+            stagedLookAt.addScaledVector(trueUp, -dist * 0.20);
+          } else if (isTabletScreen) {
+            // Tablet: Đẩy nhẹ sang phải
+            stagedLookAt.addScaledVector(right, -dist * 0.20);
+          } else {
+            // Desktop: Đẩy hành tinh sang 1/2 bên phải (Camera hướng sang trái)
+            stagedLookAt.addScaledVector(right, -dist * 0.28);
+          }
+        }
+
+        currentLookAt.current.lerp(stagedLookAt, lerpSpeed);
 
         camera.position.copy(currentCamPos.current);
         camera.lookAt(currentLookAt.current);
@@ -873,22 +926,48 @@ export default function CosmicGalaxy4D() {
           </span>
         </div>
 
-        {/* Center: DUAL-MODE SWITCHER (Vũ Trụ 4D vs Hồ Sơ Tinh Anh 15s) */}
+        {/* Center: VIEW CONTROLS & THEATER MODE TOGGLE */}
         <div className="flex items-center gap-1 p-1 rounded-full bg-slate-900/90 border border-slate-700/80 backdrop-blur-xl shadow-lg pointer-events-auto">
           <button
-            onClick={() => setViewMode("UNIVERSE")}
-            className={`px-3 py-1 rounded-full text-xs font-mono font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
-              viewMode === "UNIVERSE"
+            onClick={() => {
+              setViewMode("UNIVERSE");
+              setIsTheaterMode(false);
+            }}
+            className={`px-2.5 sm:px-3 py-1 rounded-full text-xs font-mono font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
+              viewMode === "UNIVERSE" && !isTheaterMode
                 ? "bg-sky-500 text-slate-950 shadow-md shadow-sky-500/30"
                 : "text-slate-400 hover:text-white"
             }`}
           >
             <Sparkles size={12} />
-            <span>Vũ Trụ 4D</span>
+            <span className="hidden xs:inline">Vũ Trụ 4D</span>
+            <span className="xs:hidden">4D</span>
           </button>
+
+          {/* NÚT BẬT/TẮT CHẾ ĐỘ RẠP CHIẾU PHIM ĐIỆN ẢNH (THEATER MODE) */}
           <button
-            onClick={() => setViewMode("DOSSIER")}
-            className={`px-3 py-1 rounded-full text-xs font-mono font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
+            onClick={() => {
+              if (viewMode !== "UNIVERSE") setViewMode("UNIVERSE");
+              setIsTheaterMode(!isTheaterMode);
+            }}
+            className={`px-2.5 sm:px-3 py-1 rounded-full text-xs font-mono font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
+              isTheaterMode
+                ? "bg-purple-600 text-white shadow-md shadow-purple-500/40 ring-1 ring-purple-400"
+                : "text-slate-400 hover:text-purple-300"
+            }`}
+            title="Bật/Tắt Chế độ Rạp Chiếu Phim Vũ Trụ (Ẩn thẻ chữ để ngắm 100% không gian 3D)"
+          >
+            <Film size={12} className={isTheaterMode ? "animate-pulse" : ""} />
+            <span className="hidden sm:inline">{isTheaterMode ? "Thoát Rạp" : "🎬 Theater Mode"}</span>
+            <span className="sm:hidden">{isTheaterMode ? "Thoát" : "🎬 Rạp"}</span>
+          </button>
+
+          <button
+            onClick={() => {
+              setViewMode("DOSSIER");
+              setIsTheaterMode(false);
+            }}
+            className={`px-2.5 sm:px-3 py-1 rounded-full text-xs font-mono font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
               viewMode === "DOSSIER"
                 ? "bg-amber-400 text-slate-950 shadow-md shadow-amber-400/30"
                 : "text-slate-400 hover:text-amber-300"
@@ -896,7 +975,7 @@ export default function CosmicGalaxy4D() {
           >
             <Zap size={12} />
             <span className="hidden xs:inline">Hồ Sơ Tinh Anh</span>
-            <span>(15s)</span>
+            <span className="xs:hidden">15s</span>
           </button>
         </div>
 
@@ -950,368 +1029,385 @@ export default function CosmicGalaxy4D() {
         })}
       </aside>
 
-      {/* 4. VIRTUAL SCROLL TRACK (600VH ĐỂ LĂN CHUỘT DU HÀNH TINH HÀ) */}
+      {/* 4. VIRTUAL SCROLL TRACK & CINEMATIC DOCKED THEATER HUD */}
       <div className="relative z-10 min-h-[600vh] pointer-events-none">
-        <div className="fixed inset-0 z-20 flex items-center justify-center pointer-events-none p-4 sm:p-8 lg:p-12">
-          <div className="w-full max-w-4xl mx-auto flex flex-col justify-center items-center">
-
-            {/* [A] HUD DU HÀNH VŨ TRỤ (HIỂN THỊ TINH TẾ KHI ĐANG BAY, KHÔNG GIẤU NỘI DUNG) */}
+        {/* HUD STAGING CONTAINER:
+            - Desktop: Left Docked HUD (items-start, justify-center, max-w-[490px] - max-w-[520px])
+            - Mobile: Sleek Bottom Drawer (items-center, justify-end, max-h-[50vh])
+            - Theater Mode: opacity-0 scale-95 pointer-events-none (100% không bị che lấp)
+        */}
+        <div className="fixed inset-0 z-20 pointer-events-none flex flex-col justify-end lg:justify-center items-center lg:items-start p-3 sm:p-6 lg:p-10 xl:p-14 pb-20 sm:pb-6">
+          <div
+            className={`w-full max-w-[430px] sm:max-w-md lg:max-w-[490px] xl:max-w-[520px] transition-all duration-700 ease-out transform ${
+              isTheaterMode
+                ? "opacity-0 scale-95 pointer-events-none translate-y-6 lg:translate-x-[-24px]"
+                : "opacity-100 scale-100 pointer-events-auto translate-y-0 translate-x-0"
+            }`}
+          >
+            {/* [A] HUD DU HÀNH VŨ TRỤ TINH TẾ KHI ĐANG BAY */}
             {!isDocked && (
-              <div className="pointer-events-auto mb-3 flex items-center justify-between gap-3 px-4 py-2 rounded-2xl bg-slate-950/85 backdrop-blur-xl border border-sky-500/40 shadow-lg text-xs font-mono max-w-xl mx-auto w-full animate-fade-in">
+              <div className="mb-2.5 flex items-center justify-between gap-3 px-3.5 py-1.5 rounded-2xl bg-slate-950/85 backdrop-blur-xl border border-sky-500/40 shadow-lg text-xs font-mono w-full animate-fade-in pointer-events-auto">
                 <div className="flex items-center gap-2 text-sky-400 font-bold">
                   <Rocket size={13} className="animate-bounce" />
-                  <span>WARP: Đang bay đến {approachingStation.planetName.split(" (")[0]}</span>
+                  <span className="truncate">Warp: {approachingStation.planetName.split(" (")[0]}</span>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 shrink-0">
                   <span className="text-[11px] text-slate-400 font-bold">{voyagePercent}%</span>
                   <button
                     onClick={() => flyToStation(Number(approachingStation.index) - 1)}
-                    className="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-sky-500 hover:bg-sky-400 text-slate-950 transition-colors shadow-sm cursor-pointer"
+                    className="px-2 py-0.5 rounded-lg text-[10px] font-bold bg-sky-500 hover:bg-sky-400 text-slate-950 transition-colors shadow-sm cursor-pointer"
                   >
-                    Cập Bến Ngay →
+                    Đến Ngay →
                   </button>
                 </div>
               </div>
             )}
 
-            {/* [B] BẢNG NỘI DUNG CHI TIẾT (LUÔN HIỂN THỊ RÕ RÀNG KHÔNG BỊ TRỪNG PHẠT CUỘN CHUỘT) */}
-            <div className="w-full max-w-4xl transition-all duration-500 ease-out transform scale-100 opacity-100">
-
-                {/* TRẠM 1: SAO THÁI DƯƠNG - KTEE IDENTITY */}
-                {activeStationIndex === 0 && (
-                  <div className="pointer-events-auto card-glass bg-slate-900/90 backdrop-blur-2xl p-6 sm:p-8 rounded-3xl border border-sky-500/40 shadow-2xl space-y-4 max-w-2xl mx-auto animate-fade-in">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sky-500/10 text-sky-400 border border-sky-500/30 text-xs font-mono font-bold">
-                        <Radio size={12} className="animate-pulse" />
-                        TÂM ĐIỂM VŨ TRỤ • STELLAR NEXUS
-                      </span>
-                      <span className="text-xs font-mono text-slate-400">
-                        • {portfolioData.personal.degreeLabel}
-                      </span>
-                    </div>
-
-                    <h1 className="text-2xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white leading-tight">
-                      {portfolioData.personal.name}
-                      <span className="block text-base sm:text-lg font-semibold text-sky-400 mt-1">
-                        {portfolioData.personal.title}
-                      </span>
-                    </h1>
-
-                    <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                      {portfolioData.personal.bio}
-                    </p>
-
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-2 border-t border-slate-800">
-                      {portfolioData.stats.map((s) => (
-                        <div key={s.label} className="p-2 rounded-xl bg-slate-800/60 border border-slate-700/50">
-                          <div className="text-base sm:text-lg font-black text-sky-400 font-mono">{s.value}</div>
-                          <div className="text-[10px] text-slate-400 truncate">{s.label}</div>
-                        </div>
-                      ))}
-                    </div>
-
-                    <div className="flex flex-wrap items-center gap-2.5 pt-2">
-                      <button
-                        onClick={() => flyToStation(1)}
-                        className="touch-target px-4 py-2.5 rounded-xl text-xs font-semibold bg-sky-500 text-slate-950 font-mono flex items-center gap-1.5 shadow-md shadow-sky-500/20 hover:bg-sky-400 transition-colors"
-                      >
-                        <span>Lăn Chuột Đến Sao Kim (Học Thuật)</span>
-                        <ChevronDown size={14} />
-                      </button>
-                      <button
-                        onClick={() => setIsCVModalOpen(true)}
-                        className="touch-target px-4 py-2.5 rounded-xl text-xs font-semibold border border-slate-700 bg-slate-800/90 text-white hover:border-sky-500 flex items-center gap-1.5 transition-colors"
-                      >
-                        <FileDown size={14} className="text-sky-400" />
-                        <span>Tải CV (5 Ngành)</span>
-                      </button>
-                    </div>
+            {/* [B] BẢNG NỘI DUNG CHI TIẾT (TINH GỌN, LỆCH TRÁI, ĐỂ LỘ 100% THIÊN THỂ BÊN PHẢI) */}
+            <div className="w-full">
+              {/* TRẠM 1: SAO THÁI DƯƠNG - KTEE IDENTITY */}
+              {activeStationIndex === 0 && (
+                <div className="pointer-events-auto card-glass bg-slate-950/80 backdrop-blur-2xl p-5 sm:p-7 rounded-3xl border border-sky-500/40 shadow-2xl space-y-3.5 max-h-[50vh] lg:max-h-[82vh] overflow-y-auto animate-fade-in">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sky-500/10 text-sky-400 border border-sky-500/30 text-xs font-mono font-bold">
+                      <Radio size={12} className="animate-pulse" />
+                      TÂM ĐIỂM VŨ TRỤ • STELLAR NEXUS
+                    </span>
+                    <span className="text-xs font-mono text-slate-400">
+                      • {portfolioData.personal.degreeLabel}
+                    </span>
                   </div>
-                )}
 
-                {/* TRẠM 2: SAO KIM - HỌC THUẬT TDTU 5 NĂM */}
-                {activeStationIndex === 1 && (
-                  <div className="pointer-events-auto card-glass bg-slate-900/90 backdrop-blur-2xl p-6 sm:p-8 rounded-3xl border border-amber-500/40 shadow-2xl space-y-4 max-w-2xl mx-auto animate-fade-in">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2 text-xs font-mono font-bold text-amber-400 uppercase">
-                        <GraduationCap size={16} />
-                        <span>Trạm 02 • Sao Kim (Venus) • {portfolioData.education[0].institution}</span>
+                  <h1 className="text-xl sm:text-2xl lg:text-3xl font-black tracking-tight text-white leading-tight">
+                    {portfolioData.personal.name}
+                    <span className="block text-sm sm:text-base font-semibold text-sky-400 mt-1">
+                      {portfolioData.personal.title}
+                    </span>
+                  </h1>
+
+                  <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                    {portfolioData.personal.bio}
+                  </p>
+
+                  <div className="grid grid-cols-2 gap-2 pt-2 border-t border-slate-800/80">
+                    {portfolioData.stats.map((s) => (
+                      <div key={s.label} className="p-2 rounded-xl bg-slate-800/60 border border-slate-700/50">
+                        <div className="text-base sm:text-lg font-black text-sky-400 font-mono">{s.value}</div>
+                        <div className="text-[10px] text-slate-400 truncate">{s.label}</div>
                       </div>
-                      <span className="text-xs font-mono text-slate-400">{portfolioData.education[0].period}</span>
-                    </div>
-
-                    <h2 className="text-lg sm:text-2xl font-bold text-white">
-                      {portfolioData.education[0].degree} ({portfolioData.education[0].duration})
-                    </h2>
-                    <p className="text-xs sm:text-sm text-slate-300">
-                      Nền tảng hơn 150+ tín chỉ: Cấu trúc dữ liệu & Giải thuật, Hệ thống phân tán, An toàn thông tin và Kiểm thử phần mềm.
-                    </p>
-
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-2">
-                      {portfolioData.education[0].coursework.map((c) => (
-                        <div key={c.name} className="p-2.5 rounded-xl bg-slate-800/70 border border-slate-700/60 text-center">
-                          <div className="text-sm font-black text-amber-400 font-mono">{c.score}</div>
-                          <div className="text-[11px] text-slate-300 font-semibold truncate mt-0.5">{c.name.split(" (")[0]}</div>
-                        </div>
-                      ))}
-                    </div>
-
-                    <div className="flex items-center justify-between pt-2 border-t border-slate-800">
-                      <Link
-                        href="/education"
-                        className="text-xs font-semibold text-amber-400 flex items-center gap-1 hover:underline"
-                      >
-                        <span>Xem bảng điểm chi tiết & chương trình đào tạo</span>
-                        <ArrowRight size={13} />
-                      </Link>
-                      <button
-                        onClick={() => flyToStation(2)}
-                        className="text-xs font-mono text-slate-400 hover:text-white flex items-center gap-1"
-                      >
-                        <span>Đến Sao Hỏa →</span>
-                      </button>
-                    </div>
+                    ))}
                   </div>
-                )}
 
-                {/* TRẠM 3: SAO HỎA - FPT IS & LUKLAK */}
-                {activeStationIndex === 2 && (
-                  <div className="pointer-events-auto card-glass bg-slate-900/90 backdrop-blur-2xl p-6 sm:p-8 rounded-3xl border border-rose-500/40 shadow-2xl space-y-4 max-w-2xl mx-auto animate-fade-in">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2 text-xs font-mono font-bold text-rose-400 uppercase">
-                        <Briefcase size={16} />
-                        <span>Trạm 03 • Sao Hỏa (Mars) • Thực Chiến FPT IS & Luklak</span>
-                      </div>
-                      <span className="text-xs font-mono text-emerald-400">Trọng Điểm</span>
-                    </div>
-
-                    <div className="space-y-3">
-                      {portfolioData.experience.slice(0, 2).map((exp) => (
-                        <div key={exp.id} className="p-3.5 rounded-2xl bg-slate-800/60 border border-slate-700/60 space-y-1">
-                          <div className="flex items-center justify-between text-xs font-bold text-white">
-                            <span>{exp.company} ({exp.period})</span>
-                            <span className="font-mono text-emerald-400">{exp.role}</span>
-                          </div>
-                          <p className="text-xs text-slate-300">
-                            {exp.description}
-                          </p>
-                        </div>
-                      ))}
-                    </div>
-
-                    <div className="flex items-center justify-between pt-2 border-t border-slate-800">
-                      <Link
-                        href="/experience"
-                        className="text-xs font-semibold text-rose-400 flex items-center gap-1 hover:underline"
-                      >
-                        <span>Xem chi tiết vai trò & số liệu thực tế tại FPT IS / Luklak</span>
-                        <ArrowRight size={13} />
-                      </Link>
-                      <button
-                        onClick={() => flyToStation(3)}
-                        className="text-xs font-mono text-slate-400 hover:text-white flex items-center gap-1"
-                      >
-                        <span>Đến Sao Mộc →</span>
-                      </button>
-                    </div>
+                  <div className="flex flex-wrap items-center gap-2 pt-2">
+                    <button
+                      onClick={() => flyToStation(1)}
+                      className="touch-target px-3.5 py-2 rounded-xl text-xs font-semibold bg-sky-500 text-slate-950 font-mono flex items-center gap-1.5 shadow-md shadow-sky-500/20 hover:bg-sky-400 transition-colors cursor-pointer"
+                    >
+                      <span>Đến Sao Kim (Học Thuật)</span>
+                      <ChevronDown size={14} />
+                    </button>
+                    <button
+                      onClick={() => setIsCVModalOpen(true)}
+                      className="touch-target px-3.5 py-2 rounded-xl text-xs font-semibold border border-slate-700 bg-slate-800/90 text-white hover:border-sky-500 flex items-center gap-1.5 transition-colors cursor-pointer"
+                    >
+                      <FileDown size={14} className="text-sky-400" />
+                      <span>Tải Hồ Sơ Kỹ Sư (PDF)</span>
+                    </button>
                   </div>
-                )}
+                </div>
+              )}
 
-                {/* TRẠM 4: SAO MỘC - KHO 6 DỰ ÁN CÓ LOGO CÔNG NGHỆ */}
-                {activeStationIndex === 3 && (
-                  <div className="pointer-events-auto card-glass bg-slate-900/90 backdrop-blur-2xl p-6 sm:p-8 rounded-3xl border border-orange-500/40 shadow-2xl space-y-4 max-w-3xl mx-auto animate-fade-in">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2 text-xs font-mono font-bold text-orange-400 uppercase">
-                        <Layers size={16} />
-                        <span>Trạm 04 • Sao Mộc (Jupiter) • Kho 6 Dự Án Kỹ Thuật</span>
-                      </div>
-                      <Link
-                        href="/projects"
-                        className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-orange-600 text-white hover:bg-orange-500 transition-colors"
-                      >
-                        Xem Cả 6 Dự Án →
-                      </Link>
+              {/* TRẠM 2: SAO KIM - HỌC THUẬT TDTU 5 NĂM */}
+              {activeStationIndex === 1 && (
+                <div className="pointer-events-auto card-glass bg-slate-950/80 backdrop-blur-2xl p-5 sm:p-7 rounded-3xl border border-amber-500/40 shadow-2xl space-y-3.5 max-h-[50vh] lg:max-h-[82vh] overflow-y-auto animate-fade-in">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2 text-xs font-mono font-bold text-amber-400 uppercase">
+                      <GraduationCap size={16} />
+                      <span>Trạm 02 • Sao Kim • TDTU</span>
                     </div>
+                    <span className="text-xs font-mono text-slate-400">{portfolioData.education[0].period}</span>
+                  </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                      {portfolioData.projects.slice(0, 3).map((p) => (
-                        <div
-                          key={p.id}
-                          className="p-3.5 rounded-2xl bg-slate-800/60 border border-slate-700/60 flex flex-col justify-between"
-                        >
-                          <div>
+                  <h2 className="text-lg sm:text-xl font-bold text-white">
+                    {portfolioData.education[0].degree} ({portfolioData.education[0].duration})
+                  </h2>
+                  <p className="text-xs sm:text-sm text-slate-300">
+                    Nền tảng hơn 150+ tín chỉ: Cấu trúc dữ liệu & Giải thuật, Hệ thống phân tán, An toàn thông tin và Kiểm thử phần mềm.
+                  </p>
+
+                  <div className="grid grid-cols-2 gap-2 pt-1">
+                    {portfolioData.education[0].coursework.map((c) => (
+                      <div key={c.name} className="p-2 rounded-xl bg-slate-800/70 border border-slate-700/60 text-center">
+                        <div className="text-sm font-black text-amber-400 font-mono">{c.score}</div>
+                        <div className="text-[11px] text-slate-300 font-semibold truncate mt-0.5">{c.name.split(" (")[0]}</div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="flex items-center justify-between pt-2 border-t border-slate-800/80">
+                    <Link
+                      href="/education"
+                      className="text-xs font-semibold text-amber-400 flex items-center gap-1 hover:underline"
+                    >
+                      <span>Bảng điểm chi tiết</span>
+                      <ArrowRight size={13} />
+                    </Link>
+                    <button
+                      onClick={() => flyToStation(2)}
+                      className="text-xs font-mono text-slate-400 hover:text-white flex items-center gap-1 cursor-pointer"
+                    >
+                      <span>Đến Sao Hỏa →</span>
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* TRẠM 3: SAO HỎA - FPT IS & LUKLAK */}
+              {activeStationIndex === 2 && (
+                <div className="pointer-events-auto card-glass bg-slate-950/80 backdrop-blur-2xl p-5 sm:p-7 rounded-3xl border border-rose-500/40 shadow-2xl space-y-3.5 max-h-[50vh] lg:max-h-[82vh] overflow-y-auto animate-fade-in">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2 text-xs font-mono font-bold text-rose-400 uppercase">
+                      <Briefcase size={16} />
+                      <span>Trạm 03 • Sao Hỏa • Thực Chiến</span>
+                    </div>
+                    <span className="text-xs font-mono text-emerald-400">Trọng Điểm</span>
+                  </div>
+
+                  <div className="space-y-2.5">
+                    {portfolioData.experience.slice(0, 2).map((exp) => (
+                      <div key={exp.id} className="p-3 rounded-2xl bg-slate-800/60 border border-slate-700/60 space-y-1">
+                        <div className="flex items-center justify-between text-xs font-bold text-white">
+                          <span>{exp.company} ({exp.period})</span>
+                          <span className="font-mono text-emerald-400">{exp.role}</span>
+                        </div>
+                        <p className="text-xs text-slate-300">
+                          {exp.description}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="flex items-center justify-between pt-2 border-t border-slate-800/80">
+                    <Link
+                      href="/experience"
+                      className="text-xs font-semibold text-rose-400 flex items-center gap-1 hover:underline"
+                    >
+                      <span>Xem chi tiết vai trò FPT IS & Luklak</span>
+                      <ArrowRight size={13} />
+                    </Link>
+                    <button
+                      onClick={() => flyToStation(3)}
+                      className="text-xs font-mono text-slate-400 hover:text-white flex items-center gap-1 cursor-pointer"
+                    >
+                      <span>Đến Sao Mộc →</span>
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* TRẠM 4: SAO MỘC - KHO 6 DỰ ÁN KỸ THUẬT */}
+              {activeStationIndex === 3 && (
+                <div className="pointer-events-auto card-glass bg-slate-950/80 backdrop-blur-2xl p-5 sm:p-7 rounded-3xl border border-orange-500/40 shadow-2xl space-y-3.5 max-h-[50vh] lg:max-h-[82vh] overflow-y-auto animate-fade-in">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2 text-xs font-mono font-bold text-orange-400 uppercase">
+                      <Layers size={16} />
+                      <span>Trạm 04 • Sao Mộc • Dự Án Tiêu Biểu</span>
+                    </div>
+                    <Link
+                      href="/projects"
+                      className="text-xs font-semibold px-2.5 py-1 rounded-lg bg-orange-600 text-white hover:bg-orange-500 transition-colors"
+                    >
+                      Xem Cả 6 Dự Án →
+                    </Link>
+                  </div>
+
+                  <div className="space-y-2.5">
+                    {portfolioData.projects.slice(0, 2).map((p) => (
+                      <div
+                        key={p.id}
+                        className="p-3 rounded-2xl bg-slate-800/60 border border-slate-700/60 flex flex-col justify-between"
+                      >
+                        <div>
+                          <div className="flex items-center justify-between">
                             <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-orange-500/10 text-orange-400 border border-orange-500/20 font-bold">
                               {p.category}
                             </span>
-                            <h3 className="text-xs font-bold text-white mt-2 leading-snug line-clamp-1">
-                              {p.title}
-                            </h3>
-                            <p className="text-[11px] text-slate-300 line-clamp-2 mt-1">
-                              {p.description}
-                            </p>
-
-                            {/* Tags Công Nghệ Kèm Logo Rõ Ràng */}
-                            <div className="flex flex-wrap gap-1.5 mt-2.5">
-                              {p.techStack.slice(0, 3).map((t) => (
-                                <span
-                                  key={t}
-                                  className="inline-flex items-center gap-1 text-[10px] font-mono px-2 py-0.5 rounded-md bg-slate-900/80 text-slate-300 border border-slate-700/70"
-                                >
-                                  <TechLogo name={t} size={12} />
-                                  <span>{t}</span>
-                                </span>
-                              ))}
-                            </div>
-                          </div>
-
-                          <div className="mt-3 pt-2 border-t border-slate-700/50 flex items-center justify-between text-[11px]">
-                            <span className="font-mono text-emerald-400 font-bold">
+                            <span className="font-mono text-emerald-400 font-bold text-[11px]">
                               {p.metrics[0]?.value} {p.metrics[0]?.label}
                             </span>
-                            <Link href="/projects" className="text-orange-400 font-semibold text-[10px] hover:underline">
-                              Chi tiết →
-                            </Link>
+                          </div>
+                          <h3 className="text-xs font-bold text-white mt-1.5 leading-snug line-clamp-1">
+                            {p.title}
+                          </h3>
+                          <p className="text-[11px] text-slate-300 line-clamp-2 mt-1">
+                            {p.description}
+                          </p>
+
+                          {/* Tags Công Nghệ Kèm Logo */}
+                          <div className="flex flex-wrap gap-1.5 mt-2">
+                            {p.techStack.slice(0, 3).map((t) => (
+                              <span
+                                key={t}
+                                className="inline-flex items-center gap-1 text-[10px] font-mono px-2 py-0.5 rounded-md bg-slate-900/80 text-slate-300 border border-slate-700/70"
+                              >
+                                <TechLogo name={t} size={11} />
+                                <span>{t}</span>
+                              </span>
+                            ))}
                           </div>
                         </div>
-                      ))}
-                    </div>
-
-                    <div className="flex justify-end pt-2 border-t border-slate-800">
-                      <button
-                        onClick={() => flyToStation(4)}
-                        className="text-xs font-mono text-slate-400 hover:text-white flex items-center gap-1"
-                      >
-                        <span>Đến Sao Thổ & Vành Đai →</span>
-                      </button>
-                    </div>
-                  </div>
-                )}
-
-                {/* TRẠM 5: SAO THỔ VÀ VÀNH ĐAI - KỸ NĂNG VỚI LOGO CÔNG NGHỆ VECTOR CHÍNH HÃNG */}
-                {activeStationIndex === 4 && (
-                  <div className="pointer-events-auto card-glass bg-slate-900/90 backdrop-blur-2xl p-6 sm:p-8 rounded-3xl border border-emerald-500/40 shadow-2xl space-y-4 max-w-2xl mx-auto animate-fade-in">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2 text-xs font-mono font-bold text-emerald-400 uppercase">
-                        <Code2 size={16} />
-                        <span>Trạm 05 • Sao Thổ (Saturn) • Kỹ Năng & Logo Công Nghệ</span>
                       </div>
-                      <Link href="/skills" className="text-xs text-emerald-400 font-semibold hover:underline">
-                        Xem tất cả kỹ năng →
-                      </Link>
-                    </div>
-
-                    {/* Dải Tags Kỹ Năng Có Logo Chuẩn Sắc Nét */}
-                    <div className="flex flex-wrap gap-2">
-                      {[
-                        "ReactJS", "Next.js 15", "TypeScript", "Tailwind CSS", "Framer Motion", "Three.js",
-                        "Node.js", "Express", "ASP.NET Core", "Supabase", "Redis Caching", "MongoDB", "MS SQL Server",
-                        "Phân Tích Nghiệp Vụ BA", "UAT Testing (Jira)", "WordPress CMS", "VPS Linux & SSL", "AI Agents"
-                      ].map((s) => (
-                        <span
-                          key={s}
-                          className={`inline-flex items-center gap-1.5 text-xs font-mono px-3 py-1.5 rounded-xl border transition-transform hover:scale-105 ${
-                            s.includes("WordPress")
-                              ? "bg-amber-500/20 text-amber-300 border-amber-500/40 font-bold"
-                              : "bg-slate-800/80 text-slate-200 border-slate-700/80"
-                          }`}
-                        >
-                          <TechLogo name={s} size={15} />
-                          <span>{s}</span>
-                        </span>
-                      ))}
-                    </div>
-
-                    <div className="p-3.5 rounded-2xl bg-slate-800/60 border border-slate-700/60 space-y-1">
-                      <div className="text-xs font-bold text-amber-400 flex items-center gap-1.5 font-mono">
-                        <Sparkles size={14} />
-                        <span>Kinh Nghiệm WordPress & Headless Migration</span>
-                      </div>
-                      <p className="text-xs text-slate-300 leading-relaxed">
-                        Tùy biến theme WordPress, tối ưu hóa On-page SEO, cấu hình RankMath/Schema. Tái cấu trúc thành công website năng lượng cũ từ WordPress bị giật khung hình (CLS 0.38) sang Next.js 15 App Router đạt điểm Core Web Vitals tối đa.
-                      </p>
-                    </div>
-
-                    <div className="flex justify-end pt-2 border-t border-slate-800">
-                      <button
-                        onClick={() => flyToStation(5)}
-                        className="text-xs font-mono text-emerald-400 hover:underline flex items-center gap-1 font-bold"
-                      >
-                        <span>Đến Cổng Tuyển Dụng & CTA →</span>
-                      </button>
-                    </div>
+                    ))}
                   </div>
-                )}
 
-                {/* TRẠM 6: CỔNG WARP SAO THỦY - HUB CTA CHUYỂN ĐỔI CAO */}
-                {activeStationIndex === 5 && (
-                  <div className="pointer-events-auto card-glass bg-slate-900/95 backdrop-blur-2xl p-6 sm:p-10 rounded-3xl border border-purple-500/50 shadow-[0_0_60px_rgba(168,85,247,0.25)] space-y-5 max-w-2xl mx-auto animate-fade-in text-center sm:text-left">
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/30 text-xs font-mono font-bold mx-auto sm:mx-0">
+                  <div className="flex justify-end pt-2 border-t border-slate-800/80">
+                    <button
+                      onClick={() => flyToStation(4)}
+                      className="text-xs font-mono text-slate-400 hover:text-white flex items-center gap-1 cursor-pointer"
+                    >
+                      <span>Đến Sao Thổ & Vành Đai →</span>
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* TRẠM 5: SAO THỔ VÀ VÀNH ĐAI - KỸ NĂNG VỚI LOGO CÔNG NGHỆ */}
+              {activeStationIndex === 4 && (
+                <div className="pointer-events-auto card-glass bg-slate-950/80 backdrop-blur-2xl p-5 sm:p-7 rounded-3xl border border-emerald-500/40 shadow-2xl space-y-3.5 max-h-[50vh] lg:max-h-[82vh] overflow-y-auto animate-fade-in">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2 text-xs font-mono font-bold text-emerald-400 uppercase">
+                      <Code2 size={16} />
+                      <span>Trạm 05 • Sao Thổ • Kỹ Năng & Stack</span>
+                    </div>
+                    <Link href="/skills" className="text-xs text-emerald-400 font-semibold hover:underline">
+                      Tất cả kỹ năng →
+                    </Link>
+                  </div>
+
+                  {/* Dải Tags Kỹ Năng Có Logo Chuẩn Sắc Nét */}
+                  <div className="flex flex-wrap gap-1.5">
+                    {[
+                      "ReactJS", "Next.js 15", "TypeScript", "Tailwind CSS", "Framer Motion", "Three.js",
+                      "Node.js", "Express", "ASP.NET Core", "Supabase", "Redis Caching", "MongoDB",
+                      "Phân Tích BA", "WordPress CMS", "VPS Linux & SSL"
+                    ].map((s) => (
+                      <span
+                        key={s}
+                        className={`inline-flex items-center gap-1 text-[11px] font-mono px-2.5 py-1 rounded-lg border transition-transform hover:scale-105 ${
+                          s.includes("WordPress")
+                            ? "bg-amber-500/20 text-amber-300 border-amber-500/40 font-bold"
+                            : "bg-slate-800/80 text-slate-200 border-slate-700/80"
+                        }`}
+                      >
+                        <TechLogo name={s} size={13} />
+                        <span>{s}</span>
+                      </span>
+                    ))}
+                  </div>
+
+                  <div className="p-3 rounded-2xl bg-slate-800/60 border border-slate-700/60 space-y-1">
+                    <div className="text-xs font-bold text-amber-400 flex items-center gap-1.5 font-mono">
                       <Sparkles size={14} />
-                      <span>TRẠM ĐÍCH • SẴN SÀNG NHẬN DỰ ÁN & VỊ TRÍ SENIOR</span>
+                      <span>WordPress & Headless Migration</span>
                     </div>
-
-                    <h2 className="text-2xl sm:text-4xl font-black text-white tracking-tight leading-tight">
-                      Khởi Động Hợp Tác & Tuyển Dụng Cùng Kỹ Sư Ktee
-                    </h2>
-
-                    <p className="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-xl">
-                      Sẵn sàng trao đổi về các vị trí Software Engineer (Full-Stack, Front-End, Back-End), dự án chuyển đổi số hoặc vai trò Business Analyst. Hãy chọn kênh kết nối thuận tiện nhất:
+                    <p className="text-xs text-slate-300 leading-relaxed">
+                      Theme customization, On-page SEO, Schema. Tái cấu trúc website từ WordPress giật lag (CLS 0.38) sang Next.js 15 App Router đạt điểm Core Web Vitals tối đa.
                     </p>
-
-                    {/* 4 Nút CTA Chuyển Đổi Cao (Touch Target >= 50px) */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-                      <button
-                        onClick={() => setIsCVModalOpen(true)}
-                        className="touch-target min-h-[50px] px-4 py-3 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-lg shadow-blue-500/30 transition-all cursor-pointer active:scale-95"
-                      >
-                        <FileDown size={18} />
-                        <span>Tải CV (5 Bản Chuyên Ngành)</span>
-                      </button>
-
-                      <a
-                        href={portfolioData.personal.telegram || "https://t.me/kteenguyen"}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="touch-target min-h-[50px] px-4 py-3 rounded-2xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-lg shadow-sky-500/30 transition-all cursor-pointer active:scale-95"
-                      >
-                        <Send size={18} />
-                        <span>Nhắn Tin Telegram Trực Tiếp</span>
-                      </a>
-
-                      <a
-                        href={`tel:${portfolioData.personal.phone}`}
-                        className="touch-target min-h-[50px] px-4 py-3 rounded-2xl border border-slate-700 bg-slate-800/80 hover:bg-slate-700 text-white font-semibold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all cursor-pointer active:scale-95"
-                      >
-                        <Phone size={17} className="text-emerald-400" />
-                        <span>Gọi Ngay: {portfolioData.personal.phone}</span>
-                      </a>
-
-                      <Link
-                        href="/contact"
-                        className="touch-target min-h-[50px] px-4 py-3 rounded-2xl border border-slate-700 bg-slate-800/80 hover:bg-slate-700 text-white font-semibold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all cursor-pointer active:scale-95"
-                      >
-                        <Mail size={17} className="text-sky-400" />
-                        <span>Gửi Lời Mời Phỏng Vấn</span>
-                      </Link>
-                    </div>
-
-                    <div className="pt-2 border-t border-slate-800 flex items-center justify-between text-[11px] text-slate-400 font-mono">
-                      <span>Email: {portfolioData.personal.email}</span>
-                      <button
-                        onClick={() => flyToStation(0)}
-                        className="text-sky-400 hover:underline"
-                      >
-                        ↑ Về Trạm Thái Dương
-                      </button>
-                    </div>
                   </div>
-                )}
 
-              </div>
+                  <div className="flex justify-end pt-2 border-t border-slate-800/80">
+                    <button
+                      onClick={() => flyToStation(5)}
+                      className="text-xs font-mono text-emerald-400 hover:underline flex items-center gap-1 font-bold cursor-pointer"
+                    >
+                      <span>Đến Cổng Tuyển Dụng & CTA →</span>
+                    </button>
+                  </div>
+                </div>
+              )}
 
+              {/* TRẠM 6: CỔNG WARP SAO THỦY - HUB CTA CHUYỂN ĐỔI CAO */}
+              {activeStationIndex === 5 && (
+                <div className="pointer-events-auto card-glass bg-slate-950/85 backdrop-blur-2xl p-5 sm:p-7 rounded-3xl border border-purple-500/50 shadow-[0_0_60px_rgba(168,85,247,0.25)] space-y-4 max-h-[50vh] lg:max-h-[82vh] overflow-y-auto animate-fade-in text-center sm:text-left">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/30 text-xs font-mono font-bold mx-auto sm:mx-0">
+                    <Sparkles size={14} />
+                    <span>TRẠM ĐÍCH • SẴN SÀNG NHẬN DỰ ÁN & VỊ TRÍ SENIOR</span>
+                  </div>
+
+                  <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight leading-tight">
+                    Khởi Động Hợp Tác & Tuyển Dụng Cùng Ktee
+                  </h2>
+
+                  <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                    Sẵn sàng trao đổi về các vị trí Software Engineer (Full-Stack, Front-End), dự án chuyển đổi số hoặc vai trò BA.
+                  </p>
+
+                  {/* 4 Nút CTA Chuyển Đổi Cao */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+                    <button
+                      onClick={() => setIsCVModalOpen(true)}
+                      className="touch-target min-h-[44px] px-3.5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-blue-500/30 transition-all cursor-pointer active:scale-95"
+                    >
+                      <FileDown size={16} />
+                      <span>Tải Hồ Sơ Kỹ Sư (PDF)</span>
+                    </button>
+
+                    <a
+                      href={portfolioData.personal.telegram || "https://t.me/kteenguyen"}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="touch-target min-h-[44px] px-3.5 py-2.5 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-sky-500/30 transition-all cursor-pointer active:scale-95"
+                    >
+                      <Send size={16} />
+                      <span>Nhắn Tin Telegram</span>
+                    </a>
+
+                    <a
+                      href={`tel:${portfolioData.personal.phone}`}
+                      className="touch-target min-h-[44px] px-3.5 py-2.5 rounded-xl border border-slate-700 bg-slate-800/80 hover:bg-slate-700 text-white font-semibold text-xs flex items-center justify-center gap-2 transition-all cursor-pointer active:scale-95"
+                    >
+                      <Phone size={15} className="text-emerald-400" />
+                      <span>Gọi Ngay: {portfolioData.personal.phone}</span>
+                    </a>
+
+                    <Link
+                      href="/contact"
+                      className="touch-target min-h-[44px] px-3.5 py-2.5 rounded-xl border border-slate-700 bg-slate-800/80 hover:bg-slate-700 text-white font-semibold text-xs flex items-center justify-center gap-2 transition-all cursor-pointer active:scale-95"
+                    >
+                      <Mail size={15} className="text-sky-400" />
+                      <span>Gửi Lời Mời Phỏng Vấn</span>
+                    </Link>
+                  </div>
+
+                  <div className="pt-2 border-t border-slate-800 flex items-center justify-between text-[11px] text-slate-400 font-mono">
+                    <span>Email: {portfolioData.personal.email}</span>
+                    <button
+                      onClick={() => flyToStation(0)}
+                      className="text-sky-400 hover:underline cursor-pointer"
+                    >
+                      ↑ Về Trạm Thái Dương
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
+
+      {/* 5. FLOATING HUD KHI BẬT THEATER MODE (TOÀN CẢNH VŨ TRỤ 4D) */}
+      {isTheaterMode && (
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-30 pointer-events-auto flex items-center gap-2 px-4 py-2 rounded-full bg-slate-950/85 backdrop-blur-2xl border border-purple-500/50 shadow-[0_0_30px_rgba(168,85,247,0.35)] animate-fade-in text-xs font-mono">
+          <Film size={14} className="text-purple-400 animate-pulse" />
+          <span className="text-slate-200">Rạp Chiếu 3D Toàn Cảnh Vũ Trụ</span>
+          <button
+            onClick={() => setIsTheaterMode(false)}
+            className="ml-2 px-2.5 py-1 rounded-full bg-purple-500 hover:bg-purple-400 text-slate-950 font-bold text-[11px] transition-colors cursor-pointer"
+          >
+            Hiện Lại Thẻ Chữ (ESC)
+          </button>
+        </div>
+      )}
 
       {/* 5. EXECUTIVE FAST DOSSIER (15S FLOW CHO RECRUITER & CTO) */}
       {viewMode === "DOSSIER" && (
