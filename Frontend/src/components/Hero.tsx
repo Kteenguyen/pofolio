@@ -168,53 +168,74 @@ export default function Hero() {
                 </div>
               </div>
 
-              {/* Portrait Image Frame - Responsive aspect ratio for mobile compactness */}
+              {/* Portrait Image Frame - Hiển thị 100% trọn vẹn ảnh chân dung gốc, không cắt xén */}
               <div className="relative rounded-2xl overflow-hidden border-2 border-white dark:border-slate-800 shadow-md bg-slate-100 dark:bg-slate-900 group-hover:shadow-blue-500/10 transition-shadow">
                 <img
                   src="/avatar.jpg"
                   alt="Kỹ sư Nguyễn Khoa Tài (Ktee)"
-                  className="w-full aspect-[4/3] sm:aspect-[4/3.8] lg:aspect-[4/4.2] max-h-[260px] sm:max-h-[340px] lg:max-h-none object-cover object-top group-hover:scale-[1.03] transition-transform duration-500"
+                  className="w-full h-auto aspect-[1707/2560] object-cover block group-hover:scale-[1.02] transition-transform duration-500"
                 />
-                
-                {/* Floating Role Badge over Image bottom */}
-                <div className="absolute bottom-2 left-2 right-2 p-2 sm:p-2.5 rounded-xl bg-slate-950/85 backdrop-blur-md border border-white/10 text-white flex items-center justify-between">
-                  <div className="min-w-0">
-                    <p className="text-xs font-bold truncate">Nguyễn Khoa Tài (Ktee)</p>
-                    <p className="text-[10px] text-slate-300 truncate">Software Engineer • BA Lead</p>
-                  </div>
-                  <span className="shrink-0 text-[10px] font-mono font-semibold px-2 py-0.5 rounded-md bg-blue-600 text-white">
-                    5 Năm TDTU
-                  </span>
-                </div>
               </div>
 
-              {/* Quick Info & Action Bar */}
+              {/* Thông tin & CTA Action theo đúng chỉ đạo:
+                  1. Ở dưới: Năm học 2021 - 2026
+                  2. Ở dưới nữa: 5+ dự án freelance thực chiến
+                  3. Cuối cùng: 2 nút CTA xem CV và liên hệ */}
               <div className="mt-3.5 space-y-2.5">
-                <div className="grid grid-cols-2 gap-2 text-xs font-medium">
-                  <div className="p-2 sm:p-2.5 rounded-xl bg-[var(--surface-subtle)] border border-[var(--surface-border)]">
-                    <span className="text-[10px] text-[var(--muted-foreground)] block">Triển Khai THADS</span>
-                    <span className="font-bold text-[var(--foreground)]">230+ Cán Bộ</span>
+                {/* 1. Ở dưới: Năm học 2021 - 2026 */}
+                <div className="p-2.5 sm:p-3 rounded-xl bg-[var(--surface-subtle)] border border-[var(--surface-border)] flex items-center justify-between transition-colors hover:border-blue-500/30">
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    <div className="w-8 h-8 rounded-lg bg-blue-500/10 text-blue-600 dark:text-sky-400 flex items-center justify-center shrink-0">
+                      <GraduationCap size={16} />
+                    </div>
+                    <div className="min-w-0">
+                      <span className="text-[10px] uppercase font-mono text-[var(--muted-foreground)] tracking-wider block truncate">
+                        Khoa CNTT • ĐH Tôn Đức Thắng
+                      </span>
+                      <span className="font-bold text-xs sm:text-sm text-[var(--foreground)] truncate block">
+                        Năm học 2021 – 2026
+                      </span>
+                    </div>
                   </div>
-                  <div className="p-2 sm:p-2.5 rounded-xl bg-[var(--surface-subtle)] border border-[var(--surface-border)]">
-                    <span className="text-[10px] text-[var(--muted-foreground)] block">Tốt Nghiệp Kỹ Sư</span>
-                    <span className="font-bold text-[var(--foreground)]">Khoa CNTT TDTU</span>
-                  </div>
+                  <span className="text-[10px] sm:text-[11px] font-mono font-semibold px-2 py-0.5 rounded-md bg-blue-50 dark:bg-blue-950 text-blue-700 dark:text-sky-300 border border-blue-200 dark:border-blue-800 shrink-0">
+                    5 Năm Kỹ Sư
+                  </span>
                 </div>
 
-                {/* Profile Card Footer Action Buttons */}
-                <div className="flex items-center gap-2 pt-1">
+                {/* 2. Ở dưới nữa: 5+ dự án freelance thực chiến */}
+                <div className="p-2.5 sm:p-3 rounded-xl bg-[var(--surface-subtle)] border border-[var(--surface-border)] flex items-center justify-between transition-colors hover:border-emerald-500/30">
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    <div className="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
+                      <Briefcase size={16} />
+                    </div>
+                    <div className="min-w-0">
+                      <span className="text-[10px] uppercase font-mono text-[var(--muted-foreground)] tracking-wider block truncate">
+                        Kinh Nghiệm Triển Khai Thực Tế
+                      </span>
+                      <span className="font-bold text-xs sm:text-sm text-[var(--foreground)] truncate block">
+                        5+ Dự Án Freelance Thực Chiến
+                      </span>
+                    </div>
+                  </div>
+                  <span className="text-[10px] sm:text-[11px] font-mono font-semibold px-2 py-0.5 rounded-md bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 shrink-0">
+                    Thực Chiến
+                  </span>
+                </div>
+
+                {/* 3. Cuối cùng mới 2 nút CTA liên hệ với xem CV */}
+                <div className="grid grid-cols-2 gap-2 pt-1">
                   <button
                     onClick={() => setCvModalOpen(true)}
-                    className="touch-target flex-1 px-3.5 py-2.5 rounded-xl text-xs font-bold bg-blue-600 text-white hover:bg-blue-700 transition-colors flex items-center justify-center gap-1.5 shadow-xs cursor-pointer"
+                    className="touch-target w-full px-3 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-blue-600 text-white hover:bg-blue-700 active:scale-[0.99] transition-all flex items-center justify-center gap-1.5 shadow-xs cursor-pointer"
                   >
-                    <FileDown size={14} />
-                    <span>Tải CV PDF (4 Bản)</span>
+                    <FileDown size={14} className="shrink-0" />
+                    <span className="truncate">Xem CV</span>
                   </button>
                   <Link
                     href="/contact"
-                    className="touch-target px-3.5 py-2.5 rounded-xl text-xs font-semibold border border-[var(--surface-border)] bg-[var(--surface)] text-[var(--foreground)] hover:border-blue-600 hover:text-blue-600 transition-colors flex items-center justify-center gap-1.5 shadow-xs cursor-pointer"
+                    className="touch-target w-full px-3 py-2.5 rounded-xl text-xs sm:text-sm font-bold border border-[var(--surface-border)] bg-[var(--surface)] text-[var(--foreground)] hover:border-blue-600 hover:text-blue-600 active:scale-[0.99] transition-all flex items-center justify-center gap-1.5 shadow-xs cursor-pointer"
                   >
-                    <span>Liên Hệ</span>
+                    <span className="truncate">Liên Hệ</span>
                   </Link>
                 </div>
               </div>
