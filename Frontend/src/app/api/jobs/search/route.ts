@@ -30,19 +30,22 @@ export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams;
     const rawQuery = (searchParams.get("q") || "").trim().toLowerCase();
-    const tag = (searchParams.get("tag") || "react").trim().toLowerCase();
 
-    // Query RemoteOK Live Official Free API
-    const remoteOkUrl = rawQuery 
-      ? `https://remoteok.com/api?tag=${encodeURIComponent(rawQuery)}`
-      : `https://remoteok.com/api?tag=${encodeURIComponent(tag)}`;
+    // Map query to RemoteOK primary tag or fetch dev pool
+    const directTags = ["react", "node", "python", "ruby", "javascript", "typescript", "golang", "dev"];
+    let apiTag = "dev";
+    if (directTags.includes(rawQuery)) {
+      apiTag = rawQuery;
+    }
+
+    const remoteOkUrl = `https://remoteok.com/api?tag=${encodeURIComponent(apiTag)}`;
 
     const response = await fetch(remoteOkUrl, {
       headers: {
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
         Accept: "application/json",
       },
-      next: { revalidate: 60 }, // Cache 60s for performance
+      next: { revalidate: 60 },
     });
 
     if (!response.ok) {
@@ -69,10 +72,25 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // Filter valid job items (first item is legal notice)
-    const validRawJobs = rawData.filter(
+    // Filter valid job items
+    let validRawJobs = rawData.filter(
       (item) => item && typeof item === "object" && item.id && item.position && item.company
     );
+
+    // If a custom query is provided that wasn't a direct API tag (e.g., "frontend", "nextjs", "fullstack")
+    if (rawQuery && !directTags.includes(rawQuery)) {
+      const q = rawQuery.replace(/[^a-z0-9]/g, "");
+      validRawJobs = validRawJobs.filter((item) => {
+        const textToSearch = (
+          String(item.position || "") + " " +
+          String(item.company || "") + " " +
+          (Array.isArray(item.tags) ? item.tags.join(" ") : "") + " " +
+          String(item.description || "")
+        ).toLowerCase().replace(/[^a-z0-9]/g, "");
+
+        return textToSearch.includes(q);
+      });
+    }
 
     // Transform into JobPosting schema 100% real
     const realJobs: JobPosting[] = validRawJobs.map((item) => {
@@ -158,6 +176,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({
       success: true,
       count: realJobs.length,
+      query: rawQuery || "all",
       source: "RemoteOK Official Live API (100% Real Time - Zero Mock)",
       fetchedAt: new Date().toISOString(),
       data: realJobs,
