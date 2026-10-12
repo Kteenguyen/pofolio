@@ -9,7 +9,7 @@ import {
   Sparkles,
   ArrowRight,
   GraduationCap,
-  Terminal,
+  Mail,
   MapPin,
   CheckCircle2,
   FileDown,
@@ -134,11 +134,11 @@ export default function Hero() {
               </a>
 
               <a
-                href="#terminal"
-                className="touch-target px-3 py-2 rounded-xl text-xs font-mono border border-[var(--surface-border)] bg-[var(--surface)] text-blue-600 dark:text-sky-400 hover:border-blue-600 transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-xs whitespace-nowrap"
+                href="#contact"
+                className="touch-target px-3 py-2 rounded-xl text-xs font-semibold border border-[var(--surface-border)] bg-[var(--surface)] text-[var(--foreground)] hover:border-blue-600 hover:text-blue-600 transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-xs whitespace-nowrap"
               >
-                <Terminal size={14} className="shrink-0" />
-                <span>CLI Terminal</span>
+                <Mail size={14} className="text-emerald-600 dark:text-emerald-400 shrink-0" />
+                <span>Liên Hệ</span>
               </a>
             </div>
           </div>
