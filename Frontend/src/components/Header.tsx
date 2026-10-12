@@ -24,7 +24,11 @@ export default function Header() {
   ];
 
   return (
-    <header className="sticky top-0 left-0 right-0 z-50 bg-[var(--background)]/90 backdrop-blur-md border-b border-[var(--surface-border)]">
+    <header
+      className={`sticky top-0 left-0 right-0 z-50 border-b border-[var(--surface-border)] transition-colors ${
+        mobileMenuOpen ? "bg-[var(--background)] shadow-xl" : "bg-[var(--background)]/90 backdrop-blur-md"
+      }`}
+    >
       <div className="portfolio-container h-16 flex items-center justify-between gap-2 sm:gap-4">
         {/* Brand Logo */}
         <Link href="/" className="flex items-center gap-2.5 group cursor-pointer shrink-0">

@@ -78,19 +78,17 @@
 
   /* Mobile Navigation Drawer */
   .mobile-nav-drawer {
-    position: fixed;
-    top: 64px;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    position: relative;
+    width: 100%;
     background: var(--background);
-    z-index: 40;
-    padding: 1.25rem;
+    padding: 1.25rem 1rem 2rem 1rem;
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
     border-top: 1px solid var(--surface-border);
+    max-height: calc(100vh - 64px);
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   /* Mobile HUD Entrance Animation (Smooth slide-in with blur-to-clear) */
