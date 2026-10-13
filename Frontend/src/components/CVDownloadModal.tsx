@@ -134,14 +134,14 @@ export default function CVDownloadModal({ isOpen, onClose }: CVDownloadModalProp
             >
               <div className="space-y-1 min-w-0">
                 <div className="flex items-center gap-2 flex-wrap">
-                  <span className={`text-xs font-bold truncate ${cv.isPrimary ? "text-sky-600 dark:text-sky-300 font-black" : "text-[var(--foreground)]"}`}>
+                  <span className={`text-xs font-bold leading-snug ${cv.isPrimary ? "text-sky-600 dark:text-sky-300 font-black" : "text-[var(--foreground)]"}`}>
                     {cv.title}
                   </span>
-                  <span className={`text-[10px] font-mono px-2 py-0.5 rounded-full border ${cv.badgeColor}`}>
+                  <span className={`text-[10px] font-mono px-2 py-0.5 rounded-full border shrink-0 ${cv.badgeColor}`}>
                     {cv.badge}
                   </span>
                 </div>
-                <p className="text-[11px] text-[var(--muted-foreground)] truncate">
+                <p className="text-[11px] text-[var(--muted-foreground)] leading-relaxed">
                   {cv.subtitle}
                 </p>
               </div>

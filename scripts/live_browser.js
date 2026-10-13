@@ -348,11 +348,12 @@ async function run() {
     // Click Hamburger Button
     await client.eval(`
       (() => {
-        const btn = document.querySelector('header button[aria-label*="menu"]');
+        const btn = document.querySelector('header button[aria-label*="menu" i]') || 
+                    Array.from(document.querySelectorAll('header button')).find(b => b.querySelector('svg.lucide-menu'));
         if (btn) btn.click();
       })()
     `);
-    await sleep(600);
+    await sleep(800);
 
     const drawerCheck = await client.eval(`
       (() => {
@@ -388,21 +389,25 @@ async function run() {
     // Close Drawer
     await client.eval(`
       (() => {
-        const btn = document.querySelector('header button[aria-label*="menu"]');
+        const btn = document.querySelector('header button[aria-label*="Đóng" i]') || 
+                    Array.from(document.querySelectorAll('header button')).find(b => b.querySelector('svg.lucide-x'));
         if (btn) btn.click();
       })()
     `);
-    await sleep(400);
+    await sleep(600);
   }
 
   // --- STEP E: CV DOWNLOAD MODAL INTERACTION & AVATAR VERIFICATION ---
   console.log('\n===============================================================');
   console.log('  📄 KIỂM TRA 5: CV DOWNLOAD MODAL & KTEE AVATAR LOAD THẬT    ');
   console.log('===============================================================');
-  // Click Header "Tải CV" button
+  // Click CV button (Header or Hero or Floating Dock)
   await client.eval(`
     (() => {
-      const cvBtn = Array.from(document.querySelectorAll('button')).find(b => b.innerText.includes('Tải CV') || b.innerText.includes('Xem CV'));
+      const cvBtn = Array.from(document.querySelectorAll('button')).find(b => 
+        (b.innerText.includes('Tải CV') || b.innerText.includes('Xem CV') || b.innerText.includes('Tải Hồ Sơ')) &&
+        b.offsetParent !== null
+      ) || document.querySelector('button[aria-label*="CV" i]');
       if (cvBtn) cvBtn.click();
     })()
   `);

@@ -160,9 +160,9 @@ export default function Projects() {
               {/* Metrics */}
               <div className="grid grid-cols-3 gap-2 my-4 p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-[var(--surface-border)]">
                 {project.metrics.map((m) => (
-                  <div key={m.label} className="text-center">
+                  <div key={m.label} className="text-center px-1">
                     <div className="text-xs lg:text-sm font-black text-blue-600 dark:text-sky-400 font-mono">{m.value}</div>
-                    <div className="text-[9px] text-[var(--muted-foreground)] truncate mt-0.5">{m.label}</div>
+                    <div className="text-[9px] text-[var(--muted-foreground)] leading-tight line-clamp-2 mt-0.5">{m.label}</div>
                   </div>
                 ))}
               </div>

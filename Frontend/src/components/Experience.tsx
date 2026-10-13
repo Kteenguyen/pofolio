@@ -182,15 +182,36 @@ export default function Experience() {
           </div>
 
           {/* Timeline Nodes Grid */}
-          <div className="relative">
-            {/* Background connecting line on desktop */}
+          <div className="relative pb-2 sm:pb-3">
+            {/* Background connecting baseline at the bottom under the milestone feet */}
             <div
-              className={`absolute top-4 sm:top-5 left-8 right-8 h-1 bg-gradient-to-r ${
+              className={`absolute bottom-[3px] sm:bottom-[4px] left-6 sm:left-12 right-6 sm:right-10 h-1 sm:h-1.5 bg-gradient-to-r ${
                 sortOrder === "reverse"
                   ? "from-sky-500 via-emerald-500 via-purple-500 via-blue-500 to-amber-500"
                   : "from-amber-500 via-blue-500 via-purple-500 via-emerald-500 to-sky-500"
-              } rounded-full opacity-60 hidden md:block`}
+              } rounded-full opacity-80`}
             />
+
+            {/* Arrowhead at the right end of the timeline line */}
+            <div
+              className={`absolute right-1 sm:right-3 bottom-[-2px] sm:bottom-[-2px] flex items-center transition-colors ${
+                sortOrder === "reverse"
+                  ? "text-amber-500 dark:text-amber-400"
+                  : "text-sky-500 dark:text-sky-400"
+              }`}
+              title="Hướng tiến trình thời gian"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                className="w-4 h-4 sm:w-5 sm:h-5 fill-none stroke-current"
+                strokeWidth="2.8"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M5 12h14" />
+                <path d="M13 6l6 6-6 6" />
+              </svg>
+            </div>
 
             <div className="grid grid-cols-5 gap-1 sm:gap-3 w-full">
               {trackerList.map((milestone) => {
@@ -216,7 +237,7 @@ export default function Experience() {
 
                     {/* Milestone Year Badge */}
                     <span
-                      className={`mt-1.5 sm:mt-2 px-1 py-0.5 sm:px-2 sm:py-0.5 rounded text-[9px] sm:text-[11px] font-mono font-bold tracking-tight transition-colors text-center truncate max-w-full ${
+                      className={`mt-1.5 sm:mt-2 px-1 py-0.5 sm:px-2 sm:py-0.5 rounded text-[8.5px] sm:text-[11px] font-mono font-bold tracking-tight transition-colors text-center whitespace-nowrap ${
                         isActive
                           ? "bg-blue-600 text-white shadow-sm"
                           : "bg-[var(--surface-subtle)] text-[var(--muted-foreground)] group-hover:text-[var(--foreground)] border border-[var(--surface-border)]"
@@ -234,7 +255,7 @@ export default function Experience() {
                     </span>
 
                     {/* Milestone Role & Company Short Label */}
-                    <span className="text-[9px] sm:text-[11px] font-semibold text-[var(--foreground)] mt-0.5 text-center truncate w-full group-hover:text-blue-600 dark:group-hover:text-sky-400">
+                    <span className="text-[8.5px] sm:text-[11px] font-semibold text-[var(--foreground)] mt-0.5 text-center leading-tight break-words line-clamp-2 w-full px-0.5 group-hover:text-blue-600 dark:group-hover:text-sky-400">
                       {milestone.id === "tdtu-engineering"
                         ? "ĐH Tôn Đức Thắng"
                         : milestone.id === "homenest-software"
@@ -245,6 +266,17 @@ export default function Experience() {
                         ? "Luklak 60FPS"
                         : "PowerTech"}
                     </span>
+
+                    {/* Milestone Base Foot Marker (Trụ chân mốc kết nối vào đường line ở dưới) */}
+                    <div className="mt-2 sm:mt-2.5 flex items-center justify-center">
+                      <div
+                        className={`w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full border-2 transition-all ${
+                          isActive
+                            ? "bg-blue-600 border-white dark:border-slate-900 ring-2 ring-blue-500/40 scale-125"
+                            : "bg-[var(--surface)] border-[var(--surface-border)] group-hover:border-blue-400 group-hover:scale-110"
+                        }`}
+                      />
+                    </div>
                   </button>
                 );
               })}
@@ -349,7 +381,7 @@ export default function Experience() {
                           <div className="text-xs lg:text-sm font-black text-blue-600 dark:text-sky-400 font-mono">
                             {m.value}
                           </div>
-                          <div className="text-[10px] text-[var(--muted-foreground)] uppercase tracking-wider font-semibold mt-0.5 truncate">
+                          <div className="text-[10px] text-[var(--muted-foreground)] uppercase tracking-wider font-semibold mt-0.5 leading-snug">
                             {m.label}
                           </div>
                         </div>

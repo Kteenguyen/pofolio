@@ -175,11 +175,11 @@ export default function Hero() {
                     <div className="w-8 h-8 rounded-lg bg-blue-500/10 text-blue-600 dark:text-sky-400 flex items-center justify-center shrink-0">
                       <GraduationCap size={16} />
                     </div>
-                    <div className="min-w-0">
-                      <span className="text-[10px] uppercase font-mono text-[var(--muted-foreground)] tracking-wider block truncate">
+                    <div className="min-w-0 pr-1">
+                      <span className="text-[10px] uppercase font-mono text-[var(--muted-foreground)] tracking-wider block leading-tight">
                         Khoa CNTT • ĐH Tôn Đức Thắng
                       </span>
-                      <span className="font-bold text-xs sm:text-sm text-[var(--foreground)] truncate block">
+                      <span className="font-bold text-xs sm:text-sm text-[var(--foreground)] block leading-snug">
                         Năm học 2021 – 2026
                       </span>
                     </div>
@@ -195,11 +195,11 @@ export default function Hero() {
                     <div className="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
                       <Briefcase size={16} />
                     </div>
-                    <div className="min-w-0">
-                      <span className="text-[10px] uppercase font-mono text-[var(--muted-foreground)] tracking-wider block truncate">
+                    <div className="min-w-0 pr-1">
+                      <span className="text-[10px] uppercase font-mono text-[var(--muted-foreground)] tracking-wider block leading-tight">
                         Kinh Nghiệm Triển Khai Thực Tế
                       </span>
-                      <span className="font-bold text-xs sm:text-sm text-[var(--foreground)] truncate block">
+                      <span className="font-bold text-xs sm:text-sm text-[var(--foreground)] block leading-snug">
                         5+ Dự Án Freelance Thực Chiến
                       </span>
                     </div>
@@ -216,13 +216,13 @@ export default function Hero() {
                     className="touch-target w-full px-3 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-blue-600 text-white hover:bg-blue-700 active:scale-[0.99] transition-all flex items-center justify-center gap-1.5 shadow-xs cursor-pointer"
                   >
                     <FileDown size={14} className="shrink-0" />
-                    <span className="truncate">Xem CV</span>
+                    <span>Xem CV</span>
                   </button>
                   <Link
                     href="/contact"
                     className="touch-target w-full px-3 py-2.5 rounded-xl text-xs sm:text-sm font-bold border border-[var(--surface-border)] bg-[var(--surface)] text-[var(--foreground)] hover:border-blue-600 hover:text-blue-600 active:scale-[0.99] transition-all flex items-center justify-center gap-1.5 shadow-xs cursor-pointer"
                   >
-                    <span className="truncate">Liên Hệ</span>
+                    <span>Liên Hệ</span>
                   </Link>
                 </div>
               </div>

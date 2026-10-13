@@ -23,7 +23,7 @@ export default function FloatingThumbDock() {
             className="touch-target flex-[3] min-h-[48px] px-3.5 rounded-xl bg-sky-600 active:bg-sky-700 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-md shadow-sky-500/25 active:scale-[0.98] transition-all cursor-pointer"
           >
             <FileDown size={17} className="shrink-0" />
-            <span className="truncate">Tải Hồ Sơ Kỹ Sư (PDF)</span>
+            <span className="whitespace-nowrap">Tải Hồ Sơ CV (PDF)</span>
           </button>
 
           {/* Secondary Action (40% Width): Direct Chat / Contact */}

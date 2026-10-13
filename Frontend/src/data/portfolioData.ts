@@ -239,6 +239,7 @@ export const portfolioData = {
       subtitle: "Enterprise Responsive Website with Lenis Smooth Scroll 60 FPS & Spring Physics",
       category: "Full-Stack & Web",
       featured: true,
+      imageUrl: "/luklak.jpg",
       description: "Xây dựng hoàn thiện website thương hiệu gồm 7 trang hoàn chỉnh và 17 components, chuyển đổi trực tiếp bản vẽ Figma sang mã nguồn Next.js/Tailwind CSS chuẩn mực.",
       problem: "Doanh nghiệp cần một diện mạo số sang trọng, đẳng cấp nhưng đòi hỏi hiệu năng cuộn phải đạt chuẩn 60fps mượt mà trên cả máy tính lẫn điện thoại.",
       solution: "Tích hợp hiệu ứng cuộn điện ảnh Cinematic Scroll 60 FPS (Lenis Scroll kết hợp Framer Motion parallax video và spring physics). Trực tiếp cấu hình máy chủ VPS Linux, cài đặt Nginx Reverse Proxy, cấp chứng chỉ SSL Let\x27s Encrypt và tối ưu bộ nhớ đệm HTTP Caching.",
