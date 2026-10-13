@@ -479,7 +479,7 @@ export default function Spatial4DPortfolio() {
                 </div>
 
                 <h2 className="text-lg sm:text-2xl font-bold text-white">
-                  Cử Nhân / Kỹ Sư Công Nghệ Thông Tin (Hệ 5 Năm Toàn Thời Gian)
+                  Cử Nhân Chuyên Ngành Kỹ Thuật Phần Mềm (ĐH Tôn Đức Thắng)
                 </h2>
                 <p className="text-xs sm:text-sm text-slate-300">
                   Nền tảng hơn 150+ tín chỉ: Cấu trúc dữ liệu & Giải thuật, Hệ thống phân tán, An toàn thông tin và Kiểm thử phần mềm.

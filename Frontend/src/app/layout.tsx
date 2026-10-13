@@ -7,9 +7,9 @@ import "@/styles/copilot.css";
 import FloatingThumbDock from "@/components/FloatingThumbDock";
 
 export const metadata: Metadata = {
-  title: "Nguyễn Khoa Tài (Ktee) | Full-Stack Software Engineer • ĐH Tôn Đức Thắng (2021 – 2026)",
+  title: "Nguyễn Khoa Tài (Ktee) | Cử Nhân Chuyên Ngành Kỹ Thuật Phần Mềm • ĐH Tôn Đức Thắng",
   description:
-    "Hồ sơ năng lực kỹ thuật của Kỹ sư Công nghệ Thông tin tốt nghiệp 5 năm tại Đại học Tôn Đức Thắng. Kinh nghiệm thực chiến Full-Stack React/Next.js, Node.js, ASP.NET Core, tư duy BA sắc bén và trực tiếp triển khai hệ thống cho 230 người dùng tại FPT IS.",
+    "Hồ sơ năng lực kỹ thuật của Cử nhân chuyên ngành Kỹ Thuật Phần Mềm tốt nghiệp Đại học Tôn Đức Thắng (GPA: 3.0 / 4.0). Kinh nghiệm thực chiến Full-Stack React/Next.js 15, AI Agent Workflow, Node.js, tư duy BA sắc bén và trực tiếp triển khai hệ thống cho 230 người dùng tại FPT IS.",
   keywords: [
     "Nguyễn Khoa Tài",
     "Ktee",

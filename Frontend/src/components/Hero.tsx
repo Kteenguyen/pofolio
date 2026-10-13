@@ -32,8 +32,8 @@ export default function Hero() {
         {/* Main Hero Profile Grid (12 cols on desktop) */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12 items-center">
           
-          {/* Left Column: Typography, Bio, Credentials, Action Buttons */}
-          <div className="lg:col-span-7 flex flex-col items-start">
+          {/* Column: Typography, Bio, Credentials, Action Buttons (On the right on desktop) */}
+          <div className="lg:col-span-7 flex flex-col items-start order-1 lg:order-2">
             {/* Status Pill */}
             <div className="inline-flex items-center gap-2 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full border border-[var(--surface-border)] bg-[var(--surface)] text-[11px] sm:text-xs font-medium text-[var(--foreground)] mb-3 sm:mb-4 shadow-xs flex-wrap">
               <span className="relative flex h-2 w-2 shrink-0">
@@ -53,7 +53,7 @@ export default function Hero() {
             <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-2 sm:mb-3">
               <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-sky-300 font-mono text-[11px] sm:text-xs font-bold uppercase tracking-wider border border-blue-200/80 dark:border-blue-900/60">
                 <Code2 size={13} className="text-blue-600 dark:text-sky-400 shrink-0" />
-                <span>Kỹ Sư Phần Mềm</span>
+                <span>Cử Nhân Kỹ Thuật Phần Mềm</span>
               </span>
               <span className="inline-flex items-center px-2 py-1 rounded-md bg-[var(--surface)] text-[var(--muted-foreground)] font-mono text-[11px] sm:text-xs font-medium border border-[var(--surface-border)]">
                 ĐH Tôn Đức Thắng (GPA 3.0)
@@ -88,11 +88,11 @@ export default function Hero() {
               </span>
               <span className="flex items-center gap-1.5 bg-[var(--surface)] px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-xl border border-[var(--surface-border)] shadow-xs">
                 <CheckCircle2 size={14} className="text-indigo-600 dark:text-indigo-400 shrink-0" />
-                <span>FPT IS (230+ Cán Bộ & 60+ Bugs)</span>
+                <span>FPT IS (10/25–02/26 • 230+ Cán Bộ)</span>
               </span>
               <span className="flex items-center gap-1.5 bg-[var(--surface)] px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-xl border border-[var(--surface-border)] shadow-xs">
                 <CheckCircle2 size={14} className="text-purple-600 dark:text-purple-400 shrink-0" />
-                <span>HomeNest BA (Thực Tập 2 Tháng)</span>
+                <span>HomeNest BA (03–06/2026)</span>
               </span>
             </div>
 
@@ -152,27 +152,15 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* Right Column: Hero Profile Card with Portrait Image /avatar.jpg */}
-          <div className="lg:col-span-5 w-full max-w-md mx-auto lg:max-w-none mt-4 lg:mt-0">
+          {/* Column: Hero Profile Card with Portrait Image /avatar.jpg (On the left on desktop) */}
+          <div className="lg:col-span-5 w-full max-w-md mx-auto lg:max-w-none order-2 lg:order-1 mt-4 lg:mt-0">
             <div className="card-glass rounded-2xl sm:rounded-3xl p-4 sm:p-5 border border-blue-200/80 dark:border-blue-900/50 shadow-xl relative overflow-hidden bg-gradient-to-b from-white via-slate-50/50 to-blue-50/20 dark:from-[var(--surface)] dark:via-[var(--surface)] dark:to-blue-950/20 group">
               
-              {/* Card Top Pill: Verified Identity */}
-              <div className="flex items-center justify-between gap-2 mb-3 pb-2.5 border-b border-[var(--surface-border)]">
-                <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-blue-500/10 text-blue-700 dark:text-sky-300 text-xs font-bold border border-blue-500/20">
-                  <ShieldCheck size={13} className="text-blue-600 dark:text-sky-400" />
-                  <span>Verified Identity • Ktee</span>
-                </div>
-                <div className="flex items-center gap-1 text-[11px] font-mono text-emerald-600 dark:text-emerald-400 font-semibold">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                  <span>ĐH Tôn Đức Thắng</span>
-                </div>
-              </div>
-
-              {/* Portrait Image Frame - Hiển thị 100% trọn vẹn ảnh chân dung gốc, không cắt xén */}
+              {/* Portrait Image Frame - Hiển thị 100% trọn vẹn ảnh chân dung gốc, không cắt xén, không có dòng đè phía trên */}
               <div className="relative rounded-2xl overflow-hidden border-2 border-white dark:border-slate-800 shadow-md bg-slate-100 dark:bg-slate-900 group-hover:shadow-blue-500/10 transition-shadow">
                 <img
                   src="/avatar.jpg"
-                  alt="Kỹ sư Nguyễn Khoa Tài (Ktee)"
+                  alt="Nguyễn Khoa Tài (Ktee) - Cử Nhân Kỹ Thuật Phần Mềm"
                   className="w-full h-auto aspect-[1707/2560] object-cover block group-hover:scale-[1.02] transition-transform duration-500"
                 />
               </div>
@@ -198,7 +186,7 @@ export default function Hero() {
                     </div>
                   </div>
                   <span className="text-[10px] sm:text-[11px] font-mono font-semibold px-2 py-0.5 rounded-md bg-blue-50 dark:bg-blue-950 text-blue-700 dark:text-sky-300 border border-blue-200 dark:border-blue-800 shrink-0">
-                    5 Năm Kỹ Sư
+                    Cử Nhân KTPM
                   </span>
                 </div>
 

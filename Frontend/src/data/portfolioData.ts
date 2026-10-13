@@ -22,7 +22,7 @@ export interface Experience {
   period: string;
   yearBadge: string;
   location: string;
-  type: "Doanh Nghiệp" | "Freelance" | "Dự Án Cộng Đồng" | "Học Thuật & Đào Tạo" | "Thực Tập Doanh Nghiệp" | "Học Vấn Kỹ Sư";
+  type: "Doanh Nghiệp" | "Freelance" | "Dự Án Cộng Đồng" | "Học Thuật & Đào Tạo" | "Thực Tập Doanh Nghiệp" | "Cử Nhân Học Vấn" | "Học Vấn Kỹ Sư";
   website?: string;
   description: string;
   achievements: string[];
@@ -52,10 +52,10 @@ export const portfolioData = {
   personal: {
     name: "Nguyễn Khoa Tài",
     nickname: "Ktee",
-    title: "Kỹ Sư Phần Mềm (Web/App) | Định Hướng Fullstack AI Agent Workflow",
-    degreeLabel: "Kỹ Sư CNTT (5 Năm Đào Tạo Chuẩn Mực) • ĐH Tôn Đức Thắng (GPA: 3.0 / 4.0)",
+    title: "Cử Nhân Chuyên Ngành Kỹ Thuật Phần Mềm | Định Hướng Fullstack và AI Agent Workflow",
+    degreeLabel: "Cử Nhân Chuyên Ngành Kỹ Thuật Phần Mềm • ĐH Tôn Đức Thắng (GPA: 3.0 / 4.0)",
     headline: "Giao thoa giữa kiến trúc hệ thống dữ liệu chịu tải cao, trải nghiệm Front-End điện ảnh chuẩn Thụy Sĩ và tư duy cầu nối phân tích số hóa thực tế.",
-    bio: "Kỹ sư CNTT tốt nghiệp chương trình đào tạo 5 năm tại Đại học Tôn Đức Thắng (GPA: 3.0 / 4.0), sở hữu kinh nghiệm thực tập doanh nghiệp (FPT IS, HomeNest 2 Tháng) cùng năng lực triển khai các dự án Web/App thực tế. Tinh thần tự giác, ham học hỏi cao, liên tục trau dồi công nghệ mới và định hướng phát triển chuyên sâu mảng AI Agent Workflow.",
+    bio: "Cử nhân chuyên ngành Kỹ Thuật Phần Mềm tốt nghiệp Đại học Tôn Đức Thắng (GPA: 3.0 / 4.0), sở hữu kinh nghiệm thực tập (HomeNest, FPT IS) cùng năng lực phát triển các dự án Web/App thực tế. Tinh thần tự giác, ham học hỏi cao, liên tục làm chủ công nghệ mới và định hướng chuyên sâu mảng Fullstack và AI Agent Workflow. Mục tiêu năm tới xác lập vị trí chính thức ổn định trong ngành, tài chính vững vàng; mong muốn đồng hành và cống hiến lâu dài cùng Quý doanh nghiệp.",
     email: "nguyenkhoatai2003@gmail.com",
     backupEmail: "nguyenkhoatai2003@gmail.com",
     phone: "0852723945",
@@ -66,7 +66,7 @@ export const portfolioData = {
     location: "TP. Hồ Chí Minh, Việt Nam",
     english: "Aptis ESOL B1 (136/200)",
     availableForHire: true,
-    statusText: "Sẵn sàng đón nhận cơ hội Kỹ Sư Phần Mềm / AI Agentic Engineer",
+    statusText: "Sẵn sàng đón nhận cơ hội Cử Nhân Kỹ Thuật Phần Mềm / AI Agentic Engineer",
   },
 
   stats: [
@@ -189,6 +189,28 @@ export const portfolioData = {
       githubUrl: "https://github.com/Kteenguyen",
     },
     {
+      id: "bliss-homestay-automation",
+      title: "Nghiên Cứu Phát Triển (GĐ 1): Tự Động Hóa Tin Nhắn Bliss Homestay",
+      subtitle: "Realtime Webhook Ingress & Make.com Automation Workflow",
+      category: "Backend & CSDL",
+      featured: true,
+      description: "Nghiên cứu và phát triển (Giai đoạn 1) quy trình tự động hóa trả lời tin nhắn trên nền tảng Make.com kết hợp Webhook Ingress thời gian thực, bắt trọn và phân giải cấu trúc dữ liệu JSON từ khách hàng.",
+      problem: "Bliss Homestay tiếp nhận lượng lớn tin nhắn hỏi phòng phân tán trên nhiều kênh, thường xuyên bị chậm trễ phản hồi dẫn đến tỷ lệ rớt khách cao.",
+      solution: "Triển khai vận hành cho Bliss Homestay: tự động phân loại nhu cầu, phản hồi thông tin phòng và báo giá tức thì với độ trễ <2 giây, cắt giảm 80% thời gian chờ và triệt tiêu 100% rủi ro bỏ sót tin nhắn.",
+      impact: [
+        "Phản hồi khách hàng tức thì với độ trễ dưới 2 giây.",
+        "Cắt giảm 80% thời gian chờ đợi phản hồi của khách hàng.",
+        "Triệt tiêu 100% rủi ro bỏ sót tin nhắn đặt phòng trong các khung giờ cao điểm.",
+      ],
+      metrics: [
+        { label: "Độ trễ phản hồi", value: "<2s" },
+        { label: "Thời gian chờ", value: "-80%" },
+        { label: "Bỏ sót tin nhắn", value: "0%" },
+      ],
+      techStack: ["Webhook Ingress", "Make.com", "JSON REST API", "Workflow Automation", "Cloud Integrations"],
+      githubUrl: "https://github.com/Kteenguyen",
+    },
+    {
       id: "ai-career-engine",
       title: "Động Cơ AI Phân Tích Khớp Việc Làm & Portfolio Cá Nhân",
       subtitle: "Realtime Job Match Engine with JD Keyword Extraction & Edge Network",
@@ -209,28 +231,6 @@ export const portfolioData = {
         { label: "Triển khai Edge", value: "100%" },
       ],
       techStack: ["Next.js 15", "React 19", "Tailwind CSS", "TypeScript", "Vercel Edge", "Career Engine"],
-      githubUrl: "https://github.com/Kteenguyen",
-    },
-    {
-      id: "bliss-homestay-automation",
-      title: "Nghiên Cứu Phát Triển (GĐ 1): Tự Động Hóa Tin Nhắn Bliss Homestay",
-      subtitle: "Realtime Webhook Ingress & Make.com Automation Workflow",
-      category: "Backend & CSDL",
-      featured: true,
-      description: "Nghiên cứu và phát triển (Giai đoạn 1) quy trình tự động hóa trả lời tin nhắn trên nền tảng Make.com kết hợp Webhook Ingress thời gian thực, bắt trọn và phân giải cấu trúc dữ liệu JSON từ khách hàng.",
-      problem: "Bliss Homestay tiếp nhận lượng lớn tin nhắn hỏi phòng phân tán trên nhiều kênh, thường xuyên bị chậm trễ phản hồi dẫn đến tỷ lệ rớt khách cao.",
-      solution: "Triển khai vận hành cho Bliss Homestay: tự động phân loại nhu cầu, phản hồi thông tin phòng và báo giá tức thì với độ trễ <2 giây, cắt giảm 80% thời gian chờ và triệt tiêu 100% rủi ro bỏ sót tin nhắn.",
-      impact: [
-        "Phản hồi khách hàng tức thì với độ trễ dưới 2 giây.",
-        "Cắt giảm 80% thời gian chờ đợi phản hồi của khách hàng.",
-        "Triệt tiêu 100% rủi ro bỏ sót tin nhắn đặt phòng trong các khung giờ cao điểm.",
-      ],
-      metrics: [
-        { label: "Độ trễ phản hồi", value: "<2s" },
-        { label: "Thời gian chờ", value: "-80%" },
-        { label: "Bỏ sót tin nhắn", value: "0%" },
-      ],
-      techStack: ["Webhook Ingress", "Make.com", "JSON REST API", "Workflow Automation", "Cloud Integrations"],
       githubUrl: "https://github.com/Kteenguyen",
     },
     {
@@ -475,14 +475,14 @@ export const portfolioData = {
     },
     {
       id: "tdtu-engineering",
-      role: "Kỹ Sư Công Nghệ Thông Tin (Chương Trình Đào Tạo Kỹ Sư 5 Năm)",
+      role: "Cử Nhân Chuyên Ngành Kỹ Thuật Phần Mềm (ĐH Tôn Đức Thắng)",
       company: "Đại Học Tôn Đức Thắng (TDTU)",
       period: "2021 – 2026",
       yearBadge: "2021 – 2026",
       location: "TP. Hồ Chí Minh, Việt Nam",
-      type: "Học Vấn Kỹ Sư",
+      type: "Cử Nhân Học Vấn",
       isEducation: true,
-      description: "Chương trình đào tạo Kỹ sư 5 năm toàn thời gian với hơn 150+ tín chỉ học thuật chuyên sâu. Tốt nghiệp với điểm GPA 3.0 / 4.0 và bảng điểm môn chuyên ngành xuất sắc.",
+      description: "Chương trình đào tạo Cử nhân chuyên ngành Kỹ Thuật Phần Mềm toàn thời gian tại Đại học Tôn Đức Thắng. Tốt nghiệp với điểm GPA 3.0 / 4.0 và bảng điểm môn chuyên ngành xuất sắc.",
       achievements: [
         "Điểm số môn học chuyên ngành cốt lõi: Lập trình NodeJS phân tán (8.3/10.0), Thiết kế Giao diện Người dùng UI/UX (8.3/10.0), Phân tích & Thiết kế Yêu cầu Phần mềm BA (8.1/10.0), Quản trị Hệ thống Doanh nghiệp (7.3/10.0).",
         "Hoàn thành 150+ tín chỉ học thuật chuyên sâu: Cấu trúc Dữ liệu & Giải thuật, Mạng Máy tính, Hệ Quản trị CSDL Quan hệ 3NF, Kiến trúc Phần mềm Phân tán, và Đảm bảo Chất lượng Phần mềm (QA/QC).",
@@ -500,11 +500,11 @@ export const portfolioData = {
   education: [
     {
       id: "tdtu-degree",
-      degree: "Kỹ Sư Công Nghệ Thông Tin (Chương Trình Kỹ Sư 5 Năm)",
+      degree: "Cử Nhân Chuyên Ngành Kỹ Thuật Phần Mềm",
       institution: "Đại Học Tôn Đức Thắng (TDTU)",
       period: "2021 – 2026",
-      duration: "Chương Trình Đào Tạo Kỹ Sư 5 Năm Toàn Thời Gian",
-      grade: "GPA: 3.0 / 4.0 (Tốt Nghiệp Kỹ Sư CNTT)",
+      duration: "Chương Trình Đào Tạo Cử Nhân Toàn Thời Gian (2021 – 2026)",
+      grade: "GPA: 3.0 / 4.0 (Cử Nhân Chuyên Ngành Kỹ Thuật Phần Mềm)",
       coursework: [
         { name: "Lập trình NodeJS phân tán", score: "8.3 / 10.0" },
         { name: "Thiết kế Giao diện Người dùng UI/UX", score: "8.3 / 10.0" },

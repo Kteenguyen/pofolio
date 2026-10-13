@@ -25,14 +25,14 @@ export default function Experience() {
   const [filterType, setFilterType] = useState<"all" | "enterprise" | "education">("all");
   const [activeMilestoneId, setActiveMilestoneId] = useState<string>("powertech");
 
-  // Chronological order (2021 -> 2025 -> 12/2025-01/2026 -> 05/2026 -> 07/2026)
+  // Chronological order (2021 -> 10/2025-02/2026 -> 03/2026-06/2026 -> 05/2026 -> 07/2026)
   const chronologicalList: ExperienceType[] = [
     // 1. TDTU 2021 - 2026
     portfolioData.experience.find((e) => e.id === "tdtu-engineering")!,
-    // 2. HomeNest 2025
-    portfolioData.experience.find((e) => e.id === "homenest-software")!,
-    // 3. FPT IS 12/2025 - 01/2026
+    // 2. FPT IS 10/2025 - 02/2026
     portfolioData.experience.find((e) => e.id === "fpt-is")!,
+    // 3. HomeNest 03/2026 - 06/2026
+    portfolioData.experience.find((e) => e.id === "homenest-software")!,
     // 4. Luklak 05/2026
     portfolioData.experience.find((e) => e.id === "luklak-freelance")!,
     // 5. PowerTech 07/2026 - Nay
@@ -187,8 +187,8 @@ export default function Experience() {
             <div
               className={`absolute top-4 sm:top-5 left-8 right-8 h-1 bg-gradient-to-r ${
                 sortOrder === "reverse"
-                  ? "from-sky-500 via-emerald-500 via-blue-500 via-purple-500 to-amber-500"
-                  : "from-amber-500 via-purple-500 via-blue-500 via-emerald-500 to-sky-500"
+                  ? "from-sky-500 via-emerald-500 via-purple-500 via-blue-500 to-amber-500"
+                  : "from-amber-500 via-blue-500 via-purple-500 via-emerald-500 to-sky-500"
               } rounded-full opacity-60 hidden md:block`}
             />
 
@@ -226,10 +226,10 @@ export default function Experience() {
                         ? "07/26-Nay"
                         : milestone.id === "luklak-freelance"
                         ? "05/2026"
-                        : milestone.id === "fpt-is"
-                        ? "12/25-01/26"
                         : milestone.id === "homenest-software"
-                        ? "2025 (2T)"
+                        ? "03–06/2026"
+                        : milestone.id === "fpt-is"
+                        ? "10/25–02/26"
                         : "2021-2026"}
                     </span>
 
@@ -238,7 +238,7 @@ export default function Experience() {
                       {milestone.id === "tdtu-engineering"
                         ? "ĐH Tôn Đức Thắng"
                         : milestone.id === "homenest-software"
-                        ? "HomeNest (2T)"
+                        ? "HomeNest BA"
                         : milestone.id === "fpt-is"
                         ? "FPT IS"
                         : milestone.id === "luklak-freelance"
