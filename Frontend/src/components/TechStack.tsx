@@ -5,9 +5,10 @@ import TechLogo from "./TechLogo";
 
 export default function TechStack() {
   const categoryIcons: Record<string, React.ReactNode> = {
-    "Front-End & Trải Nghiệm Người Dùng (UI/UX)": <Layout size={20} className="text-blue-600 dark:text-blue-400" />,
-    "Back-End & Kiến Trúc Dữ Liệu (Systems & Data)": <Terminal size={20} className="text-indigo-600 dark:text-indigo-400" />,
-    "Nghiệp Vụ BA, Triển Khai & Kiểm Thử (BA / QA / DevOps)": <Database size={20} className="text-emerald-600 dark:text-emerald-400" />,
+    "AI Agentic và Tự Động Hóa Quy Trình": <Sparkles size={20} className="text-purple-600 dark:text-purple-400" />,
+    "Front-End và Xây Dựng Web Trọn Gói": <Layout size={20} className="text-blue-600 dark:text-blue-400" />,
+    "Back-End, CSDL và Tải Cao": <Terminal size={20} className="text-indigo-600 dark:text-indigo-400" />,
+    "Nghiệp Vụ BA và DevOps Vận Hành": <Database size={20} className="text-emerald-600 dark:text-emerald-400" />,
   };
 
   return (
@@ -16,10 +17,10 @@ export default function TechStack() {
         {/* Section Header */}
         <div className="flex flex-col items-start mb-12">
           <div className="text-xs font-mono font-semibold tracking-widest text-blue-600 dark:text-blue-400 uppercase mb-2">
-            // NĂNG LỰC KỸ THUẬT & NGHIỆP VỤ
+            // NĂNG LỰC KỸ THUẬT VÀ NGHIỆP VỤ
           </div>
           <h2 className="text-3xl lg:text-4xl font-extrabold text-[var(--foreground)] tracking-tight">
-            Khung Công Nghệ & Kỹ Năng Chuyên Môn
+            Khung Công Nghệ và Kỹ Năng Chuyên Môn
           </h2>
           <p className="text-[var(--muted-foreground)] mt-3 max-w-2xl text-base leading-relaxed">
             Sự phối hợp toàn diện giữa kỹ năng lập trình Full-Stack (React/Next.js, Node.js, C#), tư duy phân tích nghiệp vụ BA và năng lực triển khai thực tế.

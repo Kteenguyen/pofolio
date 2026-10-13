@@ -41,9 +41,9 @@ export default function Projects() {
 
   const categories = [
     "Tất cả",
-    "Full-Stack & Web",
-    "Backend & CSDL",
-    "Phân Tích BA & Nghiệp Vụ",
+    "Full-Stack và Web",
+    "Backend và CSDL",
+    "Phân Tích BA và Nghiệp Vụ",
   ];
 
   const filteredProjects = selectedCategory === "Tất cả"
@@ -56,7 +56,7 @@ export default function Projects() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <div className="text-xs font-mono font-semibold tracking-widest text-blue-600 dark:text-sky-400 uppercase mb-1">
-            // DANH MỤC 6 DỰ ÁN THỰC CHIẾN & NGHIỆP VỤ
+            // DANH MỤC 6 DỰ ÁN THỰC CHIẾN VÀ NGHIỆP VỤ
           </div>
           <h2 className="text-2xl lg:text-3xl font-extrabold text-[var(--foreground)] tracking-tight">
             Kho Dự Án Kỹ Thuật Đã Triển Khai

@@ -7,7 +7,7 @@ export interface Project {
   solution: string;
   impact: string[];
   techStack: string[];
-  category: "Full-Stack & Web" | "Backend & CSDL" | "Phân Tích BA & Nghiệp Vụ" | "Mobile & Khác";
+  category: "Full-Stack và Web" | "Backend và CSDL" | "Phân Tích BA và Nghiệp Vụ" | "Mobile và Khác";
   liveUrl?: string;
   githubUrl?: string;
   imageUrl?: string;
@@ -22,7 +22,7 @@ export interface Experience {
   period: string;
   yearBadge: string;
   location: string;
-  type: "Doanh Nghiệp" | "Freelance" | "Dự Án Cộng Đồng" | "Học Thuật & Đào Tạo" | "Thực Tập Doanh Nghiệp" | "Cử Nhân Học Vấn" | "Học Vấn Kỹ Sư";
+  type: "Doanh Nghiệp" | "Freelance" | "Dự Án Cộng Đồng" | "Học Thuật và Đào Tạo" | "Thực Tập Doanh Nghiệp" | "Cử Nhân Học Vấn" | "Học Vấn Kỹ Sư";
   website?: string;
   description: string;
   achievements: string[];
@@ -71,7 +71,7 @@ export const portfolioData = {
 
   stats: [
     { label: "Cán bộ số hóa tại FPT IS", value: "230+" },
-    { label: "Bugs & CR UAT xử lý", value: "60+" },
+    { label: "Bugs và CR UAT xử lý", value: "60+" },
     { label: "PageSpeed Mobile (CLS = 0)", value: "96/100" },
     { label: "Độ trễ phản hồi Webhook", value: "<2s" },
   ],
@@ -116,7 +116,7 @@ export const portfolioData = {
       ],
     },
     {
-      category: "Back-End, CSDL & Tải Cao",
+      category: "Back-End, CSDL và Tải Cao",
       description: "Xây dựng RESTful API phân tán, xác thực an toàn và tối ưu hóa truy vấn CSDL",
       skills: [
         { name: "Node.js & Express Framework", level: 92, note: "Distributed APIs, JWT Auth, Microservices" },
@@ -128,15 +128,15 @@ export const portfolioData = {
       ],
     },
     {
-      category: "Nghiệp Vụ BA & DevOps Vận Hành",
+      category: "Nghiệp Vụ BA và DevOps Vận Hành",
       description: "Phân tích yêu cầu nghiệp vụ, kiểm thử chất lượng UAT và đưa hệ thống lên Production",
       skills: [
         { name: "Phân Tích Nghiệp Vụ (BA)", level: 92, note: "Khảo Sát Khách Hàng, BRD, SRS, Agile/Scrum" },
         { name: "Mô Hình Hóa Sơ Đồ UML", level: 90, note: "Use Case, Activity, Sequence Diagram" },
-        { name: "UAT Testing & Quản Lý Lỗi (Jira)", level: 92, note: "Kiểm Thử Thực Địa & Xử Lý 60+ Bugs FPT IS" },
+        { name: "UAT Testing & Quản Lý Lỗi (Jira)", level: 92, note: "Kiểm Thử Thực Địa và Xử Lý 60+ Bugs FPT IS" },
         { name: "Triển Khai Máy Chủ VPS Linux & Nginx", level: 88, note: "Reverse Proxy, SSL Let\x27s Encrypt, Caching" },
         { name: "CI/CD & Version Control (Git)", level: 92, note: "GitHub Actions, Vercel Edge, Production Go-Live" },
-        { name: "Chữ Ký Số & Bảo Mật Doanh Nghiệp", level: 88, note: "Cấu Hình Chứng Thư Số & Nghiệm Thu Khách Hàng" },
+        { name: "Chữ Ký Số & Bảo Mật Doanh Nghiệp", level: 88, note: "Cấu Hình Chứng Thư Số và Nghiệm Thu Khách Hàng" },
       ],
     },
   ] as SkillCategory[],
@@ -146,7 +146,7 @@ export const portfolioData = {
       id: "ai-agentic-mcp",
       title: "Nền Tảng Hệ Thống Multi-Agent 4 Tầng và Động Cơ Giao Thức MCP",
       subtitle: "Multi-Agent System with MCP 2.0, JSON-RPC & Autonomous CDP Browser Testing",
-      category: "Full-Stack & Web",
+      category: "Full-Stack và Web",
       featured: true,
       description: "Thiết kế hệ thống Multi-Agent 4 tầng chuyên sâu: Supreme Leader (phân rã yêu cầu), Database Schema Architect (3NF/Supabase), QA Lead (chỉ huy Webhook HMAC, Chaos Simulator 429/502), và DevOps Parity Officer.",
       problem: "Phát triển phần mềm truyền thống tốn nhiều thời gian review thủ công, kiểm thử đa nền tảng và dễ phát sinh lỗi xung đột schema, tràn viền mobile.",
@@ -168,7 +168,7 @@ export const portfolioData = {
       id: "nam-gia-phat-realestate",
       title: "Cổng Bất Động Sản Doanh Nghiệp Nam Gia Phát",
       subtitle: "Enterprise Commercial Real Estate Portal with Multi-Dimensional Filtering",
-      category: "Full-Stack & Web",
+      category: "Full-Stack và Web",
       featured: true,
       imageUrl: "/namgiaphat.jpg",
       liveUrl: "https://nam-gia-phat-demo.vercel.app/",
@@ -192,7 +192,7 @@ export const portfolioData = {
       id: "bliss-homestay-automation",
       title: "Nghiên Cứu Phát Triển (GĐ 1): Tự Động Hóa Tin Nhắn Bliss Homestay",
       subtitle: "ManyChat Webhook Ingress & Make.com Automation Workflow",
-      category: "Backend & CSDL",
+      category: "Backend và CSDL",
       featured: true,
       description: "Nghiên cứu và phát triển (Giai đoạn 1) quy trình tự động hóa trả lời tin nhắn kết hợp Webhook ManyChat và Make.com thời gian thực, bắt trọn và phân giải cấu trúc dữ liệu JSON từ khách hàng.",
       problem: "Bliss Homestay tiếp nhận lượng lớn tin nhắn hỏi phòng phân tán trên nhiều kênh, thường xuyên bị chậm trễ phản hồi dẫn đến tỷ lệ rớt khách cao.",
@@ -212,9 +212,9 @@ export const portfolioData = {
     },
     {
       id: "ai-career-engine",
-      title: "Động Cơ AI Phân Tích Khớp Việc Làm & Portfolio Cá Nhân",
+      title: "Động Cơ AI Phân Tích Khớp Việc Làm và Portfolio Cá Nhân",
       subtitle: "Realtime Job Match Engine with JD Keyword Extraction & Edge Network",
-      category: "Full-Stack & Web",
+      category: "Full-Stack và Web",
       featured: true,
       liveUrl: "https://pofolio-b3w9.vercel.app/",
       description: "Xây dựng website cá nhân Production-Grade triển khai trên Vercel Edge Network với Next.js 15 App Router, React 19 và Tailwind CSS; thiết kế Mobile-First cam kết chuẩn 0 phần tử tràn viền.",
@@ -235,9 +235,9 @@ export const portfolioData = {
     },
     {
       id: "luklak-cinematic-web",
-      title: "Website Doanh Nghiệp Đa Trang & Cinematic Scroll (Luklak)",
+      title: "Website Doanh Nghiệp Đa Trang và Cinematic Scroll (Luklak)",
       subtitle: "Enterprise Responsive Website with Lenis Smooth Scroll 60 FPS & Spring Physics",
-      category: "Full-Stack & Web",
+      category: "Full-Stack và Web",
       featured: true,
       imageUrl: "/luklak.jpg",
       description: "Xây dựng hoàn thiện website thương hiệu gồm 7 trang hoàn chỉnh và 17 components, chuyển đổi trực tiếp bản vẽ Figma sang mã nguồn Next.js/Tailwind CSS chuẩn mực.",
@@ -258,9 +258,9 @@ export const portfolioData = {
     },
     {
       id: "powertech-high-performance",
-      title: "Tái Cấu Trúc Website Năng Lượng & Tối Ưu Hiệu Năng (PowerTech)",
+      title: "Tái Cấu Trúc Website Năng Lượng và Tối Ưu Hiệu Năng (PowerTech)",
       subtitle: "Next.js 15 App Router Migration, Zero-CLS & PageSpeed 96/100",
-      category: "Full-Stack & Web",
+      category: "Full-Stack và Web",
       featured: true,
       imageUrl: "/powertech.png",
       liveUrl: "https://powertech.vn",
@@ -284,7 +284,7 @@ export const portfolioData = {
       id: "fpt-civil-judgment-suite",
       title: "Dự Án Triển Khai Hệ Thống Cơ Quan Thi Hành Án Dân Sự (FPT IS)",
       subtitle: "Government Enterprise System Deployment, UAT Testing & End-User Training",
-      category: "Phân Tích BA & Nghiệp Vụ",
+      category: "Phân Tích BA và Nghiệp Vụ",
       featured: false,
       description: "Dự án chuyển đổi số trọng điểm của FPT IS cho cơ quan nhà nước. Đảm nhiệm vai trò Trưởng nhóm triển khai: điều phối golive, tổ chức đào tạo cho cán bộ và kiểm thử nghiệm thu.",
       problem: "Hệ thống nghiệp vụ phức tạp với khối lượng dữ liệu tư pháp lớn; người dùng cuối là các cán bộ công chức cần được hướng dẫn tỉ mỉ để chuyển đổi từ quy trình thủ công sang số hóa.",
@@ -303,9 +303,9 @@ export const portfolioData = {
     },
     {
       id: "ecommerce-redis-flashsale",
-      title: "Sàn Thương Mại Điện Tử & Đặt Hàng Trực Tuyến (Flash Sale Realtime)",
+      title: "Sàn Thương Mại Điện Tử và Đặt Hàng Trực Tuyến (Flash Sale Realtime)",
       subtitle: "E-Commerce Platform with Redis High-Concurrency Cache & Shipping Integration",
-      category: "Backend & CSDL",
+      category: "Backend và CSDL",
       featured: false,
       description: "Nền tảng thương mại điện tử hoàn chỉnh với giỏ hàng, thanh toán trực tuyến, cơ chế Flash Sale thời gian thực và tự động hóa tính phí vận chuyển.",
       problem: "Các đợt Flash Sale lưu lượng truy cập tăng vọt dễ dẫn đến nghẽn cơ sở dữ liệu và tình trạng mua vượt quá số lượng hàng tồn kho (Race Conditions).",
@@ -327,7 +327,7 @@ export const portfolioData = {
       id: "food-ordering-rbac-net",
       title: "Nền Tảng Đặt Món Trực Tuyến Phân Quyền Theo Vai Trò (RBAC)",
       subtitle: "Online Food Ordering Platform with ASP.NET Core & Partial Views Optimization",
-      category: "Full-Stack & Web",
+      category: "Full-Stack và Web",
       featured: false,
       description: "Ứng dụng đặt món ăn với hệ thống phân quyền đa vai trò (Khách hàng, Quản lý nhà hàng, Quản trị viên hệ thống) xây dựng trên nền tảng .NET hiện đại.",
       problem: "Mã nguồn giao diện monolithic truyền thống cồng kềnh, khó bảo trì khi mở rộng thêm các danh mục món ăn và bảng điều khiển quản trị.",

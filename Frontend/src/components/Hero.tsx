@@ -234,7 +234,7 @@ export default function Hero() {
         <div className="mt-8 sm:mt-12 lg:mt-14 pt-6 sm:pt-8 border-t border-[var(--surface-border)]">
           <div className="flex items-center justify-between mb-3 sm:mb-4">
             <div className="text-xs font-mono font-semibold text-blue-600 dark:text-sky-400 uppercase tracking-widest">
-              // CHỈ SỐ NĂNG LỰC ĐÃ ĐỐI SOÁT & XÁC THỰC
+              // CHỈ SỐ NĂNG LỰC ĐÃ ĐỐI SOÁT VÀ XÁC THỰC
             </div>
             <span className="text-[11px] font-mono text-[var(--muted-foreground)] hidden sm:inline">
               FPT IS • Luklak • PowerTech • TDTU
