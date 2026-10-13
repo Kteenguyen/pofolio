@@ -10,6 +10,7 @@ export interface Project {
   category: "Full-Stack & Web" | "Backend & CSDL" | "Phân Tích BA & Nghiệp Vụ" | "Mobile & Khác";
   liveUrl?: string;
   githubUrl?: string;
+  imageUrl?: string;
   featured: boolean;
   metrics: { label: string; value: string }[];
 }
@@ -419,9 +420,8 @@ export const portfolioData = {
       achievements: [
         "Thiết kế và phát triển giao diện Front-End website thương hiệu gồm 7 trang hoàn chỉnh và 17 components, chuyển đổi trực tiếp bản vẽ Figma sang mã nguồn Next.js và Tailwind CSS chuẩn mực.",
         "Tích hợp hiệu ứng cuộn điện ảnh Cinematic Scroll 60 FPS (Lenis Scroll kết hợp Framer Motion parallax video và spring physics), tối ưu trải nghiệm tương tác mượt mà.",
-        "Trực tiếp cấu hình máy chủ VPS Linux, cài đặt Nginx Reverse Proxy, cấp chứng chỉ SSL Let's Encrypt và tối ưu bộ nhớ đệm HTTP Caching.",
       ],
-      skills: ["Next.js", "React.js", "Tailwind CSS", "Framer Motion", "Lenis Smooth Scroll", "Figma", "VPS Linux", "SSL/Nginx"],
+      skills: ["Next.js", "React.js", "Tailwind CSS", "Framer Motion", "Lenis Smooth Scroll", "Figma to Code", "UI/UX Front-End"],
       metrics: [
         { label: "Số trang web", value: "7 Trang" },
         { label: "Components", value: "17+" },
@@ -429,11 +429,33 @@ export const portfolioData = {
       ],
     },
     {
+      id: "homenest-software",
+      role: "Thực Tập Sinh Phân Tích Nghiệp Vụ (Business Analyst – BA)",
+      company: "Công Ty HomeNest Software",
+      period: "03/2026 – 06/2026",
+      yearBadge: "03/2026 – 06/2026",
+      location: "TP. Hồ Chí Minh, Việt Nam",
+      type: "Thực Tập Doanh Nghiệp",
+      description: "Hoàn thành kỳ thực tập doanh nghiệp tại HomeNest Software với vai trò BA. Khảo sát và thu thập yêu cầu bài toán số hóa của khách hàng thông qua Google Meet; mô hình hóa quy trình nghiệp vụ thông qua sơ đồ Use Case, Activity Diagram và tài liệu đặc tả yêu cầu phần mềm (SRS).",
+      achievements: [
+        "Khảo sát và thu thập yêu cầu bài toán số hóa qua Google Meet trực tiếp với khách hàng; mô hình hóa quy trình qua sơ đồ Use Case, Activity Diagram và tài liệu đặc tả SRS.",
+        "Đóng vai trò cầu nối nghiệp vụ giữa khách hàng và đội ngũ lập trình, làm rõ logic chức năng và kiểm thử UAT để đảm bảo sản phẩm chuyển giao đúng kỳ vọng.",
+        "Đề xuất tạo cuộc họp để triển khai ngôn ngữ thiết kế; thiết lập Timeline tiến độ công việc theo chuẩn mô hình Agile/Scrum.",
+        "Phối hợp nhịp nhàng liên phòng ban: Developers, UI/UX, Graphic Design và duy trì cập nhật báo cáo tiến độ liên tục.",
+      ],
+      skills: ["Phân tích nghiệp vụ BA", "Khảo sát yêu cầu số hóa", "Sơ đồ Use Case & Activity", "Tài liệu đặc tả SRS", "Agile / Scrum", "Figma & Wireframe", "UAT Testing"],
+      metrics: [
+        { label: "Thời gian thực tập", value: "03–06/2026" },
+        { label: "Tài liệu SRS & UML", value: "Chuẩn hóa" },
+        { label: "Mô hình vận hành", value: "Agile/Scrum" },
+      ],
+    },
+    {
       id: "fpt-is",
       role: "Trưởng Nhóm Triển Khai Phần Mềm",
       company: "Công Ty Phần Mềm FPT IS (Hà Nội)",
-      period: "12/2025 – 01/2026",
-      yearBadge: "12/2025 – 01/2026",
+      period: "10/2025 – 02/2026",
+      yearBadge: "10/2025 – 02/2026",
       location: "Hà Nội – Đồng Tháp",
       type: "Doanh Nghiệp",
       description: "Tham gia dự án số hóa trọng điểm cho Cơ quan Thi Hành Án Dân Sự; điều phối quy trình triển khai phần mềm, hỗ trợ UAT và go-live hệ thống.",
@@ -448,28 +470,6 @@ export const portfolioData = {
         { label: "Cán bộ đào tạo", value: "230+" },
         { label: "Buổi Training", value: "15 Buổi" },
         { label: "Bugs/CR xử lý", value: "60+" },
-      ],
-    },
-    {
-      id: "homenest-software",
-      role: "Thực Tập Sinh Phân Tích Nghiệp Vụ (Business Analyst – BA)",
-      company: "Công Ty HomeNest Software",
-      period: "2025 (2 Tháng)",
-      yearBadge: "2025 (2 Tháng)",
-      location: "TP. Hồ Chí Minh, Việt Nam",
-      type: "Thực Tập Doanh Nghiệp (2 Tháng)",
-      description: "Hoàn thành kỳ thực tập doanh nghiệp 2 tháng với vai trò BA. Khảo sát và thu thập yêu cầu bài toán số hóa của khách hàng thông qua Google Meet; mô hình hóa quy trình nghiệp vụ thông qua sơ đồ Use Case, Activity Diagram và tài liệu đặc tả yêu cầu phần mềm (SRS).",
-      achievements: [
-        "Hoàn thành trọn vẹn kỳ thực tập doanh nghiệp 2 tháng với đánh giá xuất sắc từ người hướng dẫn và doanh nghiệp.",
-        "Đóng vai trò cầu nối nghiệp vụ giữa khách hàng và đội ngũ lập trình, làm rõ logic chức năng và kiểm thử chấp nhận để đảm bảo sản phẩm chuyển giao đúng kỳ vọng.",
-        "Đề xuất tạo cuộc họp để triển khai ngôn ngữ thiết kế; thiết lập Timeline tiến độ công việc theo chuẩn mô hình Agile/Scrum.",
-        "Phối hợp nhuần nhuyễn thông tin liên phòng ban: Developers, UI/UX, Graphic Design và duy trì cập nhật báo cáo tiến độ liên tục.",
-      ],
-      skills: ["Phân tích nghiệp vụ BA", "Thực tập 2 tháng", "Khảo sát yêu cầu số hóa", "Sơ đồ Use Case & Activity", "Tài liệu đặc tả SRS", "Agile / Scrum", "Figma & Wireframe"],
-      metrics: [
-        { label: "Thời gian thực tập", value: "2 Tháng" },
-        { label: "Tài liệu SRS & UML", value: "Chuẩn hóa" },
-        { label: "Mô hình vận hành", value: "Agile/Scrum" },
       ],
     },
     {

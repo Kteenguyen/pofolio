@@ -20,8 +20,8 @@
   \usepackage{fontspec}
 \fi
 
+\usepackage[letterpaper, top=0.38in, bottom=0.38in, left=0.5in, right=0.5in]{geometry}
 \usepackage{latexsym}
-\usepackage[empty]{fullpage}
 \usepackage{titlesec}
 \usepackage{marvosym}
 \usepackage[usenames,dvipsnames]{xcolor}
@@ -41,17 +41,9 @@
 \renewcommand{\footrulewidth}{0pt}
 
 % Thiết lập độ giãn dòng toàn văn bản (chuẩn mực, thanh thoát, tối ưu dấu tiếng Việt)
-\linespread{1.08}
-
-% Căn chỉnh lề trang tối ưu cho mật độ thông tin cao và thẩm mỹ hiện đại
-\addtolength{\oddsidemargin}{-0.55in}
-\addtolength{\evensidemargin}{-0.55in}
-\addtolength{\textwidth}{1.1in}
-\addtolength{\topmargin}{-.68in}
-\addtolength{\textheight}{1.36in}
+\linespread{1.06}
 
 \urlstyle{same}
-
 \raggedbottom
 \raggedright
 \setlength{\tabcolsep}{0in}
@@ -75,7 +67,7 @@
 
 \newcommand{\resumeSubheading}[4]{
   \vspace{2pt}\item
-    \begin{tabular*}{0.98\textwidth}[t]{l@{\extracolsep{ill}}r}
+    \begin{tabular*}{0.98\textwidth}[t]{l@{\extracolsep{\fill}}r}
       \textbf{\color{primaryDark}#1} & \textit{\small\color{subtleSlate}#2} \\
       \textit{\small#3} & \textit{\small\color{subtleSlate}#4} \\
     \end{tabular*}\vspace{-2pt}
@@ -83,14 +75,14 @@
 
 \newcommand{\resumeProjectHeading}[2]{
   \vspace{2pt}\item
-    \begin{tabular*}{0.98\textwidth}{l@{\extracolsep{ill}}r}
+    \begin{tabular*}{0.98\textwidth}{l@{\extracolsep{\fill}}r}
       \small#1 & \textit{\small\color{subtleSlate}#2} \\
     \end{tabular*}\vspace{-2pt}
 }
 
-\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.15in, label={}, itemsep=3.5pt, topsep=1pt]}
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.15in, label={}, itemsep=3pt, topsep=1pt]}
 \newcommand{\resumeSubHeadingListEnd}{\end{itemize}\vspace{-2pt}}
-\newcommand{\resumeItemListStart}{\begin{itemize}[leftmargin=0.15in, itemsep=1.5pt, parsep=0pt, topsep=1.5pt]}
+\newcommand{\resumeItemListStart}{\begin{itemize}[leftmargin=0.15in, itemsep=1.2pt, parsep=0pt, topsep=1pt]}
 \newcommand{\resumeItemListEnd}{\end{itemize}}
 
 %----------------------------------------------------------------------------------------
@@ -100,20 +92,20 @@
 
 %----------HEADER: AVATAR VÀ THÔNG TIN LIÊN HỆ----------
 \noindent
-\begin{minipage}[c]{0.17\textwidth}
+\begin{minipage}[c]{0.16\textwidth}
   \begin{tikzpicture}
     % Viền bo màu sắc tinh xảo
-    \draw[draw=accentBlue!60, line width=1.5pt, rounded corners=8pt] (-0.03,-0.03) rectangle (2.23cm, 2.73cm);
+    \draw[draw=accentBlue!60, line width=1.5pt, rounded corners=8pt] (-0.03,-0.03) rectangle (2.13cm, 2.63cm);
     % Cắt ảnh theo khung góc bo mềm mại
-    \clip[rounded corners=7pt] (0,0) rectangle (2.2cm, 2.7cm);
+    \clip[rounded corners=7pt] (0,0) rectangle (2.1cm, 2.6cm);
     \node[anchor=south west, inner sep=0pt] at (0,0) {
-      \includegraphics[width=2.2cm, height=2.7cm]{avatar.jpg}
+      \includegraphics[width=2.1cm, height=2.6cm]{avatar.jpg}
     };
   \end{tikzpicture}
 \end{minipage}%
 \hfill
-\begin{minipage}[c]{0.81\textwidth}
-  {\Huge \scshape \textbf{\color{primaryDark}Nguyễn Khoa Tài (Ktee)}} \\ \vspace{2pt}
+\begin{minipage}[c]{0.82\textwidth}
+  {\LARGE \scshape \textbf{\color{primaryDark}Nguyễn Khoa Tài (Ktee)}} \\ \vspace{2pt}
   {\large \textbf{\color{accentBlue}Kỹ Sư Phần Mềm (Web/App) $|$ Định Hướng Fullstack AI Agent Workflow}} \\ \vspace{2pt}
   \small
   \faPhone\ (+84) 852 723 945 ~ $|$ ~
@@ -128,12 +120,12 @@
 %-----------TÓM TẮT HỒ SƠ NĂNG LỰC (THEO ĐÚNG THỰC TẾ CỦA KTEE)-----------
 \section{Tóm Tắt Năng Lực (Executive Summary)}
 \small{
-Kỹ sư CNTT tốt nghiệp \textbf{Đại học Tôn Đức Thắng} (\textbf{GPA: 3.0 / 4.0}), sở hữu kinh nghiệm thực tập doanh nghiệp (\textbf{FPT IS, HomeNest}) cùng năng lực phát triển các dự án Web/App thực tế. Tinh thần tự giác, ham học hỏi cao, liên tục làm chủ công nghệ mới và định hướng chuyên sâu mảng \textbf{Fullstack \& AI Agent Workflow}. Mục tiêu năm tới xác lập vị trí chính thức ổn định trong ngành và vững vàng tài chính; rất mong muốn đồng hành, cống hiến lâu dài cùng Quý doanh nghiệp.
+Kỹ sư CNTT tốt nghiệp \textbf{Đại học Tôn Đức Thắng} (\textbf{GPA: 3.0 / 4.0}), sở hữu kinh nghiệm thực tập (\textbf{HomeNest, FPT IS}) cùng năng lực phát triển các dự án Web/App thực tế. Tinh thần tự giác, ham học hỏi cao, liên tục làm chủ công nghệ mới và định hướng chuyên sâu mảng \textbf{Fullstack \& AI Agent Workflow}. Mục tiêu năm tới xác lập vị trí chính thức ổn định trong ngành, tài chính vững vàng; mong muốn đồng hành và cống hiến lâu dài cùng Quý doanh nghiệp.
 }
 
 %-----------KỸ NĂNG CỐT LÕI-----------
 \section{Năng Lực Kỹ Thuật \& Trí Tuệ Nhân Tạo Tác Tử (Core Competencies)}
- \begin{itemize}[leftmargin=0.15in, label={}, itemsep=2.5pt, topsep=1pt]
+ \begin{itemize}[leftmargin=0.15in, label={}, itemsep=2pt, topsep=1pt]
     \small{\item{
      \textbf{AI Agentic \& Workflow Automation:} {Xây dựng luồng tác tử tự trị (Multi-Agent Workflow), Tự động hóa Make.com \& Webhook Ingress, Giao thức Model Context Protocol (MCP 2.0), Tool/Function Calling, Tối ưu Context Prompt, RAG \& Hybrid Search, Tích hợp LLM APIs} \\
      \textbf{Front-End \& Xây Dựng Web Trọn Gói:} {Next.js 15 (App Router, Server Actions), React 19, TypeScript, Tailwind CSS, Framer Motion, Lenis Smooth Scroll, Tối ưu Mobile-First (Viewport 430px không tràn viền), Triệt tiêu Layout Shift (CLS = 0), Core Web Vitals 95+} \\
@@ -150,40 +142,40 @@ Kỹ sư CNTT tốt nghiệp \textbf{Đại học Tôn Đức Thắng} (\textbf{
       {Công Ty Năng Lượng Powertech Sài Gòn (PowerTech) $|$ \href{https://powertech.vn}{\color{accentBlue}\underline{powertech.vn}}}{07/2026 -- Hiện Tại}
       {Kỹ Sư Fullstack Web \& Tối Ưu Hóa Hiệu Năng (Next.js 15)}{TP. Hồ Chí Minh, Việt Nam}
       \resumeItemListStart
-        \resumeItem{Thiết kế giao diện UI/UX Version 2 cho công ty điện năng lượng mặt trời, tối ưu nhận diện thương hiệu và trải nghiệm tương tác người dùng.}
+        \resumeItem{Thiết kế giao diện UI/UX Version 2 cho công ty điện mặt trời, nâng tầm nhận diện thương hiệu và tối ưu trải nghiệm tương tác.}
         \resumeItem{Thiết kế và tối ưu hệ thống CMS quản trị, hỗ trợ cấu hình dữ liệu và cập nhật nội dung vận hành linh hoạt, nhanh chóng.}
-        \resumeItem{Thiết kế giao diện trang Tuyển dụng mới và xây dựng module dynamic tự động thu thập thông tin ứng viên để đẩy leads về hệ thống CMS.}
-        \resumeItem{Thiết kế, lập trình và vá lỗi dynamic rendering; chủ động xử lý các kịch bản dữ liệu fallback an toàn cho các nội dung do AI sinh ra.}
-        \resumeItem{Thực hiện manual testing tỉ mỉ từng nút bấm (button), luồng thao tác và đảm bảo giao diện responsive chuẩn mực trên đa thiết bị.}
-        \resumeItem{Hoàn thiện đóng gói, kiểm thử chấp nhận và trực tiếp bàn giao sản phẩm vận hành ổn định cho người dùng cuối.}
+        \resumeItem{Thiết kế giao diện tuyển dụng mới và xây dựng module dynamic tự động thu thập thông tin ứng viên đẩy leads về CMS.}
+        \resumeItem{Thiết kế, lập trình và vá lỗi dynamic rendering; chủ động xử lý các kịch bản dữ liệu fallback an toàn cho nội dung do AI sinh ra.}
+        \resumeItem{Thực hiện manual testing tỉ mỉ từng nút bấm (button), luồng thao tác và đảm bảo giao diện responsive chuẩn mực đa thiết bị.}
+        \resumeItem{Hoàn thiện đóng gói, kiểm thử chấp nhận (UAT) và trực tiếp bàn giao sản phẩm vận hành ổn định cho người dùng cuối.}
       \resumeItemListEnd
 
     \resumeSubheading
       {Dự Án Doanh Nghiệp Khách Hàng Luklak}{05/2026}
       {Kỹ Sư Lập Trình Front-End Web (Freelance)}{TP. Hồ Chí Minh, Việt Nam}
       \resumeItemListStart
-        \resumeItem{Thiết kế và phát triển giao diện Front-End website thương hiệu gồm \textbf{7 trang hoàn chỉnh và 17 components}, chuyển đổi trực tiếp bản vẽ Figma sang mã nguồn Next.js và Tailwind CSS chuẩn mực.}
-        \resumeItem{Tích hợp hiệu ứng cuộn điện ảnh \textbf{Cinematic Scroll 60 FPS} (Lenis Scroll kết hợp Framer Motion parallax video và spring physics), tối ưu trải nghiệm tương tác mượt mà.}
+        \resumeItem{Thiết kế và phát triển Front-End website thương hiệu gồm \textbf{7 trang và 17 components}, chuyển đổi chuẩn mực từ Figma sang Next.js/Tailwind CSS.}
+        \resumeItem{Tích hợp hiệu ứng cuộn điện ảnh \textbf{Cinematic Scroll 60 FPS} (Lenis Scroll kết hợp Framer Motion parallax video và spring physics).}
       \resumeItemListEnd
 
     \resumeSubheading
-      {Công Ty Phần Mềm FPT IS (Hà Nội)}{12/2025 -- 01/2026}
+      {Công Ty HomeNest Software}{03/2026 -- 06/2026}
+      {Thực Tập Sinh Phân Tích Nghiệp Vụ BA (Đánh Giá Xuất Sắc)}{TP. Hồ Chí Minh, Việt Nam}
+      \resumeItemListStart
+        \resumeItem{Khảo sát và thu thập yêu cầu bài toán số hóa qua Google Meet trực tiếp với khách; mô hình hóa quy trình qua sơ đồ Use Case, Activity Diagram và SRS.}
+        \resumeItem{Đóng vai trò cầu nối nghiệp vụ giữa khách hàng và đội ngũ lập trình, làm rõ logic chức năng và kiểm thử UAT đảm bảo sản phẩm đúng kỳ vọng.}
+        \resumeItem{Đề xuất và điều phối cuộc họp chuẩn hóa UI/UX; thiết lập Timeline tiến độ công việc theo chuẩn mô hình Agile/Scrum.}
+        \resumeItem{Phối hợp nhịp nhàng liên phòng ban (Developers, UI/UX, Graphic Design) và duy trì cập nhật báo cáo tiến độ liên tục.}
+      \resumeItemListEnd
+
+    \resumeSubheading
+      {Công Ty Phần Mềm FPT IS (Hà Nội)}{10/2025 -- 02/2026}
       {Trưởng Nhóm Triển Khai Phần Mềm}{Hà Nội -- Đồng Tháp}
       \resumeItemListStart
         \resumeItem{Tham gia dự án số hóa trọng điểm cho \textbf{Cơ quan Thi Hành Án Dân Sự}; điều phối quy trình triển khai phần mềm, hỗ trợ UAT và go-live hệ thống.}
         \resumeItem{Trực tiếp đứng lớp tổ chức \textbf{15 buổi đào tạo (Training) cho hơn 230 cán bộ và người dùng cuối}, chuyển đổi quy trình thủ công sang số hóa.}
         \resumeItem{Phối hợp chặt chẽ với đội ngũ Back-End xác định lỗi giao diện và API, ghi nhận và xử lý dứt điểm \textbf{60+ bugs và yêu cầu thay đổi (CR)}.}
         \resumeItem{Cài đặt phần mềm, cấu hình chứng thư số và hỗ trợ kỹ thuật từ xa qua UltraViewer, hoàn thiện biên bản nghiệm thu dự án đúng hạn.}
-      \resumeItemListEnd
-
-    \resumeSubheading
-      {Công Ty HomeNest Software}{2025 (2 Tháng)}
-      {Thực Tập Sinh Phân Tích Nghiệp Vụ BA (Đánh Giá Xuất Sắc)}{TP. Hồ Chí Minh, Việt Nam}
-      \resumeItemListStart
-        \resumeItem{Khảo sát và thu thập yêu cầu bài toán số hóa qua Google Meet trực tiếp với khách hàng; mô hình hóa quy trình qua sơ đồ Use Case, Activity Diagram và tài liệu đặc tả SRS.}
-        \resumeItem{Đóng vai trò cầu nối nghiệp vụ giữa khách hàng và đội ngũ lập trình, làm rõ logic chức năng và kiểm thử UAT để đảm bảo sản phẩm chuyển giao đúng kỳ vọng.}
-        \resumeItem{Đề xuất và điều phối cuộc họp chuẩn hóa UI/UX; thiết lập Timeline tiến độ công việc theo chuẩn mô hình Agile/Scrum.}
-        \resumeItem{Phối hợp nhịp nhàng liên phòng ban: Developers, UI/UX, Graphic Design và duy trì cập nhật báo cáo tiến độ liên tục.}
       \resumeItemListEnd
 
   \resumeSubHeadingListEnd
