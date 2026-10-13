@@ -26,6 +26,7 @@ export default function Projects() {
                 ...localP,
                 liveUrl: remoteP.liveUrl || localP.liveUrl,
                 githubUrl: remoteP.githubUrl || localP.githubUrl,
+                imageUrl: remoteP.imageUrl || localP.imageUrl,
               };
             }
             return localP;
@@ -88,9 +89,37 @@ export default function Projects() {
         {filteredProjects.map((project) => (
           <div
             key={project.id}
-            className="card-glass rounded-2xl p-4 lg:p-5 border border-[var(--surface-border)] flex flex-col justify-between tech-card-hover group"
+            className="card-glass rounded-2xl p-4 lg:p-5 border border-[var(--surface-border)] flex flex-col justify-between tech-card-hover group overflow-hidden"
           >
             <div>
+              {/* Optional Project Showcase Image Banner */}
+              {project.imageUrl && (
+                <div className="relative mb-4 -mx-4 -mt-4 lg:-mx-5 lg:-mt-5 overflow-hidden border-b border-[var(--surface-border)] bg-slate-950 group/img">
+                  <a
+                    href={project.liveUrl || "#"}
+                    target={project.liveUrl ? "_blank" : undefined}
+                    rel="noopener noreferrer"
+                    className="block relative aspect-[16/9] w-full overflow-hidden cursor-pointer"
+                    title={`Xem dự án thực tế trên Vercel: ${project.liveUrl || ""}`}
+                  >
+                    <img
+                      src={project.imageUrl}
+                      alt={project.title}
+                      className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
+                    {project.liveUrl && (
+                      <div className="absolute bottom-2.5 right-2.5 px-2.5 py-1 rounded-lg text-[10px] font-mono font-bold bg-emerald-600 text-white shadow-md flex items-center gap-1.5 transition-transform group-hover:scale-105">
+                        <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+                        <span>Vercel Demo</span>
+                        <ExternalLink size={11} />
+                      </div>
+                    )}
+                  </a>
+                </div>
+              )}
+
               {/* Header Badges */}
               <div className="flex items-center justify-between mb-3">
                 <span className="px-2.5 py-0.5 rounded-md text-[11px] font-mono font-semibold bg-blue-50 text-blue-700 dark:bg-blue-950 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
@@ -98,10 +127,16 @@ export default function Projects() {
                 </span>
 
                 {project.liveUrl ? (
-                  <span className="text-[10px] font-mono font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0" />
-                    <span>Live Demo Sẵn Sàng</span>
-                  </span>
+                  <a
+                    href={project.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[10px] font-mono font-bold text-emerald-600 dark:text-emerald-400 hover:text-emerald-500 flex items-center gap-1.5 transition-colors"
+                  >
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0 animate-pulse" />
+                    <span>{project.liveUrl.includes("vercel.app") ? "Vercel Live" : "Live Demo Sẵn Sàng"}</span>
+                    <ExternalLink size={10} />
+                  </a>
                 ) : (
                   <span className="text-[10px] font-mono font-medium text-[var(--muted-foreground)]">
                     Nghiệp Vụ Enterprise
@@ -179,9 +214,10 @@ export default function Projects() {
                     href={project.liveUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="touch-target px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-emerald-600 text-white flex items-center gap-1 hover:bg-emerald-700 transition-colors"
+                    className="touch-target px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-emerald-600 text-white flex items-center gap-1.5 hover:bg-emerald-700 transition-colors shadow-sm"
+                    title={`Mở demo trực tiếp trên Vercel: ${project.liveUrl}`}
                   >
-                    <span>Live Demo</span>
+                    <span>{project.liveUrl.includes("vercel.app") ? "Vercel Demo" : "Live Demo"}</span>
                     <ExternalLink size={12} />
                   </a>
                 )}

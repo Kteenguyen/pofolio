@@ -170,6 +170,7 @@ export const portfolioData = {
       subtitle: "Enterprise Commercial Real Estate Portal with Multi-Dimensional Filtering",
       category: "Full-Stack & Web",
       featured: true,
+      imageUrl: "/namgiaphat.jpg",
       liveUrl: "https://nam-gia-phat-demo.vercel.app/",
       description: "Xây dựng website bất động sản thương mại trên Next.js 15 App Router, React 19, Tailwind CSS và Ant Design; tối ưu hóa phân cấp danh mục căn hộ, nhà phố, đất nền khu vực Nam Sài Gòn.",
       problem: "Doanh nghiệp môi giới BĐS Nam Sài Gòn cần cổng thông tin số giới thiệu dự án, tìm kiếm phân loại sản phẩm nhanh và thu thập lead tư vấn chuẩn xác trên điện thoại.",
