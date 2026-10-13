@@ -107,7 +107,7 @@ export default function Experience() {
               <span>// BẢN ĐỒ DÒNG THỜI GIAN KINH NGHIỆM THỰC CHIẾN</span>
             </div>
             <h2 className="text-3xl lg:text-4xl font-extrabold text-[var(--foreground)] tracking-tight">
-              Hành Trình Kỹ Sư &amp; Kinh Nghiệm Triển Khai
+              Hành Trình Kỹ Sư và Kinh Nghiệm Triển Khai
             </h2>
             <p className="text-[var(--muted-foreground)] mt-3 max-w-2xl text-sm lg:text-base leading-relaxed">
               Đồng bộ hóa 100% từ hồ sơ CV Master: Hành trình phát triển thực chiến từ nền tảng Kỹ sư 5 năm ĐH Tôn Đức Thắng đến các hệ thống chuyển đổi số doanh nghiệp.
