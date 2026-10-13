@@ -65,6 +65,33 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
           </p>
         </div>
 
+        {/* Optional Project Showcase Image Banner */}
+        {project.imageUrl && (
+          <div className="relative my-5 overflow-hidden rounded-2xl border border-[var(--surface-border)] bg-slate-950 shadow-md group">
+            <a
+              href={project.liveUrl || "#"}
+              target={project.liveUrl ? "_blank" : undefined}
+              rel="noopener noreferrer"
+              className="block relative aspect-[16/9] w-full overflow-hidden cursor-pointer"
+              title={`Mở trải nghiệm trực tiếp trên Vercel: ${project.liveUrl || ""}`}
+            >
+              <img
+                src={project.imageUrl}
+                alt={project.title}
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-50 group-hover:opacity-30 transition-opacity" />
+              {project.liveUrl && (
+                <div className="absolute bottom-3 right-3 px-3 py-1.5 rounded-xl text-xs font-mono font-bold bg-emerald-600 text-white backdrop-blur-md shadow-lg flex items-center gap-2 transition-transform group-hover:scale-105">
+                  <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
+                  <span>Trải Nghiệm Demo Vercel</span>
+                  <ExternalLink size={13} />
+                </div>
+              )}
+            </a>
+          </div>
+        )}
+
         {/* Metrics Grid */}
         <div className="grid grid-cols-3 gap-3 my-6 p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-[var(--surface-border)]">
           {project.metrics.map((m) => (
@@ -148,10 +175,10 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
               href={project.liveUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="touch-target px-5 py-2.5 rounded-xl text-xs font-semibold bg-blue-600 text-white flex items-center gap-2 shadow-sm hover:bg-blue-700 transition-colors"
+              className="touch-target px-5 py-2.5 rounded-xl text-xs font-semibold bg-emerald-600 text-white flex items-center gap-2 shadow-sm hover:bg-emerald-700 transition-colors"
             >
               <ExternalLink size={16} />
-              <span>Trải Nghiệm Live Demo</span>
+              <span>{project.liveUrl.includes("vercel.app") ? `Mở Trải Nghiệm Demo Vercel (${project.liveUrl.replace(/^https?:\/\//, '').replace(/\/$/, '')})` : "Trải Nghiệm Live Demo"}</span>
             </a>
           )}
         </div>
