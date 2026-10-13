@@ -28,7 +28,7 @@ export default function Home() {
         <Experience />
 
         {/* 6. Projects (Kho 6 Dự Án Thực Chiến CAR Framework) */}
-        <section id="projects" className="py-10 sm:py-14 lg:py-18 border-t border-[var(--surface-border)] bg-[var(--background)]">
+        <section id="projects" className="py-8 sm:py-10 lg:py-12 border-t border-[var(--surface-border)] bg-[var(--background)]">
           <div className="portfolio-container">
             <Projects />
           </div>
@@ -38,7 +38,7 @@ export default function Home() {
         <TechStack />
 
         {/* 8. Contact Section */}
-        <section id="contact" className="py-10 sm:py-14 lg:py-18 border-t border-[var(--surface-border)] bg-[var(--background)]">
+        <section id="contact" className="py-8 sm:py-10 lg:py-12 border-t border-[var(--surface-border)] bg-[var(--background)]">
           <div className="portfolio-container">
             <Contact />
           </div>

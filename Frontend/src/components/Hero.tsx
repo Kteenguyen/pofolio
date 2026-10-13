@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Link from "next/link";
 import { portfolioData } from "@/data/portfolioData";
-import StatsCounter from "./StatsCounter";
 import CVDownloadModal from "./CVDownloadModal";
 import {
   Code2,
@@ -23,7 +22,7 @@ export default function Hero() {
   const [cvModalOpen, setCvModalOpen] = useState(false);
 
   return (
-    <section className="pt-8 pb-10 sm:pt-14 sm:pb-16 lg:pt-20 lg:pb-18 relative overflow-hidden bg-gradient-to-b from-slate-50 via-white to-slate-50 dark:from-slate-950 dark:via-[#0b0f19] dark:to-slate-950">
+    <section className="pt-6 pb-8 sm:pt-10 sm:pb-10 lg:pt-12 lg:pb-12 relative overflow-hidden bg-gradient-to-b from-slate-50 via-white to-slate-50 dark:from-slate-950 dark:via-[#0b0f19] dark:to-slate-950">
       {/* Decorative ambient subtle background blur */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 sm:w-[500px] h-72 sm:h-[400px] bg-blue-500/5 rounded-full blur-3xl pointer-events-none -z-10" />
 
@@ -230,18 +229,6 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* 4 Verified Metrics Counter Cards */}
-        <div className="mt-8 sm:mt-12 lg:mt-14 pt-6 sm:pt-8 border-t border-[var(--surface-border)]">
-          <div className="flex items-center justify-between mb-3 sm:mb-4">
-            <div className="text-xs font-mono font-semibold text-blue-600 dark:text-sky-400 uppercase tracking-widest">
-              // CHỈ SỐ NĂNG LỰC ĐÃ ĐỐI SOÁT VÀ XÁC THỰC
-            </div>
-            <span className="text-[11px] font-mono text-[var(--muted-foreground)] hidden sm:inline">
-              FPT IS • Luklak • PowerTech • TDTU
-            </span>
-          </div>
-          <StatsCounter />
-        </div>
       </div>
 
       {/* CV Download Modal */}

@@ -12,10 +12,10 @@ export default function TechStack() {
   };
 
   return (
-    <section id="skills" className="py-10 sm:py-14 lg:py-18 border-t border-[var(--surface-border)] bg-[var(--background)]">
+    <section id="skills" className="py-8 sm:py-10 lg:py-12 border-t border-[var(--surface-border)] bg-[var(--background)]">
       <div className="portfolio-container">
         {/* Section Header */}
-        <div className="flex flex-col items-start mb-12">
+        <div className="flex flex-col items-start mb-6 sm:mb-8">
           <div className="text-xs font-mono font-semibold tracking-widest text-blue-600 dark:text-blue-400 uppercase mb-2">
             // NĂNG LỰC KỸ THUẬT VÀ NGHIỆP VỤ
           </div>

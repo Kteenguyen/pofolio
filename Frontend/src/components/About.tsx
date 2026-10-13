@@ -12,10 +12,10 @@ export default function About() {
   ];
 
   return (
-    <section id="about" className="py-10 sm:py-14 lg:py-18 border-t border-[var(--surface-border)] bg-[var(--surface-subtle)]/50 relative">
+    <section id="about" className="py-8 sm:py-10 lg:py-12 border-t border-[var(--surface-border)] bg-[var(--surface-subtle)]/50 relative">
       <div className="portfolio-container">
         {/* Section Header */}
-        <div className="flex flex-col items-start mb-12">
+        <div className="flex flex-col items-start mb-6 sm:mb-8">
           <div className="text-xs font-mono font-semibold tracking-widest text-blue-600 dark:text-blue-400 uppercase mb-2">
             // VỀ TÔI VÀ TƯ DUY NGHỀ NGHIỆP
           </div>
@@ -55,7 +55,7 @@ export default function About() {
         </div>
 
         {/* Special Highlight Box */}
-        <div className="mt-10 card-glass rounded-2xl p-6 lg:p-8 border border-blue-200 dark:border-blue-900 bg-gradient-to-r from-blue-50/50 via-white to-transparent dark:from-blue-950/20 dark:via-[var(--surface)] dark:to-transparent flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+        <div className="mt-6 sm:mt-8 card-glass rounded-2xl p-6 lg:p-8 border border-blue-200 dark:border-blue-900 bg-gradient-to-r from-blue-50/50 via-white to-transparent dark:from-blue-950/20 dark:via-[var(--surface)] dark:to-transparent flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
           <div className="flex items-start gap-4">
             <div className="w-12 h-12 rounded-xl bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 flex items-center justify-center shrink-0">
               <Award size={26} />

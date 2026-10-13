@@ -97,10 +97,10 @@ export default function Experience() {
   };
 
   return (
-    <section id="experience" className="py-12 sm:py-16 lg:py-20 border-t border-[var(--surface-border)] bg-[var(--surface-subtle)]/40 relative overflow-hidden">
+    <section id="experience" className="py-8 sm:py-10 lg:py-12 border-t border-[var(--surface-border)] bg-[var(--surface-subtle)]/40 relative overflow-hidden">
       <div className="portfolio-container">
         {/* Section Header */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-10">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-6 sm:mb-8">
           <div>
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-semibold tracking-widest text-blue-600 dark:text-sky-400 bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800 uppercase mb-3">
               <Sparkles size={13} />

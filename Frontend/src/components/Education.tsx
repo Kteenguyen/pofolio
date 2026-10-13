@@ -3,10 +3,10 @@ import { GraduationCap, Award, CheckCircle, BookOpen, Star } from "lucide-react"
 
 export default function Education() {
   return (
-    <section id="education" className="py-10 sm:py-14 lg:py-18 border-t border-[var(--surface-border)] bg-[var(--background)] relative">
+    <section id="education" className="py-8 sm:py-10 lg:py-12 border-t border-[var(--surface-border)] bg-[var(--background)] relative">
       <div className="portfolio-container">
         {/* Section Header */}
-        <div className="flex flex-col items-start mb-8 sm:mb-12">
+        <div className="flex flex-col items-start mb-6 sm:mb-8">
           <div className="text-xs font-mono font-semibold tracking-widest text-blue-600 dark:text-blue-400 uppercase mb-2">
             // HỌC THUẬT VÀ NỀN TẢNG ĐÀO TẠO 5 NĂM
           </div>
@@ -22,7 +22,7 @@ export default function Education() {
         {portfolioData.education.map((edu) => (
           <div
             key={edu.id}
-            className="card-glass rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 border border-blue-200 dark:border-blue-900/60 bg-gradient-to-br from-white via-slate-50/50 to-blue-50/30 dark:from-[var(--surface)] dark:via-[var(--surface)] dark:to-blue-950/20 mb-8 sm:mb-10"
+            className="card-glass rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 border border-blue-200 dark:border-blue-900/60 bg-gradient-to-br from-white via-slate-50/50 to-blue-50/30 dark:from-[var(--surface)] dark:via-[var(--surface)] dark:to-blue-950/20 mb-6 sm:mb-8"
           >
             {/* Degree Title Bar */}
             <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-5 sm:pb-6 border-b border-[var(--surface-border)]">
@@ -52,7 +52,7 @@ export default function Education() {
             </div>
 
             {/* Coursework Score Cards - Apple Grid Style (2 cols on mobile) */}
-            <div className="my-6 sm:my-8">
+            <div className="my-4 sm:my-6">
               <div className="text-[11px] sm:text-xs font-mono font-semibold text-[var(--muted-foreground)] uppercase mb-2.5 sm:mb-3">
                 // ĐIỂM SỐ CÁC MÔN CHUYÊN NGÀNH CỐT LÕI (BẢNG ĐIỂM CHỨNG THỰC):
               </div>
