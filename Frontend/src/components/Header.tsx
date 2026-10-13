@@ -14,7 +14,6 @@ export default function Header() {
 
   const navRoutes = [
     { label: "Tổng Quan", href: "/" },
-    { label: "AI Copilot", href: "/copilot" },
     { label: "Học Vấn", href: "/education" },
     { label: "Kinh Nghiệm", href: "/experience" },
     { label: "Dự Án", href: "/projects" },

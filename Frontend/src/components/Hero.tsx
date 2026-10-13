@@ -7,7 +7,6 @@ import StatsCounter from "./StatsCounter";
 import CVDownloadModal from "./CVDownloadModal";
 import {
   Code2,
-  Bot,
   ArrowRight,
   GraduationCap,
   Mail,
@@ -98,14 +97,14 @@ export default function Hero() {
 
             {/* Primary Action Buttons (2 buttons side-by-side or stacked on tiny mobile) */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 w-full mt-5 sm:mt-7">
-              <Link
-                href="/copilot"
+              <a
+                href="#projects"
                 className="touch-target w-full px-4 py-3 rounded-xl text-xs sm:text-sm font-bold bg-blue-600 text-white shadow-md hover:bg-blue-700 active:scale-[0.99] transition-all flex items-center justify-center gap-2 group cursor-pointer"
               >
-                <Bot size={16} className="text-white shrink-0" />
-                <span>AI Career Copilot</span>
+                <FolderGit2 size={16} className="text-white shrink-0" />
+                <span>Xem 6 Dự Án Tiêu Biểu</span>
                 <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform shrink-0" />
-              </Link>
+              </a>
 
               <button
                 onClick={() => setCvModalOpen(true)}
