@@ -1,3 +1,6 @@
+"use client";
+
+import Link from "next/link";
 import { portfolioData } from "@/data/portfolioData";
 import { GraduationCap, Briefcase, GitPullRequest, Award, CheckCircle2 } from "lucide-react";
 
@@ -66,12 +69,19 @@ export default function About() {
               </p>
             </div>
           </div>
-          <a
-            href="#experience"
+          <Link
+            href="/experience"
+            onClick={(e) => {
+              const el = document.getElementById("experience");
+              if (el) {
+                e.preventDefault();
+                el.scrollIntoView({ behavior: "smooth" });
+              }
+            }}
             className="touch-target px-5 py-2.5 rounded-xl text-xs font-semibold bg-[var(--surface)] text-[var(--foreground)] border border-[var(--surface-border)] hover:border-blue-600 hover:text-blue-600 transition-all shrink-0 cursor-pointer shadow-sm"
           >
             Xem Chi Tiết Kinh Nghiệm FPT & Luklak →
-          </a>
+          </Link>
         </div>
       </div>
     </section>
