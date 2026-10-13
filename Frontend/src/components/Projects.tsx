@@ -112,7 +112,7 @@ export default function Projects() {
                     {project.liveUrl && (
                       <div className="absolute bottom-2.5 right-2.5 px-2.5 py-1 rounded-lg text-[10px] font-mono font-bold bg-emerald-600 text-white shadow-md flex items-center gap-1.5 transition-transform group-hover:scale-105">
                         <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
-                        <span>Vercel Demo</span>
+                        <span>{project.liveUrl.includes("vercel.app") ? "Vercel Demo" : "Live Web"}</span>
                         <ExternalLink size={11} />
                       </div>
                     )}

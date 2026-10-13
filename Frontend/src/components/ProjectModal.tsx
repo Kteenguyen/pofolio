@@ -73,7 +73,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
               target={project.liveUrl ? "_blank" : undefined}
               rel="noopener noreferrer"
               className="block relative aspect-[16/9] w-full overflow-hidden cursor-pointer"
-              title={`Mở trải nghiệm trực tiếp trên Vercel: ${project.liveUrl || ""}`}
+              title={`Mở trải nghiệm trực tiếp: ${project.liveUrl || ""}`}
             >
               <img
                 src={project.imageUrl}
@@ -84,7 +84,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
               {project.liveUrl && (
                 <div className="absolute bottom-3 right-3 px-3 py-1.5 rounded-xl text-xs font-mono font-bold bg-emerald-600 text-white backdrop-blur-md shadow-lg flex items-center gap-2 transition-transform group-hover:scale-105">
                   <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
-                  <span>Trải Nghiệm Demo Vercel</span>
+                  <span>{project.liveUrl.includes("vercel.app") ? "Trải Nghiệm Demo Vercel" : "Trải Nghiệm Live Web"}</span>
                   <ExternalLink size={13} />
                 </div>
               )}

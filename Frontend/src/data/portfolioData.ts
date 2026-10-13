@@ -191,10 +191,10 @@ export const portfolioData = {
     {
       id: "bliss-homestay-automation",
       title: "Nghiên Cứu Phát Triển (GĐ 1): Tự Động Hóa Tin Nhắn Bliss Homestay",
-      subtitle: "Realtime Webhook Ingress & Make.com Automation Workflow",
+      subtitle: "ManyChat Webhook Ingress & Make.com Automation Workflow",
       category: "Backend & CSDL",
       featured: true,
-      description: "Nghiên cứu và phát triển (Giai đoạn 1) quy trình tự động hóa trả lời tin nhắn trên nền tảng Make.com kết hợp Webhook Ingress thời gian thực, bắt trọn và phân giải cấu trúc dữ liệu JSON từ khách hàng.",
+      description: "Nghiên cứu và phát triển (Giai đoạn 1) quy trình tự động hóa trả lời tin nhắn kết hợp Webhook ManyChat và Make.com thời gian thực, bắt trọn và phân giải cấu trúc dữ liệu JSON từ khách hàng.",
       problem: "Bliss Homestay tiếp nhận lượng lớn tin nhắn hỏi phòng phân tán trên nhiều kênh, thường xuyên bị chậm trễ phản hồi dẫn đến tỷ lệ rớt khách cao.",
       solution: "Triển khai vận hành cho Bliss Homestay: tự động phân loại nhu cầu, phản hồi thông tin phòng và báo giá tức thì với độ trễ <2 giây, cắt giảm 80% thời gian chờ và triệt tiêu 100% rủi ro bỏ sót tin nhắn.",
       impact: [
@@ -207,7 +207,7 @@ export const portfolioData = {
         { label: "Thời gian chờ", value: "-80%" },
         { label: "Bỏ sót tin nhắn", value: "0%" },
       ],
-      techStack: ["Webhook Ingress", "Make.com", "JSON REST API", "Workflow Automation", "Cloud Integrations"],
+      techStack: ["ManyChat", "Webhook Ingress", "Make.com", "JSON REST API", "Workflow Automation"],
       githubUrl: "https://github.com/Kteenguyen",
     },
     {
@@ -262,6 +262,7 @@ export const portfolioData = {
       subtitle: "Next.js 15 App Router Migration, Zero-CLS & PageSpeed 96/100",
       category: "Full-Stack & Web",
       featured: true,
+      imageUrl: "/powertech.png",
       liveUrl: "https://powertech.vn",
       description: "Tái cấu trúc website năng lượng từ nền tảng WordPress cũ bị lỗi giật bố cục CLS 0.38 và tải chậm >4s sang kiến trúc Next.js 15 App Router phân tầng độc lập.",
       problem: "Website WordPress cũ tải chậm hơn 4 giây, giật layout nghiêm trọng với chỉ số CLS 0.38 khiến tỷ lệ thoát trang doanh nghiệp lên đến 58%.",
