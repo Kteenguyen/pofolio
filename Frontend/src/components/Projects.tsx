@@ -27,6 +27,7 @@ export default function Projects() {
                 liveUrl: remoteP.liveUrl || localP.liveUrl,
                 githubUrl: remoteP.githubUrl || localP.githubUrl,
                 imageUrl: remoteP.imageUrl || localP.imageUrl,
+                images: remoteP.images || localP.images,
               };
             }
             return localP;
@@ -56,7 +57,7 @@ export default function Projects() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <div className="text-xs font-mono font-semibold tracking-widest text-blue-600 dark:text-sky-400 uppercase mb-1">
-            // DANH MỤC 6 DỰ ÁN THỰC CHIẾN VÀ NGHIỆP VỤ
+            // DANH MỤC KHO DỰ ÁN THỰC CHIẾN VÀ NGHIỆP VỤ
           </div>
           <h2 className="text-2xl lg:text-3xl font-extrabold text-[var(--foreground)] tracking-tight">
             Kho Dự Án Kỹ Thuật Đã Triển Khai
@@ -95,28 +96,53 @@ export default function Projects() {
               {/* Optional Project Showcase Image Banner */}
               {project.imageUrl && (
                 <div className="relative mb-4 -mx-4 -mt-4 lg:-mx-5 lg:-mt-5 overflow-hidden border-b border-[var(--surface-border)] bg-slate-950 group/img">
-                  <a
-                    href={project.liveUrl || "#"}
-                    target={project.liveUrl ? "_blank" : undefined}
-                    rel="noopener noreferrer"
-                    className="block relative aspect-[16/9] w-full overflow-hidden cursor-pointer"
-                    title={`Xem dự án thực tế trên Vercel: ${project.liveUrl || ""}`}
-                  >
-                    <img
-                      src={project.imageUrl}
-                      alt={project.title}
-                      className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
-                      loading="lazy"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
-                    {project.liveUrl && (
+                  {project.liveUrl ? (
+                    <a
+                      href={project.liveUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block relative aspect-[16/9] w-full overflow-hidden cursor-pointer"
+                      title={`Xem dự án thực tế trên Vercel: ${project.liveUrl}`}
+                    >
+                      <img
+                        src={project.imageUrl}
+                        alt={project.title}
+                        className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                        loading="lazy"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
                       <div className="absolute bottom-2.5 right-2.5 px-2.5 py-1 rounded-lg text-[10px] font-mono font-bold bg-emerald-600 text-white shadow-md flex items-center gap-1.5 transition-transform group-hover:scale-105">
                         <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
                         <span>{project.liveUrl.includes("vercel.app") ? "Vercel Demo" : "Live Web"}</span>
                         <ExternalLink size={11} />
                       </div>
-                    )}
-                  </a>
+                    </a>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => setActiveProject(project)}
+                      className="block relative aspect-[16/9] w-full overflow-hidden cursor-pointer text-left focus:outline-none"
+                      title={`Xem chi tiết & hình ảnh thực tế: ${project.title}`}
+                    >
+                      <img
+                        src={project.imageUrl}
+                        alt={project.title}
+                        className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                        loading="lazy"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
+                      {project.images && project.images.length > 1 ? (
+                        <div className="absolute bottom-2.5 right-2.5 px-2.5 py-1 rounded-lg text-[10px] font-mono font-bold bg-blue-600 text-white shadow-md flex items-center gap-1.5 transition-transform group-hover:scale-105">
+                          <Layers size={11} />
+                          <span>{project.images.length} Ảnh Thực Tế</span>
+                        </div>
+                      ) : (
+                        <div className="absolute bottom-2.5 right-2.5 px-2.5 py-1 rounded-lg text-[10px] font-mono font-bold bg-slate-800/80 text-white shadow-md flex items-center gap-1.5 backdrop-blur-sm">
+                          <span>Chi Tiết Nghiệp Vụ</span>
+                        </div>
+                      )}
+                    </button>
+                  )}
                 </div>
               )}
 

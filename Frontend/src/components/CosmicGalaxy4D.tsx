@@ -103,7 +103,7 @@ export const COSMIC_STATIONS = [
     id: "jupiter",
     index: "04",
     planetName: "Sao Mộc (Jupiter)",
-    title: "Kho 6 Dự Án",
+    title: "Kho Dự Án",
     subtitle: "Sản Phẩm Triển Khai",
     meshPos: new THREE.Vector3(-14.0, -12.0, 20.0),
     camPos: new THREE.Vector3(-19.0, -9.5, 27.5),
@@ -1164,7 +1164,7 @@ export default function CosmicGalaxy4D() {
                       href="/projects"
                       className="text-xs font-semibold px-2.5 py-1 rounded-lg bg-orange-600 text-white hover:bg-orange-500 transition-colors"
                     >
-                      Xem Cả 6 Dự Án →
+                      Xem Toàn Bộ Dự Án →
                     </Link>
                   </div>
 

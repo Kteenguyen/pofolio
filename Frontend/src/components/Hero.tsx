@@ -101,7 +101,7 @@ export default function Hero() {
                 className="touch-target w-full px-4 py-3 rounded-xl text-xs sm:text-sm font-bold bg-blue-600 text-white shadow-md hover:bg-blue-700 active:scale-[0.99] transition-all flex items-center justify-center gap-2 group cursor-pointer"
               >
                 <FolderGit2 size={16} className="text-white shrink-0" />
-                <span>Xem 6 Dự Án Tiêu Biểu</span>
+                <span>Khám Phá Kho Dự Án</span>
                 <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform shrink-0" />
               </a>
 
@@ -129,7 +129,7 @@ export default function Hero() {
                 className="touch-target px-3 py-2 rounded-xl text-xs font-semibold border border-[var(--surface-border)] bg-[var(--surface)] text-[var(--foreground)] hover:border-blue-600 hover:text-blue-600 transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-xs whitespace-nowrap"
               >
                 <FolderGit2 size={14} className="text-blue-600 dark:text-sky-400 shrink-0" />
-                <span>6 Dự Án</span>
+                <span>Kho Dự Án</span>
               </a>
 
               <a

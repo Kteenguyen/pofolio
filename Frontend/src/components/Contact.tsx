@@ -30,8 +30,8 @@ export default function Contact() {
     setLoading(true);
 
     try {
-      // Gửi trực tiếp sang Backend CMS API
-      const res = await fetch("http://localhost:3001/api/leads", {
+      // Gửi trực tiếp sang Next.js API route (có cơ chế proxy và lưu dự phòng)
+      const res = await fetch("/api/leads", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),

@@ -27,7 +27,7 @@ export default function Home() {
         {/* 5. Experience (Kinh Nghiệm FPT IS & Luklak) */}
         <Experience />
 
-        {/* 6. Projects (Kho 6 Dự Án Thực Chiến CAR Framework) */}
+        {/* 6. Projects (Kho Dự Án Kỹ Thuật CAR Framework) */}
         <section id="projects" className="py-8 sm:py-10 lg:py-12 border-t border-[var(--surface-border)] bg-[var(--background)]">
           <div className="portfolio-container">
             <Projects />

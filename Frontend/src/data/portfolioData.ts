@@ -11,6 +11,7 @@ export interface Project {
   liveUrl?: string;
   githubUrl?: string;
   imageUrl?: string;
+  images?: string[];
   featured: boolean;
   metrics: { label: string; value: string }[];
 }
@@ -29,6 +30,8 @@ export interface Experience {
   skills: string[];
   metrics?: { label: string; value: string }[];
   isEducation?: boolean;
+  imageUrl?: string;
+  images?: string[];
 }
 
 export interface EducationItem {
@@ -142,28 +145,6 @@ export const portfolioData = {
   ] as SkillCategory[],
 
   projects: [
-    {
-      id: "ai-agentic-mcp",
-      title: "Nền Tảng Hệ Thống Multi-Agent 4 Tầng và Động Cơ Giao Thức MCP",
-      subtitle: "Multi-Agent System with MCP 2.0, JSON-RPC & Autonomous CDP Browser Testing",
-      category: "Full-Stack và Web",
-      featured: true,
-      description: "Thiết kế hệ thống Multi-Agent 4 tầng chuyên sâu: Supreme Leader (phân rã yêu cầu), Database Schema Architect (3NF/Supabase), QA Lead (chỉ huy Webhook HMAC, Chaos Simulator 429/502), và DevOps Parity Officer.",
-      problem: "Phát triển phần mềm truyền thống tốn nhiều thời gian review thủ công, kiểm thử đa nền tảng và dễ phát sinh lỗi xung đột schema, tràn viền mobile.",
-      solution: "Tích hợp máy chủ Model Context Protocol (MCP 2.0) qua JSON-RPC và tự động hóa kiểm thử giao diện qua Chrome DevTools Protocol (CDP) trên Mobile 430px và Desktop; điều phối 4 tầng Agent độc lập.",
-      impact: [
-        "Thiết lập thành công mô hình 4 tầng Agent phối hợp qua giao thức JSON-RPC.",
-        "Cắt giảm 70% thời gian review code và kiểm thử tự động trên Chrome thật.",
-        "Tích hợp Supabase 3NF và giả lập Chaos Testing 429/502 chuẩn enterprise.",
-      ],
-      metrics: [
-        { label: "Kiến trúc Agent", value: "4 Tầng" },
-        { label: "Thời gian review", value: "-70%" },
-        { label: "Giao thức", value: "MCP 2.0" },
-      ],
-      techStack: ["TypeScript", "Next.js 15", "MCP 2.0", "Supabase", "LLMs", "JSON-RPC", "CDP Browser"],
-      githubUrl: "https://github.com/Kteenguyen",
-    },
     {
       id: "nam-gia-phat-realestate",
       title: "Cổng Bất Động Sản Doanh Nghiệp Nam Gia Phát",
@@ -285,7 +266,9 @@ export const portfolioData = {
       title: "Dự Án Triển Khai Hệ Thống Cơ Quan Thi Hành Án Dân Sự (FPT IS)",
       subtitle: "Government Enterprise System Deployment, UAT Testing & End-User Training",
       category: "Phân Tích BA và Nghiệp Vụ",
-      featured: false,
+      featured: true,
+      imageUrl: "/tha1.jpg",
+      images: ["/tha1.jpg", "/tha2.jpg"],
       description: "Dự án chuyển đổi số trọng điểm của FPT IS cho cơ quan nhà nước. Đảm nhiệm vai trò Trưởng nhóm triển khai: điều phối golive, tổ chức đào tạo cho cán bộ và kiểm thử nghiệm thu.",
       problem: "Hệ thống nghiệp vụ phức tạp với khối lượng dữ liệu tư pháp lớn; người dùng cuối là các cán bộ công chức cần được hướng dẫn tỉ mỉ để chuyển đổi từ quy trình thủ công sang số hóa.",
       solution: "Đứng lớp tổ chức 15 buổi đào tạo (Training) cho hơn 230 người dùng cuối; phân loại và phối hợp đội Dev xử lý 60 lỗi nghiệp vụ/giao diện; cấu hình phần mềm và chứng thư số trực tiếp và từ xa.",
@@ -347,7 +330,7 @@ export const portfolioData = {
       id: "car-maintenance-system",
       title: "Hệ Thống Quản Lý Lịch Trình & Chi Phí Bảo Dưỡng Phương Tiện",
       subtitle: "Vehicle Maintenance & Repair History System with Enterprise UML Design",
-      category: "Phân Tích BA & Nghiệp Vụ",
+      category: "Phân Tích BA và Nghiệp Vụ",
       featured: false,
       description: "Hệ thống quản lý vòng đời phương tiện, theo dõi lịch bảo dưỡng định kỳ, lịch sử sửa chữa phụ tùng và hạch toán tổng chi phí vận hành xe.",
       problem: "Thiếu công cụ chuẩn hóa khiến việc theo dõi lịch bảo dưỡng dễ bị bỏ sót, gây tốn kém chi phí đại tu xe đột xuất.",
@@ -367,7 +350,7 @@ export const portfolioData = {
       id: "odoo-sales-workflow",
       title: "Số Hóa Luồng Bán Hàng & Thu Ngân Doanh Nghiệp (Odoo ERP)",
       subtitle: "Internal Sales Order Management & Cashier Workflow Optimization",
-      category: "Phân Tích BA & Nghiệp Vụ",
+      category: "Phân Tích BA và Nghiệp Vụ",
       featured: false,
       description: "Thiết kế và số hóa toàn bộ quy trình nghiệp vụ từ khâu tạo đơn hàng, áp dụng chương trình khuyến mãi đến thanh toán thu ngân nội bộ.",
       problem: "Quy trình ghi nhận đơn hàng tại quầy và kho thường bị lệch pha, gây khó khăn cho khâu đối soát doanh thu cuối ngày.",
@@ -454,6 +437,31 @@ export const portfolioData = {
       ],
     },
     {
+      id: "namgiaphat-realestate",
+      role: "Kỹ Sư Full-Stack Web & Cổng BĐS Thương Mại",
+      company: "Công Ty Bất Động Sản Nam Gia Phát",
+      period: "02/2026 – 04/2026",
+      yearBadge: "02/2026 – 04/2026",
+      location: "TP. Hồ Chí Minh, Việt Nam",
+      type: "Doanh Nghiệp",
+      website: "https://nam-gia-phat-demo.vercel.app/",
+      imageUrl: "/namgiaphat.jpg",
+      images: ["/namgiaphat.jpg"],
+      description: "Xây dựng cổng thông tin bất động sản thương mại trên Next.js 15 App Router, React 19, Tailwind CSS và Ant Design; tối ưu hóa phân cấp danh mục căn hộ, nhà phố, đất nền khu vực Nam Sài Gòn.",
+      achievements: [
+        "Phát triển hoàn chỉnh bộ lọc tìm kiếm sản phẩm đa chiều (mức giá, diện tích, vị trí) với độ trễ phản hồi tức thì dưới 100ms.",
+        "Thiết kế chuẩn Mobile-First 430px cam kết 0 phần tử tràn viền (CLS = 0), tối ưu thao tác chạm vuốt trên smartphone.",
+        "Tích hợp form liên hệ tư vấn tự động thu thập lead khách hàng và đẩy dữ liệu về hệ thống quản lý.",
+        "Triển khai Production thành công trên nền tảng Vercel với tốc độ tải trang dưới 1.2s.",
+      ],
+      skills: ["Next.js 15", "React 19", "Tailwind CSS", "Ant Design", "TypeScript", "Mobile-First 430px", "Vercel"],
+      metrics: [
+        { label: "Bộ lọc đa chiều", value: "<100ms" },
+        { label: "Tương thích Mobile", value: "100%" },
+        { label: "Tốc độ tải trang", value: "<1.2s" },
+      ],
+    },
+    {
       id: "fpt-is",
       role: "Trưởng Nhóm Triển Khai Phần Mềm",
       company: "Công Ty Phần Mềm FPT IS (Hà Nội)",
@@ -461,6 +469,8 @@ export const portfolioData = {
       yearBadge: "10/2025 – 02/2026",
       location: "Hà Nội – Đồng Tháp",
       type: "Doanh Nghiệp",
+      imageUrl: "/tha1.jpg",
+      images: ["/tha1.jpg", "/tha2.jpg"],
       description: "Tham gia dự án số hóa trọng điểm cho Cơ quan Thi Hành Án Dân Sự; điều phối quy trình triển khai phần mềm, hỗ trợ UAT và go-live hệ thống.",
       achievements: [
         "Tham gia dự án số hóa trọng điểm cho Cơ quan Thi Hành Án Dân Sự; điều phối quy trình triển khai phần mềm, hỗ trợ UAT và go-live hệ thống.",

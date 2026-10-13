@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { Project } from "@/data/portfolioData";
-import { X, ExternalLink, CheckCircle2, AlertCircle, Lightbulb, TrendingUp } from "lucide-react";
+import { X, ExternalLink, CheckCircle2, AlertCircle, Lightbulb, TrendingUp, ChevronLeft, ChevronRight, Image as ImageIcon } from "lucide-react";
 import { GithubIcon } from "./SocialIcons";
 import TechLogo from "./TechLogo";
 
@@ -14,10 +14,15 @@ interface ProjectModalProps {
 
 export default function ProjectModal({ project, onClose }: ProjectModalProps) {
   const [mounted, setMounted] = useState(false);
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  useEffect(() => {
+    setActiveImageIndex(0);
+  }, [project]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -36,6 +41,9 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
   }, [project, onClose]);
 
   if (!project || !mounted) return null;
+
+  const projectImages = project.images && project.images.length > 0 ? project.images : (project.imageUrl ? [project.imageUrl] : []);
+  const currentImage = projectImages[activeImageIndex] || project.imageUrl;
 
   return createPortal(
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-fade-in">
@@ -65,30 +73,100 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
           </p>
         </div>
 
-        {/* Optional Project Showcase Image Banner */}
-        {project.imageUrl && (
-          <div className="relative my-5 overflow-hidden rounded-2xl border border-[var(--surface-border)] bg-slate-950 shadow-md group">
-            <a
-              href={project.liveUrl || "#"}
-              target={project.liveUrl ? "_blank" : undefined}
-              rel="noopener noreferrer"
-              className="block relative aspect-[16/9] w-full overflow-hidden cursor-pointer"
-              title={`Mở trải nghiệm trực tiếp: ${project.liveUrl || ""}`}
-            >
-              <img
-                src={project.imageUrl}
-                alt={project.title}
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-50 group-hover:opacity-30 transition-opacity" />
-              {project.liveUrl && (
-                <div className="absolute bottom-3 right-3 px-3 py-1.5 rounded-xl text-xs font-mono font-bold bg-emerald-600 text-white backdrop-blur-md shadow-lg flex items-center gap-2 transition-transform group-hover:scale-105">
-                  <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
-                  <span>{project.liveUrl.includes("vercel.app") ? "Trải Nghiệm Demo Vercel" : "Trải Nghiệm Live Web"}</span>
-                  <ExternalLink size={13} />
+        {/* Optional Project Showcase Image Banner & Gallery */}
+        {currentImage && (
+          <div className="my-5 space-y-2">
+            <div className="relative overflow-hidden rounded-2xl border border-[var(--surface-border)] bg-slate-950 shadow-md group">
+              {project.liveUrl ? (
+                <a
+                  href={project.liveUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block relative aspect-[16/9] w-full overflow-hidden cursor-pointer"
+                  title={`Mở trải nghiệm trực tiếp: ${project.liveUrl}`}
+                >
+                  <img
+                    src={currentImage}
+                    alt={`${project.title} - Ảnh ${activeImageIndex + 1}`}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-50 group-hover:opacity-30 transition-opacity" />
+                  <div className="absolute bottom-3 right-3 px-3 py-1.5 rounded-xl text-xs font-mono font-bold bg-emerald-600 text-white backdrop-blur-md shadow-lg flex items-center gap-2 transition-transform group-hover:scale-105">
+                    <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
+                    <span>{project.liveUrl.includes("vercel.app") ? "Trải Nghiệm Demo Vercel" : "Trải Nghiệm Live Web"}</span>
+                    <ExternalLink size={13} />
+                  </div>
+                </a>
+              ) : (
+                <div className="relative aspect-[16/9] w-full overflow-hidden">
+                  <img
+                    src={currentImage}
+                    alt={`${project.title} - Ảnh ${activeImageIndex + 1}`}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-50 group-hover:opacity-30 transition-opacity" />
+                  {projectImages.length > 1 && (
+                    <div className="absolute bottom-3 right-3 px-3 py-1.5 rounded-xl text-xs font-mono font-bold bg-blue-600/90 text-white backdrop-blur-md shadow-lg flex items-center gap-1.5">
+                      <ImageIcon size={13} />
+                      <span>Ảnh {activeImageIndex + 1} / {projectImages.length}</span>
+                    </div>
+                  )}
                 </div>
               )}
-            </a>
+
+              {/* Prev / Next controls if multiple images (Touch targets >= 44px) */}
+              {projectImages.length > 1 && (
+                <>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setActiveImageIndex((prev) => (prev > 0 ? prev - 1 : projectImages.length - 1));
+                    }}
+                    aria-label="Xem ảnh trước"
+                    className="touch-target absolute left-2 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-slate-950/75 hover:bg-blue-600 text-white flex items-center justify-center backdrop-blur-md transition-all cursor-pointer border border-white/20 shadow-lg z-10"
+                  >
+                    <ChevronLeft size={20} />
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setActiveImageIndex((prev) => (prev < projectImages.length - 1 ? prev + 1 : 0));
+                    }}
+                    aria-label="Xem ảnh kế tiếp"
+                    className="touch-target absolute right-2 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-slate-950/75 hover:bg-blue-600 text-white flex items-center justify-center backdrop-blur-md transition-all cursor-pointer border border-white/20 shadow-lg z-10"
+                  >
+                    <ChevronRight size={20} />
+                  </button>
+                </>
+              )}
+            </div>
+
+            {/* Thumbnail Navigation Row if multiple images */}
+            {projectImages.length > 1 && (
+              <div className="flex items-center gap-2 pt-1 overflow-x-auto">
+                {projectImages.map((imgSrc, idx) => (
+                  <button
+                    key={idx}
+                    type="button"
+                    onClick={() => setActiveImageIndex(idx)}
+                    className={`relative rounded-xl overflow-hidden border-2 transition-all flex-1 aspect-[16/9] min-h-[44px] max-w-[140px] cursor-pointer touch-target ${
+                      activeImageIndex === idx
+                        ? "border-blue-500 ring-2 ring-blue-500/30 scale-100 opacity-100"
+                        : "border-[var(--surface-border)] opacity-60 hover:opacity-90 hover:border-blue-400"
+                    }`}
+                  >
+                    <img
+                      src={imgSrc}
+                      alt={`Thumbnail ${idx + 1}`}
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-x-0 bottom-0 bg-slate-950/80 py-0.5 text-center text-[9px] font-mono text-white">
+                      Ảnh {idx + 1}
+                    </div>
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         )}
 

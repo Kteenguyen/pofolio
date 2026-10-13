@@ -35,7 +35,7 @@ export default function ExperiencePage() {
             href="/projects"
             className="touch-target px-4 py-2.5 rounded-xl text-xs font-semibold bg-blue-600 text-white hover:bg-blue-700 transition-all flex items-center justify-center gap-1.5 shadow-sm"
           >
-            <span>Tiếp theo: Kho 6 Dự Án Tiêu Biểu</span>
+            <span>Tiếp theo: Kho Dự Án Kỹ Thuật</span>
             <ArrowRight size={14} />
           </Link>
         </div>

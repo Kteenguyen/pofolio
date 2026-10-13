@@ -1,0 +1,165 @@
+/* ==============================================================================
+   EXPERIENCE ASYMMETRIC CARDS ARCHITECTURE (3-COLUMN GRID & GLASSMORPHISM)
+   Mobile Touch-First (>=44px), iPhone 430px Zero-Overflow, Modern Organic Geometry
+   ============================================================================== */
+
+/* Base Asymmetric Card Structure */
+.asymmetric-card {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  box-shadow: var(--card-shadow);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.3s ease;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Diagonal Asymmetric Corner Variations */
+.asymmetric-card-a {
+  border-top-left-radius: 32px;
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 32px;
+  border-bottom-left-radius: 12px;
+}
+
+.asymmetric-card-b {
+  border-top-left-radius: 12px;
+  border-top-right-radius: 32px;
+  border-bottom-right-radius: 12px;
+  border-bottom-left-radius: 32px;
+}
+
+.asymmetric-card-c {
+  border-top-left-radius: 28px;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 28px;
+  border-bottom-left-radius: 10px;
+}
+
+/* Hover Elevations */
+.asymmetric-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 36px -8px rgba(37, 99, 235, 0.12),
+              0 4px 12px -2px rgba(0, 0, 0, 0.05);
+  border-color: rgba(37, 99, 235, 0.45);
+}
+
+.dark .asymmetric-card:hover {
+  box-shadow: 0 16px 36px -8px rgba(56, 189, 248, 0.2),
+              0 4px 12px -2px rgba(0, 0, 0, 0.6);
+  border-color: rgba(56, 189, 248, 0.5);
+}
+
+/* Active Highlight for Milestone jump */
+.asymmetric-card-active {
+  border-color: #2563eb !important;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.25),
+              0 16px 32px -6px rgba(37, 99, 235, 0.16) !important;
+}
+
+.dark .asymmetric-card-active {
+  border-color: #38bdf8 !important;
+  box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.3),
+              0 16px 32px -6px rgba(56, 189, 248, 0.25) !important;
+}
+
+/* Asymmetric Thumbnail Shapes for Evidence Photos */
+.asymmetric-thumb-a {
+  border-top-left-radius: 20px;
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 6px;
+}
+
+.asymmetric-thumb-b {
+  border-top-left-radius: 6px;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 6px;
+  border-bottom-left-radius: 20px;
+}
+
+/* 3-Column Experience Grid */
+.experience-3col-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .experience-3col-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .experience-3col-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+/* Fullscreen Lightbox Modal */
+.experience-lightbox-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background-color: rgba(15, 23, 42, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  animation: lightboxFadeIn 0.25s ease-out forwards;
+}
+
+@keyframes lightboxFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.experience-lightbox-container {
+  position: relative;
+  max-width: 960px;
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  border-top-left-radius: 28px;
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 28px;
+  border-bottom-left-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.6);
+}
+
+/* Touch-First Interactive Targets (min 44px) */
+.lightbox-btn-touch {
+  min-width: 44px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  touch-action: manipulation;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* Timeline Track Scroll Protection for Mobile 430px */
+.experience-timeline-track {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}

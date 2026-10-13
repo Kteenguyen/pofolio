@@ -14,7 +14,7 @@ export default function SkillsPage() {
         <div className="flex items-center justify-between text-xs text-[var(--muted-foreground)]">
           <Link href="/projects" className="flex items-center gap-1 hover:text-blue-600 transition-colors font-medium">
             <ArrowLeft size={14} />
-            <span>Xem Kho 6 Dự Án</span>
+            <span>Xem Kho Dự Án Kỹ Thuật</span>
           </Link>
           <span className="font-mono text-emerald-600 dark:text-emerald-400 font-bold">ROUTE: /skills</span>
         </div>
@@ -29,7 +29,7 @@ export default function SkillsPage() {
             className="touch-target px-4 py-2 rounded-xl text-xs font-semibold border border-[var(--surface-border)] bg-[var(--surface)] text-[var(--foreground)] hover:border-blue-600 transition-all flex items-center gap-1.5 shadow-sm"
           >
             <ArrowLeft size={14} />
-            <span>Kho 6 Dự Án</span>
+            <span>Kho Dự Án Kỹ Thuật</span>
           </Link>
           <Link
             href="/contact"

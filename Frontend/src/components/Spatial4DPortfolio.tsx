@@ -56,7 +56,7 @@ export const SPATIAL_STATIONS = [
   {
     id: "projects",
     index: "04",
-    title: "Kho 6 Dự Án",
+    title: "Kho Dự Án",
     subtitle: "Sản Phẩm Triển Khai",
     camPos: new THREE.Vector3(0, -2.4, 4.8),
     target: new THREE.Vector3(0, 0.2, 0),
@@ -570,13 +570,13 @@ export default function Spatial4DPortfolio() {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2 text-xs font-mono font-bold text-sky-400 uppercase">
                     <Layers size={16} />
-                    <span>Trạm 04 • Kho 6 Dự Án Kỹ Thuật Đã Triển Khai</span>
+                    <span>Trạm 04 • Kho Dự Án Kỹ Thuật Đã Triển Khai</span>
                   </div>
                   <Link
                     href="/projects"
                     className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-blue-600 text-white hover:bg-blue-500 transition-colors"
                   >
-                    Xem Cả 6 Dự Án →
+                    Xem Toàn Bộ Dự Án →
                   </Link>
                 </div>
 
