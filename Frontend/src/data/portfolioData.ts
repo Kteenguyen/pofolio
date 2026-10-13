@@ -78,33 +78,33 @@ export const portfolioData = {
 
   pillars: [
     {
-      title: "Kiến Trúc AI Agentic & Fullstack (Modern Systems)",
-      description: "Làm chủ Next.js 15 App Router, React 19, TypeScript và giao thức Model Context Protocol (MCP 2.0). Xây dựng luồng tác tử tự trị 4 tầng và tự động hóa kiểm thử đa màn hình.",
+      title: "Kiến Trúc AI Agentic và Fullstack (Modern Systems)",
+      description: "Làm chủ Next.js 15 App Router, React 19, TypeScript và giao thức Model Context Protocol (MCP 2.0). Xây dựng quy trình tự động hóa 4 tầng và kiểm thử giao diện đa màn hình.",
     },
     {
       title: "Kinh Nghiệm Thực Chiến Doanh Nghiệp (Enterprise Battle-Tested)",
       description: "Trực tiếp điều phối go-live hệ thống THADS tại FPT IS cho 230 cán bộ; tái cấu trúc website PowerTech đạt Google PageSpeed 96/100; xây dựng Luklak với 7 trang đạt 60 FPS.",
     },
     {
-      title: "Tư Duy Cầu Nối Nghiệp Vụ (Product & BA Leadership)",
+      title: "Tư Duy Cầu Nối Nghiệp Vụ (Product và BA Leadership)",
       description: "Không dừng lại ở việc viết mã, tôi làm chủ toàn diện quy trình phân tích bài toán kinh doanh, khơi gợi yêu cầu, thiết kế sơ đồ UML chuẩn mực và bảo đảm sản phẩm bàn giao nghiệm thu 100%.",
     },
   ],
 
   skillCategories: [
     {
-      category: "AI Agentic & Tự Động Hóa Quy Trình",
-      description: "Xây dựng luồng tác tử tự trị, Model Context Protocol và tự động hóa tích hợp",
+      category: "AI Agentic và Tự Động Hóa Quy Trình",
+      description: "Xây dựng luồng quy trình thông minh, Model Context Protocol và tự động hóa tích hợp",
       skills: [
-        { name: "Multi-Agent System & AI Workflows", level: 92, note: "Điều Phối 4 Tầng Tác Tử Tự Trị" },
+        { name: "Multi-Agent System và AI Workflows", level: 92, note: "Điều Phối Hệ Thống Agent 4 Tầng" },
         { name: "Model Context Protocol (MCP 2.0)", level: 90, note: "JSON-RPC, Tool Calling, Context Management" },
-        { name: "Make.com & Webhook Ingress", level: 92, note: "Tự Động Hóa Realtime Phản Hồi <2s" },
-        { name: "RAG & LLM Integration", level: 88, note: "OpenAI, Gemini, Anthropic APIs, Hybrid Search" },
-        { name: "Autonomous Testing (CDP & Chrome)", level: 90, note: "Kiểm Thử Mobile 430px & Desktop Tự Động" },
+        { name: "Make.com và Webhook Ingress", level: 92, note: "Tự Động Hóa Realtime Phản Hồi <2s" },
+        { name: "RAG và LLM Integration", level: 88, note: "OpenAI, Gemini, Anthropic APIs, Hybrid Search" },
+        { name: "Autonomous Testing (CDP và Chrome)", level: 90, note: "Kiểm Thử Mobile 430px và Desktop Tự Động" },
       ],
     },
     {
-      category: "Front-End & Xây Dựng Web Trọn Gói",
+      category: "Front-End và Xây Dựng Web Trọn Gói",
       description: "Thiết kế giao diện trực quan, chuyển động điện ảnh mượt mà và tối ưu Core Web Vitals",
       skills: [
         { name: "ReactJS (v19) & Next.js 15", level: 95, note: "App Router, Server Actions, Zero-CLS" },
@@ -144,20 +144,20 @@ export const portfolioData = {
   projects: [
     {
       id: "ai-agentic-mcp",
-      title: "Nền Tảng AI Agentic Tự Trị 4 Tầng & Động Cơ Giao Thức MCP",
+      title: "Nền Tảng Hệ Thống Multi-Agent 4 Tầng và Động Cơ Giao Thức MCP",
       subtitle: "Multi-Agent System with MCP 2.0, JSON-RPC & Autonomous CDP Browser Testing",
       category: "Full-Stack & Web",
       featured: true,
-      description: "Thiết kế hệ thống đa tác tử 4 tầng tự trị: Supreme Leader (phân rã yêu cầu), Database Schema Architect (3NF/Supabase), QA Lead (chỉ huy Webhook HMAC, Chaos Simulator 429/502), và DevOps Parity Officer.",
+      description: "Thiết kế hệ thống Multi-Agent 4 tầng chuyên sâu: Supreme Leader (phân rã yêu cầu), Database Schema Architect (3NF/Supabase), QA Lead (chỉ huy Webhook HMAC, Chaos Simulator 429/502), và DevOps Parity Officer.",
       problem: "Phát triển phần mềm truyền thống tốn nhiều thời gian review thủ công, kiểm thử đa nền tảng và dễ phát sinh lỗi xung đột schema, tràn viền mobile.",
-      solution: "Tích hợp máy chủ Model Context Protocol (MCP 2.0) qua JSON-RPC và tự động hóa kiểm thử giao diện qua Chrome DevTools Protocol (CDP) trên Mobile 430px và Desktop; điều phối 4 tầng tác tử độc lập.",
+      solution: "Tích hợp máy chủ Model Context Protocol (MCP 2.0) qua JSON-RPC và tự động hóa kiểm thử giao diện qua Chrome DevTools Protocol (CDP) trên Mobile 430px và Desktop; điều phối 4 tầng Agent độc lập.",
       impact: [
-        "Thiết lập thành công mô hình 4 tầng tác tử tự trị phối hợp qua JSON-RPC Protocol.",
+        "Thiết lập thành công mô hình 4 tầng Agent phối hợp qua giao thức JSON-RPC.",
         "Cắt giảm 70% thời gian review code và kiểm thử tự động trên Chrome thật.",
         "Tích hợp Supabase 3NF và giả lập Chaos Testing 429/502 chuẩn enterprise.",
       ],
       metrics: [
-        { label: "Mô hình tác tử", value: "4 Tầng" },
+        { label: "Kiến trúc Agent", value: "4 Tầng" },
         { label: "Thời gian review", value: "-70%" },
         { label: "Giao thức", value: "MCP 2.0" },
       ],
