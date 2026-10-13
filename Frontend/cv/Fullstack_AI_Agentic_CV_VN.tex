@@ -20,7 +20,7 @@
   \usepackage{fontspec}
 \fi
 
-\usepackage[letterpaper, top=0.38in, bottom=0.38in, left=0.5in, right=0.5in]{geometry}
+\usepackage[letterpaper, top=0.32in, bottom=0.32in, left=0.5in, right=0.5in]{geometry}
 \usepackage{latexsym}
 \usepackage{titlesec}
 \usepackage{marvosym}
@@ -41,7 +41,7 @@
 \renewcommand{\footrulewidth}{0pt}
 
 % Thiết lập độ giãn dòng toàn văn bản (chuẩn mực, thanh thoát, tối ưu dấu tiếng Việt)
-\linespread{1.06}
+\linespread{1.02}
 
 \urlstyle{same}
 \raggedbottom
@@ -55,10 +55,10 @@
 \definecolor{subtleSlate}{RGB}{71, 85, 105}     % Xám chì Slate #475569
 \definecolor{borderGray}{RGB}{226, 232, 240}    % Xám nhạt viền
 
-% Định dạng tiêu đề các phần (Sections Formatting với khoảng cách chuẩn)
+% Định dạng tiêu đề các phần (Sections Formatting với khoảng cách tối ưu)
 \titleformat{\section}{
-  \vspace{-3pt}\scshape\raggedright\large\bfseries\color{primaryDark}
-}{}{0em}{}[\color{accentBlue}\titlerule \vspace{-2pt}]
+  \vspace{-4pt}\scshape\raggedright\large\bfseries\color{primaryDark}
+}{}{0em}{}[\color{accentBlue}\titlerule \vspace{-3pt}]
 
 % Định nghĩa các lệnh tùy biến danh sách và đầu mục với khoảng cách chuẩn mực
 \newcommand{\resumeItem}[1]{
@@ -66,11 +66,11 @@
 }
 
 \newcommand{\resumeSubheading}[4]{
-  \vspace{2pt}\item
+  \vspace{1.5pt}\item
     \begin{tabular*}{0.98\textwidth}[t]{l@{\extracolsep{\fill}}r}
       \textbf{\color{primaryDark}#1} & \textit{\small\color{subtleSlate}#2} \\
       \textit{\small#3} & \textit{\small\color{subtleSlate}#4} \\
-    \end{tabular*}\vspace{-2pt}
+    \end{tabular*}\vspace{-2.5pt}
 }
 
 \newcommand{\resumeProjectHeading}[2]{
@@ -80,9 +80,9 @@
     \end{tabular*}\vspace{-2pt}
 }
 
-\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.15in, label={}, itemsep=3pt, topsep=1pt]}
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.15in, label={}, itemsep=2.5pt, topsep=0.5pt]}
 \newcommand{\resumeSubHeadingListEnd}{\end{itemize}\vspace{-2pt}}
-\newcommand{\resumeItemListStart}{\begin{itemize}[leftmargin=0.15in, itemsep=1.2pt, parsep=0pt, topsep=1pt]}
+\newcommand{\resumeItemListStart}{\begin{itemize}[leftmargin=0.15in, itemsep=0.8pt, parsep=0pt, topsep=0.8pt]}
 \newcommand{\resumeItemListEnd}{\end{itemize}}
 
 %----------------------------------------------------------------------------------------
@@ -95,27 +95,27 @@
 \begin{minipage}[c]{0.16\textwidth}
   \begin{tikzpicture}
     % Viền bo màu sắc tinh xảo
-    \draw[draw=accentBlue!60, line width=1.5pt, rounded corners=8pt] (-0.03,-0.03) rectangle (2.13cm, 2.63cm);
+    \draw[draw=accentBlue!60, line width=1.4pt, rounded corners=7pt] (-0.03,-0.03) rectangle (2.03cm, 2.53cm);
     % Cắt ảnh theo khung góc bo mềm mại
-    \clip[rounded corners=7pt] (0,0) rectangle (2.1cm, 2.6cm);
+    \clip[rounded corners=6pt] (0,0) rectangle (2.0cm, 2.5cm);
     \node[anchor=south west, inner sep=0pt] at (0,0) {
-      \includegraphics[width=2.1cm, height=2.6cm]{avatar.jpg}
+      \includegraphics[width=2.0cm, height=2.5cm]{avatar.jpg}
     };
   \end{tikzpicture}
 \end{minipage}%
 \hfill
 \begin{minipage}[c]{0.82\textwidth}
-  {\LARGE \scshape \textbf{\color{primaryDark}Nguyễn Khoa Tài (Ktee)}} \\ \vspace{2pt}
+  {\LARGE \scshape \textbf{\color{primaryDark}Nguyễn Khoa Tài (Ktee)}} \\ \vspace{1.5pt}
   {\large \textbf{\color{accentBlue}Kỹ Sư Phần Mềm (Web/App) $|$ Định Hướng Fullstack AI Agent Workflow}} \\ \vspace{2pt}
   \small
   \faPhone\ (+84) 852 723 945 ~ $|$ ~
   \faEnvelope\ \href{mailto:nguyenkhoatai2003@gmail.com}{nguyenkhoatai2003@gmail.com} ~ $|$ ~
-  \faMapMarker*\ TP. Hồ Chí Minh, Việt Nam \\ \vspace{2pt}
+  \faMapMarker*\ TP. Hồ Chí Minh, Việt Nam \\ \vspace{1.5pt}
   \faGlobe\ \textbf{Portfolio Trực Tuyến (Live):} \href{https://pofolio-b3w9.vercel.app/}{\color{accentBlue}\underline{\textbf{pofolio-b3w9.vercel.app}}} ~ $|$ ~
-  \faGithub\ \href{https://github.com/Kteenguyen}{github.com/Kteenguyen} \\ \vspace{2pt}
+  \faGithub\ \href{https://github.com/Kteenguyen}{github.com/Kteenguyen} \\ \vspace{1.5pt}
   \faLanguage\ \textbf{Tiếng Anh: Aptis ESOL B1 (136/200)}
 \end{minipage}
-\vspace{3pt}
+\vspace{2pt}
 
 %-----------TÓM TẮT HỒ SƠ NĂNG LỰC (THEO ĐÚNG THỰC TẾ CỦA KTEE)-----------
 \section{Tóm Tắt Năng Lực (Executive Summary)}
@@ -125,7 +125,7 @@ Kỹ sư CNTT tốt nghiệp \textbf{Đại học Tôn Đức Thắng} (\textbf{
 
 %-----------KỸ NĂNG CỐT LÕI-----------
 \section{Năng Lực Kỹ Thuật \& Trí Tuệ Nhân Tạo Tác Tử (Core Competencies)}
- \begin{itemize}[leftmargin=0.15in, label={}, itemsep=2pt, topsep=1pt]
+ \begin{itemize}[leftmargin=0.15in, label={}, itemsep=1.5pt, topsep=0.5pt]
     \small{\item{
      \textbf{AI Agentic \& Workflow Automation:} {Xây dựng luồng tác tử tự trị (Multi-Agent Workflow), Tự động hóa Make.com \& Webhook Ingress, Giao thức Model Context Protocol (MCP 2.0), Tool/Function Calling, Tối ưu Context Prompt, RAG \& Hybrid Search, Tích hợp LLM APIs} \\
      \textbf{Front-End \& Xây Dựng Web Trọn Gói:} {Next.js 15 (App Router, Server Actions), React 19, TypeScript, Tailwind CSS, Framer Motion, Lenis Smooth Scroll, Tối ưu Mobile-First (Viewport 430px không tràn viền), Triệt tiêu Layout Shift (CLS = 0), Core Web Vitals 95+} \\
@@ -140,7 +140,7 @@ Kỹ sư CNTT tốt nghiệp \textbf{Đại học Tôn Đức Thắng} (\textbf{
 
     \resumeSubheading
       {Công Ty Năng Lượng Powertech Sài Gòn (PowerTech) $|$ \href{https://powertech.vn}{\color{accentBlue}\underline{powertech.vn}}}{07/2026 -- Hiện Tại}
-      {Kỹ Sư Fullstack Web \& Tối Ưu Hóa Hiệu Năng (Next.js 15)}{TP. Hồ Chí Minh, Việt Nam}
+      {Kỹ Sư Fullstack Web \& Tối Ưu Hóa Hiệu Năng (Next.js 15)}{TP. Hồ Chí Minh}
       \resumeItemListStart
         \resumeItem{Thiết kế giao diện UI/UX Version 2 cho công ty điện mặt trời, nâng tầm nhận diện thương hiệu và tối ưu trải nghiệm tương tác.}
         \resumeItem{Thiết kế và tối ưu hệ thống CMS quản trị, hỗ trợ cấu hình dữ liệu và cập nhật nội dung vận hành linh hoạt, nhanh chóng.}
@@ -152,7 +152,7 @@ Kỹ sư CNTT tốt nghiệp \textbf{Đại học Tôn Đức Thắng} (\textbf{
 
     \resumeSubheading
       {Dự Án Doanh Nghiệp Khách Hàng Luklak}{05/2026}
-      {Kỹ Sư Lập Trình Front-End Web (Freelance)}{TP. Hồ Chí Minh, Việt Nam}
+      {Kỹ Sư Lập Trình Front-End Web (Freelance)}{TP. Hồ Chí Minh}
       \resumeItemListStart
         \resumeItem{Thiết kế và phát triển Front-End website thương hiệu gồm \textbf{7 trang và 17 components}, chuyển đổi chuẩn mực từ Figma sang Next.js/Tailwind CSS.}
         \resumeItem{Tích hợp hiệu ứng cuộn điện ảnh \textbf{Cinematic Scroll 60 FPS} (Lenis Scroll kết hợp Framer Motion parallax video và spring physics).}
@@ -160,7 +160,7 @@ Kỹ sư CNTT tốt nghiệp \textbf{Đại học Tôn Đức Thắng} (\textbf{
 
     \resumeSubheading
       {Công Ty HomeNest Software}{03/2026 -- 06/2026}
-      {Thực Tập Sinh Phân Tích Nghiệp Vụ BA (Đánh Giá Xuất Sắc)}{TP. Hồ Chí Minh, Việt Nam}
+      {Thực Tập Sinh Phân Tích Nghiệp Vụ BA (Đánh Giá Xuất Sắc)}{TP. Hồ Chí Minh}
       \resumeItemListStart
         \resumeItem{Khảo sát và thu thập yêu cầu bài toán số hóa qua Google Meet trực tiếp với khách; mô hình hóa quy trình qua sơ đồ Use Case, Activity Diagram và SRS.}
         \resumeItem{Đóng vai trò cầu nối nghiệp vụ giữa khách hàng và đội ngũ lập trình, làm rõ logic chức năng và kiểm thử UAT đảm bảo sản phẩm đúng kỳ vọng.}
