@@ -8,7 +8,7 @@ export default function Education() {
         {/* Section Header */}
         <div className="flex flex-col items-start mb-8 sm:mb-12">
           <div className="text-xs font-mono font-semibold tracking-widest text-blue-600 dark:text-blue-400 uppercase mb-2">
-            // HỌC THUẬT & NỀN TẢNG ĐÀO TẠO 5 NĂM
+            // HỌC THUẬT VÀ NỀN TẢNG ĐÀO TẠO 5 NĂM
           </div>
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[var(--foreground)] tracking-tight">
             Chương Trình Đào Tạo Kỹ Sư Tại ĐH Tôn Đức Thắng
@@ -76,7 +76,7 @@ export default function Education() {
             {/* Highlights List */}
             <div className="space-y-3 pt-6 border-t border-[var(--surface-border)]">
               <div className="text-xs font-mono font-semibold text-[var(--muted-foreground)] uppercase">
-                // ĐẶC THÙ CHƯƠNG TRÌNH & KẾT QUẢ ĐÀO TẠO:
+                // ĐẶC THÙ CHƯƠNG TRÌNH VÀ KẾT QUẢ ĐÀO TẠO:
               </div>
               {edu.highlights.map((h, idx) => (
                 <div key={idx} className="flex items-start gap-3 text-xs lg:text-sm text-[var(--foreground)] leading-relaxed">
@@ -92,7 +92,7 @@ export default function Education() {
         <div>
           <div className="flex items-center gap-2 text-sm font-bold text-[var(--foreground)] mb-4">
             <Award size={18} className="text-blue-600 dark:text-blue-400" />
-            <span>Chứng Nhận Năng Lực & Đồ Án Kỹ Thuật:</span>
+            <span>Chứng Nhận Năng Lực và Đồ Án Kỹ Thuật:</span>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
