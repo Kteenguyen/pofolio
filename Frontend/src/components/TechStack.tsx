@@ -1,15 +1,19 @@
+"use client";
+
 import React from "react";
-import { portfolioData } from "@/data/portfolioData";
+import { useLanguage } from "@/context/LanguageContext";
 import { Terminal, Database, Layout, Sparkles } from "lucide-react";
 import TechLogo from "./TechLogo";
 
 export default function TechStack() {
-  const categoryIcons: Record<string, React.ReactNode> = {
-    "AI Agentic và Tự Động Hóa Quy Trình": <Sparkles size={20} className="text-purple-600 dark:text-purple-400" />,
-    "Front-End và Xây Dựng Web Trọn Gói": <Layout size={20} className="text-blue-600 dark:text-blue-400" />,
-    "Back-End, CSDL và Tải Cao": <Terminal size={20} className="text-indigo-600 dark:text-indigo-400" />,
-    "Nghiệp Vụ BA và DevOps Vận Hành": <Database size={20} className="text-emerald-600 dark:text-emerald-400" />,
-  };
+  const { data, ui } = useLanguage();
+
+  const categoryIcons: React.ReactNode[] = [
+    <Sparkles key="ai" size={20} className="text-purple-600 dark:text-purple-400" />,
+    <Layout key="fe" size={20} className="text-blue-600 dark:text-blue-400" />,
+    <Terminal key="be" size={20} className="text-indigo-600 dark:text-indigo-400" />,
+    <Database key="ba" size={20} className="text-emerald-600 dark:text-emerald-400" />,
+  ];
 
   return (
     <section id="skills" className="py-8 sm:py-10 lg:py-12 border-t border-[var(--surface-border)] bg-[var(--background)]">
@@ -17,26 +21,26 @@ export default function TechStack() {
         {/* Section Header */}
         <div className="flex flex-col items-start mb-6 sm:mb-8">
           <div className="text-xs font-mono font-semibold tracking-widest text-blue-600 dark:text-blue-400 uppercase mb-2">
-            // NĂNG LỰC KỸ THUẬT VÀ NGHIỆP VỤ
+            {ui.skillsBadge}
           </div>
           <h2 className="text-3xl lg:text-4xl font-extrabold text-[var(--foreground)] tracking-tight">
-            Khung Công Nghệ và Kỹ Năng Chuyên Môn
+            {ui.skillsTitle}
           </h2>
           <p className="text-[var(--muted-foreground)] mt-3 max-w-2xl text-base leading-relaxed">
-            Sự phối hợp toàn diện giữa kỹ năng lập trình Full-Stack (React/Next.js, Node.js, C#), tư duy phân tích nghiệp vụ BA và năng lực triển khai thực tế.
+            {ui.skillsDesc}
           </p>
         </div>
 
-        {/* 3 Categories Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {portfolioData.skillCategories.map((cat) => (
+        {/* Skill Categories Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {data.skillCategories.map((cat, idx) => (
             <div
               key={cat.category}
               className="card-glass rounded-3xl p-6 lg:p-7 border border-[var(--surface-border)] flex flex-col"
             >
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center shrink-0">
-                  {categoryIcons[cat.category] || <Sparkles size={20} className="text-blue-600 dark:text-blue-400" />}
+                  {categoryIcons[idx % categoryIcons.length]}
                 </div>
                 <div>
                   <h3 className="text-sm lg:text-base font-bold text-[var(--foreground)]">

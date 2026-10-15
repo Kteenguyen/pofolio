@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
+import { useLanguage } from "@/context/LanguageContext";
 import { Project } from "@/data/portfolioData";
 import { X, ExternalLink, CheckCircle2, AlertCircle, Lightbulb, TrendingUp, ChevronLeft, ChevronRight, Image as ImageIcon } from "lucide-react";
 import { GithubIcon } from "./SocialIcons";
@@ -13,6 +14,8 @@ interface ProjectModalProps {
 }
 
 export default function ProjectModal({ project, onClose }: ProjectModalProps) {
+  const { locale } = useLanguage();
+  const isEn = locale === "en";
   const [mounted, setMounted] = useState(false);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
 
@@ -54,7 +57,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
         {/* Close Button */}
         <button
           onClick={onClose}
-          aria-label="Đóng cửa sổ chi tiết dự án"
+          aria-label={isEn ? "Close project details modal" : "Đóng cửa sổ chi tiết dự án"}
           className="touch-target absolute top-4 right-4 w-11 h-11 rounded-full flex items-center justify-center bg-[var(--background)] border border-[var(--surface-border)] text-[var(--foreground)] hover:border-red-400 hover:text-red-500 transition-colors cursor-pointer shadow-sm"
         >
           <X size={20} />
@@ -83,17 +86,17 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="block relative aspect-[16/9] w-full overflow-hidden cursor-pointer"
-                  title={`Mở trải nghiệm trực tiếp: ${project.liveUrl}`}
+                  title={isEn ? `Open live experience: ${project.liveUrl}` : `Mở trải nghiệm trực tiếp: ${project.liveUrl}`}
                 >
                   <img
                     src={currentImage}
-                    alt={`${project.title} - Ảnh ${activeImageIndex + 1}`}
+                    alt={`${project.title} - ${isEn ? "Image" : "Ảnh"} ${activeImageIndex + 1}`}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-50 group-hover:opacity-30 transition-opacity" />
                   <div className="absolute bottom-3 right-3 px-3 py-1.5 rounded-xl text-xs font-mono font-bold bg-emerald-600 text-white backdrop-blur-md shadow-lg flex items-center gap-2 transition-transform group-hover:scale-105">
                     <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
-                    <span>{project.liveUrl.includes("vercel.app") ? "Trải Nghiệm Demo Vercel" : "Trải Nghiệm Live Web"}</span>
+                    <span>{project.liveUrl.includes("vercel.app") ? (isEn ? "Live Vercel Demo" : "Trải Nghiệm Demo Vercel") : (isEn ? "Live Web Experience" : "Trải Nghiệm Live Web")}</span>
                     <ExternalLink size={13} />
                   </div>
                 </a>
@@ -101,14 +104,14 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                 <div className="relative aspect-[16/9] w-full overflow-hidden">
                   <img
                     src={currentImage}
-                    alt={`${project.title} - Ảnh ${activeImageIndex + 1}`}
+                    alt={`${project.title} - ${isEn ? "Image" : "Ảnh"} ${activeImageIndex + 1}`}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-50 group-hover:opacity-30 transition-opacity" />
                   {projectImages.length > 1 && (
                     <div className="absolute bottom-3 right-3 px-3 py-1.5 rounded-xl text-xs font-mono font-bold bg-blue-600/90 text-white backdrop-blur-md shadow-lg flex items-center gap-1.5">
                       <ImageIcon size={13} />
-                      <span>Ảnh {activeImageIndex + 1} / {projectImages.length}</span>
+                      <span>{isEn ? `Image ${activeImageIndex + 1} / ${projectImages.length}` : `Ảnh ${activeImageIndex + 1} / ${projectImages.length}`}</span>
                     </div>
                   )}
                 </div>
@@ -122,7 +125,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                       e.stopPropagation();
                       setActiveImageIndex((prev) => (prev > 0 ? prev - 1 : projectImages.length - 1));
                     }}
-                    aria-label="Xem ảnh trước"
+                    aria-label={isEn ? "Previous image" : "Xem ảnh trước"}
                     className="touch-target absolute left-2 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-slate-950/75 hover:bg-blue-600 text-white flex items-center justify-center backdrop-blur-md transition-all cursor-pointer border border-white/20 shadow-lg z-10"
                   >
                     <ChevronLeft size={20} />
@@ -132,7 +135,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                       e.stopPropagation();
                       setActiveImageIndex((prev) => (prev < projectImages.length - 1 ? prev + 1 : 0));
                     }}
-                    aria-label="Xem ảnh kế tiếp"
+                    aria-label={isEn ? "Next image" : "Xem ảnh kế tiếp"}
                     className="touch-target absolute right-2 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-slate-950/75 hover:bg-blue-600 text-white flex items-center justify-center backdrop-blur-md transition-all cursor-pointer border border-white/20 shadow-lg z-10"
                   >
                     <ChevronRight size={20} />
@@ -161,7 +164,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                       className="w-full h-full object-cover"
                     />
                     <div className="absolute inset-x-0 bottom-0 bg-slate-950/80 py-0.5 text-center text-[9px] font-mono text-white">
-                      Ảnh {idx + 1}
+                      {isEn ? `Img ${idx + 1}` : `Ảnh ${idx + 1}`}
                     </div>
                   </button>
                 ))}
@@ -186,7 +189,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
           <div className="p-4 rounded-2xl bg-amber-500/5 border border-amber-500/20">
             <div className="flex items-center gap-2 font-bold text-amber-700 dark:text-amber-400 mb-1.5">
               <AlertCircle size={16} />
-              <span>Bối Cảnh & Thách Thức Nghiệp Vụ (Context & Challenge):</span>
+              <span>{isEn ? "Context & Business Challenge:" : "Bối Cảnh & Thách Thức Nghiệp Vụ (Context & Challenge):"}</span>
             </div>
             <p className="text-[var(--foreground)]">{project.problem}</p>
           </div>
@@ -195,7 +198,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
           <div className="p-4 rounded-2xl bg-blue-500/5 border border-blue-500/20">
             <div className="flex items-center gap-2 font-bold text-blue-700 dark:text-blue-400 mb-1.5">
               <Lightbulb size={16} />
-              <span>Giải Pháp Kỹ Thuật & Kiến Trúc (Architecture Solution):</span>
+              <span>{isEn ? "Technical Solution & Architecture:" : "Giải Pháp Kỹ Thuật & Kiến Trúc (Architecture Solution):"}</span>
             </div>
             <p className="text-[var(--foreground)]">{project.solution}</p>
           </div>
@@ -204,7 +207,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
           <div className="p-4 rounded-2xl bg-emerald-500/5 border border-emerald-500/20">
             <div className="flex items-center gap-2 font-bold text-emerald-700 dark:text-emerald-400 mb-2">
               <TrendingUp size={16} />
-              <span>Kết Quả & Giá Trị Thực Tế Đạt Được (Measurable Impact):</span>
+              <span>{isEn ? "Measurable Impact & Real-World Value:" : "Kết Quả & Giá Trị Thực Tế Đạt Được (Measurable Impact):"}</span>
             </div>
             <ul className="space-y-1.5 text-[var(--foreground)]">
               {project.impact.map((imp, idx) => (
@@ -220,7 +223,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
         {/* Tech Stack Chips kèm logo */}
         <div className="mt-6 pt-4 border-t border-[var(--surface-border)]">
           <div className="text-xs font-mono font-semibold text-[var(--muted-foreground)] mb-2">
-            // CÔNG NGHỆ & CÔNG CỤ ÁP DỤNG:
+            // {isEn ? "APPLIED TECHNOLOGIES & TOOLS:" : "CÔNG NGHỆ & CÔNG CỤ ÁP DỤNG:"}
           </div>
           <div className="flex flex-wrap gap-1.5">
             {project.techStack.map((tech) => (
@@ -245,7 +248,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
               className="touch-target px-5 py-2.5 rounded-xl text-xs font-semibold bg-[var(--surface)] border border-[var(--surface-border)] text-[var(--foreground)] hover:border-blue-600 hover:text-blue-600 transition-all flex items-center gap-2 shadow-sm"
             >
               <GithubIcon size={16} />
-              <span>Mã Nguồn GitHub</span>
+              <span>{isEn ? "GitHub Repository" : "Mã Nguồn GitHub"}</span>
             </a>
           )}
           {project.liveUrl && (
@@ -256,7 +259,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
               className="touch-target px-5 py-2.5 rounded-xl text-xs font-semibold bg-emerald-600 text-white flex items-center gap-2 shadow-sm hover:bg-emerald-700 transition-colors"
             >
               <ExternalLink size={16} />
-              <span>{project.liveUrl.includes("vercel.app") ? `Mở Trải Nghiệm Demo Vercel (${project.liveUrl.replace(/^https?:\/\//, '').replace(/\/$/, '')})` : "Trải Nghiệm Live Demo"}</span>
+              <span>{project.liveUrl.includes("vercel.app") ? (isEn ? `Live Vercel Demo (${project.liveUrl.replace(/^https?:\/\//, '').replace(/\/$/, '')})` : `Mở Trải Nghiệm Demo Vercel (${project.liveUrl.replace(/^https?:\/\//, '').replace(/\/$/, '')})`) : (isEn ? "Live Demo Experience" : "Trải Nghiệm Live Demo")}</span>
             </a>
           )}
         </div>

@@ -1,11 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { portfolioData } from "@/data/portfolioData";
-import { Mail, Phone, MapPin, Copy, Check, Send, Sparkles } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
+import { Mail, Phone, MapPin, Copy, Check, Send } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "./SocialIcons";
 
 export default function Contact() {
+  const { data, ui, locale } = useLanguage();
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [copiedPhone, setCopiedPhone] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -13,13 +14,13 @@ export default function Contact() {
   const [formData, setFormData] = useState({ name: "", email: "", phone: "", message: "" });
 
   const handleCopyEmail = () => {
-    navigator.clipboard.writeText(portfolioData.personal.email);
+    navigator.clipboard.writeText(data.personal.email);
     setCopiedEmail(true);
     setTimeout(() => setCopiedEmail(false), 2500);
   };
 
   const handleCopyPhone = () => {
-    navigator.clipboard.writeText(portfolioData.personal.phone);
+    navigator.clipboard.writeText(data.personal.phone);
     setCopiedPhone(true);
     setTimeout(() => setCopiedPhone(false), 2500);
   };
@@ -30,20 +31,18 @@ export default function Contact() {
     setLoading(true);
 
     try {
-      // Gửi trực tiếp sang Next.js API route (có cơ chế proxy và lưu dự phòng)
       const res = await fetch("/api/leads", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
-      const data = await res.json();
-      if (data.success) {
+      const resData = await res.json();
+      if (resData.success) {
         setSubmitted(true);
       } else {
-        setSubmitted(true); // Fallback friendly UX
+        setSubmitted(true);
       }
     } catch {
-      // Even if backend is not reachable, show friendly success feedback
       setSubmitted(true);
     } finally {
       setLoading(false);
@@ -56,13 +55,13 @@ export default function Contact() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <div className="text-xs font-mono font-semibold tracking-widest text-blue-600 dark:text-sky-400 uppercase mb-1">
-            // THÔNG TIN LIÊN HỆ & GỬI LỜI MỜI
+            {ui.contactBadge}
           </div>
           <h2 className="text-2xl lg:text-3xl font-extrabold text-[var(--foreground)] tracking-tight">
-            Kết Nối Trực Tiếp Với Kỹ Sư Ktee
+            {ui.contactTitle}
           </h2>
           <p className="text-xs text-[var(--muted-foreground)] mt-1 max-w-2xl">
-            Sẵn sàng trao đổi về các vị trí Software Engineer (Full-Stack, Front-End, Back-End), dự án chuyển đổi số hoặc vai trò Business Analyst.
+            {ui.contactDesc}
           </p>
         </div>
       </div>
@@ -74,31 +73,31 @@ export default function Contact() {
           {/* Phone Card */}
           <div className="card-glass rounded-2xl p-4 border border-[var(--surface-border)]">
             <div className="text-[10px] font-mono text-[var(--muted-foreground)] uppercase">
-              // SỐ ĐIỆN THOẠI TRỰC TIẾP
+              {ui.contactDirectPhone}
             </div>
             <div className="flex items-center justify-between gap-3 mt-2">
-              <a href={`tel:${portfolioData.personal.phone}`} className="flex items-center gap-2.5 group">
+              <a href={`tel:${data.personal.phone}`} className="flex items-center gap-2.5 group">
                 <div className="w-9 h-9 rounded-xl bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-sky-400 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
                   <Phone size={17} />
                 </div>
                 <span className="font-mono text-sm sm:text-base font-bold text-[var(--foreground)] group-hover:text-blue-600 transition-colors">
-                  {portfolioData.personal.phone}
+                  {data.personal.phone}
                 </span>
               </a>
               <button
                 onClick={handleCopyPhone}
-                aria-label="Sao chép số điện thoại"
-                className="touch-target px-3 py-1.5 rounded-xl text-xs font-semibold bg-[var(--surface)] border border-[var(--surface-border)] hover:border-blue-600 hover:text-blue-600 transition-all flex items-center gap-1.5 shrink-0 shadow-sm"
+                aria-label="Copy phone number"
+                className="touch-target px-3 py-1.5 rounded-xl text-xs font-semibold bg-[var(--surface)] border border-[var(--surface-border)] hover:border-blue-600 hover:text-blue-600 transition-all flex items-center gap-1.5 shrink-0 shadow-sm cursor-pointer"
               >
                 {copiedPhone ? (
                   <>
                     <Check size={13} className="text-emerald-600 dark:text-emerald-400" />
-                    <span className="text-emerald-600 dark:text-emerald-400 font-semibold">Đã chép!</span>
+                    <span className="text-emerald-600 dark:text-emerald-400 font-semibold">{ui.contactCopied}</span>
                   </>
                 ) : (
                   <>
                     <Copy size={13} />
-                    <span>Sao chép</span>
+                    <span>{ui.contactCopy}</span>
                   </>
                 )}
               </button>
@@ -108,36 +107,36 @@ export default function Contact() {
           {/* Email Card */}
           <div className="card-glass rounded-2xl p-4 border border-[var(--surface-border)]">
             <div className="text-[10px] font-mono text-[var(--muted-foreground)] uppercase">
-              // ĐỊA CHỈ EMAIL CÁ NHÂN
+              {ui.contactDirectEmail}
             </div>
             <div className="flex items-center justify-between gap-3 mt-2">
-              <a href={`mailto:${portfolioData.personal.email}`} className="flex items-center gap-2.5 group">
+              <a href={`mailto:${data.personal.email}`} className="flex items-center gap-2.5 group">
                 <div className="w-9 h-9 rounded-xl bg-indigo-100 dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-400 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
                   <Mail size={17} />
                 </div>
                 <div className="flex flex-col">
                   <span className="font-mono text-xs sm:text-sm font-bold text-[var(--foreground)] group-hover:text-blue-600 transition-colors break-all">
-                    {portfolioData.personal.email}
+                    {data.personal.email}
                   </span>
                   <span className="text-[10px] text-[var(--muted-foreground)]">
-                    {portfolioData.personal.backupEmail}
+                    {data.personal.backupEmail}
                   </span>
                 </div>
               </a>
               <button
                 onClick={handleCopyEmail}
-                aria-label="Sao chép địa chỉ email"
-                className="touch-target px-3 py-1.5 rounded-xl text-xs font-semibold bg-[var(--surface)] border border-[var(--surface-border)] hover:border-blue-600 hover:text-blue-600 transition-all flex items-center gap-1.5 shrink-0 shadow-sm"
+                aria-label="Copy email address"
+                className="touch-target px-3 py-1.5 rounded-xl text-xs font-semibold bg-[var(--surface)] border border-[var(--surface-border)] hover:border-blue-600 hover:text-blue-600 transition-all flex items-center gap-1.5 shrink-0 shadow-sm cursor-pointer"
               >
                 {copiedEmail ? (
                   <>
                     <Check size={13} className="text-emerald-600 dark:text-emerald-400" />
-                    <span className="text-emerald-600 dark:text-emerald-400 font-semibold">Đã chép!</span>
+                    <span className="text-emerald-600 dark:text-emerald-400 font-semibold">{ui.contactCopied}</span>
                   </>
                 ) : (
                   <>
                     <Copy size={13} />
-                    <span>Sao chép</span>
+                    <span>{ui.contactCopy}</span>
                   </>
                 )}
               </button>
@@ -151,18 +150,22 @@ export default function Contact() {
                 <MapPin size={17} />
               </div>
               <div>
-                <div className="text-[10px] text-[var(--muted-foreground)]">Địa bàn làm việc:</div>
+                <div className="text-[10px] text-[var(--muted-foreground)]">
+                  {locale === "en" ? "Working Location:" : "Địa bàn làm việc:"}
+                </div>
                 <div className="text-xs font-semibold text-[var(--foreground)]">
-                  {portfolioData.personal.location} (On-site / Hybrid / Remote)
+                  {data.personal.location} (On-site / Hybrid / Remote)
                 </div>
               </div>
             </div>
 
             <div className="pt-2 border-t border-[var(--surface-border)] flex items-center justify-between text-xs">
-              <span className="text-[var(--muted-foreground)]">Trạng thái tuyển dụng:</span>
+              <span className="text-[var(--muted-foreground)]">
+                {locale === "en" ? "Recruitment Status:" : "Trạng thái tuyển dụng:"}
+              </span>
               <span className="font-bold font-mono text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                {portfolioData.personal.statusText}
+                {data.personal.statusText}
               </span>
             </div>
           </div>
@@ -170,17 +173,17 @@ export default function Contact() {
           {/* Social Links */}
           <div className="flex flex-wrap gap-2">
             <a
-              href={portfolioData.personal.github}
+              href={data.personal.github}
               target="_blank"
               rel="noopener noreferrer"
               className="touch-target px-3.5 py-2 rounded-xl text-xs font-semibold bg-[var(--surface)] border border-[var(--surface-border)] text-[var(--foreground)] hover:border-blue-600 hover:text-blue-600 transition-all flex items-center gap-2 shadow-sm"
             >
               <GithubIcon size={15} />
-              <span>GitHub ({portfolioData.personal.githubUser})</span>
+              <span>GitHub ({data.personal.githubUser})</span>
             </a>
 
             <a
-              href={portfolioData.personal.linkedin}
+              href={data.personal.linkedin}
               target="_blank"
               rel="noopener noreferrer"
               className="touch-target px-3.5 py-2 rounded-xl text-xs font-semibold bg-[var(--surface)] border border-[var(--surface-border)] text-[var(--foreground)] hover:border-blue-600 hover:text-blue-600 transition-all flex items-center gap-2 shadow-sm"
@@ -194,38 +197,40 @@ export default function Contact() {
         {/* Right Column: Lead Submission Form */}
         <div className="card-glass rounded-2xl p-4 lg:p-5 border border-[var(--surface-border)]">
           <h3 className="text-base font-bold text-[var(--foreground)] mb-1">
-            Gửi Tin Nhắn / Lời Mời Phỏng Vấn Tới Ktee
+            {locale === "en" ? "Send Message / Interview Request to Ktee" : "Gửi Tin Nhắn / Lời Mời Phỏng Vấn Tới Ktee"}
           </h3>
           <p className="text-xs text-[var(--muted-foreground)] mb-4">
-            Tin nhắn của bạn sẽ được chuyển trực tiếp tới hộp thư của Ktee và được phản hồi trong vòng 24 giờ.
+            {locale === "en"
+              ? "Your inquiry will be routed directly to Ktee's personal inbox and replied to within 24 hours."
+              : "Tin nhắn của bạn sẽ được chuyển trực tiếp tới hộp thư của Ktee và được phản hồi trong vòng 24 giờ."}
           </p>
 
           {submitted ? (
             <div className="p-6 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300 text-center space-y-2">
               <Check size={28} className="mx-auto" />
-              <div className="font-bold text-sm">Gửi tin nhắn thành công!</div>
+              <div className="font-bold text-sm">{ui.contactSuccessTitle}</div>
               <p className="text-xs text-[var(--muted-foreground)]">
-                Tin nhắn của bạn đã được lưu vào hệ thống CMS. Ktee sẽ liên hệ lại với bạn sớm nhất.
+                {ui.contactSuccessDesc}
               </p>
               <button
                 onClick={() => { setSubmitted(false); setFormData({ name: "", email: "", phone: "", message: "" }); }}
-                className="touch-target mt-3 px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-600 text-white"
+                className="touch-target mt-3 px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-600 text-white cursor-pointer"
               >
-                Gửi tin nhắn khác
+                {ui.contactSendAnother}
               </button>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-3">
               <div>
                 <label className="block text-[11px] font-medium text-[var(--muted-foreground)] mb-1">
-                  Họ và tên của bạn / Công ty tuyển dụng:
+                  {ui.contactFormName}
                 </label>
                 <input
                   type="text"
                   required
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  placeholder="Nguyễn Văn A / Công ty ABC..."
+                  placeholder={locale === "en" ? "John Doe / Tech Recruiter..." : "Nguyễn Văn A / Công ty ABC..."}
                   className="touch-target w-full px-3 py-2 rounded-xl bg-[var(--surface)] border border-[var(--surface-border)] text-xs text-[var(--foreground)] placeholder-[var(--muted)] focus:outline-none focus:border-blue-600 shadow-sm"
                 />
               </div>
@@ -233,7 +238,7 @@ export default function Contact() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 <div>
                   <label className="block text-[11px] font-medium text-[var(--muted-foreground)] mb-1">
-                    Email nhận phản hồi:
+                    {ui.contactFormEmail}
                   </label>
                   <input
                     type="email"
@@ -246,7 +251,7 @@ export default function Contact() {
                 </div>
                 <div>
                   <label className="block text-[11px] font-medium text-[var(--muted-foreground)] mb-1">
-                    Số điện thoại (tùy chọn):
+                    {ui.contactFormPhone}
                   </label>
                   <input
                     type="tel"
@@ -260,14 +265,14 @@ export default function Contact() {
 
               <div>
                 <label className="block text-[11px] font-medium text-[var(--muted-foreground)] mb-1">
-                  Nội dung trao đổi / Lời mời phỏng vấn:
+                  {ui.contactFormMessage}
                 </label>
                 <textarea
                   required
                   rows={3}
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  placeholder="Mô tả ngắn gọn vị trí công việc, dự án hoặc yêu cầu phỏng vấn..."
+                  placeholder={locale === "en" ? "Brief description of job opportunity, project scope, or interview schedule..." : "Mô tả ngắn gọn vị trí công việc, dự án hoặc yêu cầu phỏng vấn..."}
                   className="w-full p-3 rounded-xl bg-[var(--surface)] border border-[var(--surface-border)] text-xs text-[var(--foreground)] placeholder-[var(--muted)] focus:outline-none focus:border-blue-600 resize-none shadow-sm"
                 />
               </div>
@@ -278,7 +283,7 @@ export default function Contact() {
                 className="touch-target w-full py-2.5 rounded-xl text-xs font-semibold bg-blue-600 text-white shadow-sm hover:bg-blue-700 transition-colors flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50"
               >
                 <Send size={14} />
-                <span>{loading ? "Đang gửi dữ liệu..." : "Gửi Trực Tiếp Đến Ktee & Lưu Vào CMS"}</span>
+                <span>{loading ? ui.contactFormSending : ui.contactFormSubmit}</span>
               </button>
             </form>
           )}

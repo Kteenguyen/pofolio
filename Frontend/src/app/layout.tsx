@@ -6,6 +6,7 @@ import "@/styles/ux-mobile.css";
 import "@/styles/copilot.css";
 import "@/styles/experience-asymmetric.css";
 import FloatingThumbDock from "@/components/FloatingThumbDock";
+import { LanguageProvider } from "@/context/LanguageContext";
 
 export const metadata: Metadata = {
   title: "Nguyễn Khoa Tài (Ktee) | Cử Nhân Chuyên Ngành Kỹ Thuật Phần Mềm • ĐH Tôn Đức Thắng",
@@ -52,8 +53,10 @@ export default function RootLayout({
   return (
     <html lang="vi" className="scroll-smooth">
       <body className="antialiased selection:bg-blue-600 selection:text-white bg-[var(--background)] text-[var(--foreground)] pb-20 md:pb-0">
-        {children}
-        <FloatingThumbDock />
+        <LanguageProvider>
+          {children}
+          <FloatingThumbDock />
+        </LanguageProvider>
       </body>
     </html>
   );

@@ -6,22 +6,24 @@ import { usePathname } from "next/navigation";
 import LanguageSelector from "./LanguageSelector";
 import CVDownloadModal from "./CVDownloadModal";
 import InterviewModal from "./InterviewModal";
+import { useLanguage } from "@/context/LanguageContext";
 import { Menu, X, FileDown, ChevronRight, PhoneCall, CalendarCheck } from "lucide-react";
 
 export default function Header() {
   const pathname = usePathname();
+  const { ui } = useLanguage();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [cvModalOpen, setCvModalOpen] = useState(false);
   const [interviewModalOpen, setInterviewModalOpen] = useState(false);
   const [interviewTab, setInterviewTab] = useState<"interview" | "contact">("interview");
 
   const navRoutes = [
-    { label: "Tổng Quan", href: "/" },
-    { label: "Học Vấn", href: "/education" },
-    { label: "Kinh Nghiệm", href: "/experience" },
-    { label: "Dự Án", href: "/projects" },
-    { label: "Kỹ Năng", href: "/skills" },
-    { label: "Liên Hệ", href: "/contact" },
+    { label: ui.navOverview, href: "/" },
+    { label: ui.navEducation, href: "/education" },
+    { label: ui.navExperience, href: "/experience" },
+    { label: ui.navProjects, href: "/projects" },
+    { label: ui.navSkills, href: "/skills" },
+    { label: ui.navContact, href: "/contact" },
   ];
 
   const handleOpenInterview = (tab: "interview" | "contact" = "interview") => {
@@ -64,27 +66,27 @@ export default function Header() {
           {/* Mời Phỏng Vấn (Tablet/Desktop) */}
           <button
             onClick={() => handleOpenInterview("interview")}
-            aria-label="Mở form mời phỏng vấn nhanh trong 15 giây"
+            aria-label={ui.inviteInterview}
             className="hidden sm:inline-flex touch-target px-3.5 py-2 rounded-xl text-xs font-bold bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-sm hover:from-blue-700 hover:to-indigo-700 active:scale-[0.98] transition-all items-center gap-1.5 cursor-pointer whitespace-nowrap"
           >
             <CalendarCheck size={14} />
-            <span>Mời Phỏng Vấn</span>
+            <span>{ui.inviteInterview}</span>
           </button>
 
           {/* Tải CV (Desktop/Tablet) */}
           <button
             onClick={() => setCvModalOpen(true)}
-            aria-label="Tải Hồ Sơ CV PDF"
+            aria-label={ui.downloadCv}
             className="hidden sm:inline-flex touch-target px-3.5 py-2 rounded-xl text-xs font-semibold border border-[var(--surface-border)] bg-[var(--surface)] text-[var(--foreground)] hover:border-blue-600 hover:text-blue-600 shadow-sm active:scale-[0.98] transition-all items-center gap-1.5 cursor-pointer whitespace-nowrap"
           >
             <FileDown size={14} />
-            <span>Tải CV</span>
+            <span>{ui.downloadCv}</span>
           </button>
 
           {/* Mobile / Tablet Menu Button (< 1024px) */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label={mobileMenuOpen ? "Đóng menu điều hướng" : "Mở menu điều hướng"}
+            aria-label={mobileMenuOpen ? ui.menuClose : ui.menuOpen}
             className="lg:hidden touch-target w-11 h-11 rounded-xl flex items-center justify-center border border-[var(--surface-border)] bg-[var(--surface)] text-[var(--foreground)] shadow-sm hover:border-blue-600 transition-colors cursor-pointer"
           >
             {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
@@ -118,7 +120,7 @@ export default function Header() {
             {/* Mobile Language Switcher (Segmented Control) */}
             <div className="pt-2">
               <div className="text-[10px] font-semibold text-[var(--muted-foreground)] px-1 mb-1.5 uppercase font-mono tracking-wider">
-                // NGÔN NGỮ / LANGUAGE:
+                // {ui.langSection}:
               </div>
               <LanguageSelector variant="segmented" onSelect={() => setMobileMenuOpen(false)} />
             </div>
@@ -126,7 +128,7 @@ export default function Header() {
             {/* Mobile Conversion CTA Pair in Drawer Menu */}
             <div className="pt-2.5 flex flex-col gap-2">
               <div className="text-[10px] font-semibold text-[var(--muted-foreground)] px-1 uppercase font-mono tracking-wider">
-                // KẾT NỐI TUYỂN DỤNG & PHỎNG VẤN:
+                // {ui.connectSection}
               </div>
 
               {/* Nút 1: Mời Phỏng Vấn (15s) */}
@@ -139,7 +141,7 @@ export default function Header() {
                 className="touch-target w-full min-h-[48px] px-4 py-3 rounded-xl text-center text-xs sm:text-sm font-extrabold bg-gradient-to-r from-blue-600 via-sky-600 to-indigo-600 text-white flex items-center justify-center gap-2 shadow-md shadow-blue-500/20 active:scale-[0.99] transition-all cursor-pointer"
               >
                 <CalendarCheck size={17} />
-                <span>Mời Phỏng Vấn (Form 15 Giây)</span>
+                <span>{ui.inviteInterview15s}</span>
               </button>
 
               {/* Nút 2: Để Lại Số Liên Lạc / Hotline 0852.723.945 */}
@@ -152,7 +154,7 @@ export default function Header() {
                 className="touch-target w-full min-h-[48px] px-4 py-3 rounded-xl text-center text-xs sm:text-sm font-bold border border-sky-500/40 bg-sky-50/90 dark:bg-sky-950/50 text-sky-700 dark:text-sky-300 flex items-center justify-center gap-2 active:scale-[0.99] transition-all cursor-pointer"
               >
                 <PhoneCall size={16} className="text-sky-600 dark:text-sky-400" />
-                <span>Để Lại Số Liên Lạc (Hotline: 0852.723.945)</span>
+                <span>{ui.leaveContact}</span>
               </button>
 
               {/* Nút 3: Tải Hồ Sơ CV PDF */}
@@ -165,7 +167,7 @@ export default function Header() {
                 className="touch-target w-full min-h-[44px] px-4 py-2.5 rounded-xl text-center text-xs font-semibold bg-[var(--surface)] border border-[var(--surface-border)] text-[var(--foreground)] flex items-center justify-center gap-2 hover:border-blue-500 active:scale-[0.99] transition-all cursor-pointer"
               >
                 <FileDown size={15} className="text-blue-600 dark:text-sky-400" />
-                <span>Tải Hồ Sơ CV (PDF 4 Phiên Bản)</span>
+                <span>{ui.downloadCv4Versions}</span>
               </button>
             </div>
           </nav>

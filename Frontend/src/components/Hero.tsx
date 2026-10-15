@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { portfolioData } from "@/data/portfolioData";
+import { useLanguage } from "@/context/LanguageContext";
 import CVDownloadModal from "./CVDownloadModal";
 import {
   Code2,
@@ -14,11 +14,11 @@ import {
   FileDown,
   Briefcase,
   FolderGit2,
-  ShieldCheck,
   Zap,
 } from "lucide-react";
 
 export default function Hero() {
+  const { data, ui, locale } = useLanguage();
   const [cvModalOpen, setCvModalOpen] = useState(false);
 
   return (
@@ -39,11 +39,11 @@ export default function Hero() {
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
               </span>
               <span className="font-semibold text-emerald-700 dark:text-emerald-400">
-                {portfolioData.personal.statusText}
+                {data.personal.statusText}
               </span>
               <span className="text-[var(--muted)] hidden sm:inline">|</span>
               <span className="flex items-center gap-1 text-[var(--muted-foreground)] shrink-0">
-                <MapPin size={12} /> {portfolioData.personal.location}
+                <MapPin size={12} /> {data.personal.location}
               </span>
             </div>
 
@@ -51,46 +51,46 @@ export default function Hero() {
             <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-2 sm:mb-3">
               <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-sky-300 font-mono text-[11px] sm:text-xs font-bold uppercase tracking-wider border border-blue-200/80 dark:border-blue-900/60">
                 <Code2 size={13} className="text-blue-600 dark:text-sky-400 shrink-0" />
-                <span>Cử Nhân Kỹ Thuật Phần Mềm</span>
+                <span>{ui.heroBadgeDegree}</span>
               </span>
               <span className="inline-flex items-center px-2 py-1 rounded-md bg-[var(--surface)] text-[var(--muted-foreground)] font-mono text-[11px] sm:text-xs font-medium border border-[var(--surface-border)]">
-                ĐH Tôn Đức Thắng (GPA 3.0)
+                {ui.heroBadgeUni}
               </span>
               <span className="inline-flex items-center px-2 py-1 rounded-md bg-[var(--surface)] text-[var(--foreground)] font-mono text-[11px] sm:text-xs font-bold border border-[var(--surface-border)]">
-                Nguyễn Khoa Tài
+                {data.personal.name}
               </span>
             </div>
 
             {/* Big Headline */}
             <h1 className="hero-headline font-black text-[var(--foreground)] tracking-tight max-w-2xl">
-              Nền tảng Kỹ thuật bài bản, <br className="hidden sm:inline" />
+              {ui.heroHeadlinePrefix} <br className="hidden sm:inline" />
               <span className="text-blue-600 dark:text-sky-400">
-                Kiến tạo giải pháp phần mềm thực chiến.
+                {ui.heroHeadlineSuffix}
               </span>
             </h1>
 
             {/* Subheadline Bio */}
             <p className="hero-subheadline text-[var(--muted-foreground)] mt-3 sm:mt-4 max-w-2xl font-normal leading-relaxed text-xs sm:text-sm lg:text-base">
-              {portfolioData.personal.bio}
+              {data.personal.bio}
             </p>
 
             {/* Fast Credentials Row */}
             <div className="flex flex-wrap items-center gap-1.5 sm:gap-2.5 mt-4 sm:mt-5 text-[11px] sm:text-xs text-[var(--muted-foreground)] font-medium">
               <span className="flex items-center gap-1.5 bg-[var(--surface)] px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-xl border border-[var(--surface-border)] shadow-xs">
                 <GraduationCap size={14} className="text-blue-600 dark:text-sky-400 shrink-0" />
-                <span>ĐH Tôn Đức Thắng (GPA 3.0)</span>
+                <span>{ui.heroBadgeUni}</span>
               </span>
               <span className="flex items-center gap-1.5 bg-[var(--surface)] px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-xl border border-[var(--surface-border)] shadow-xs">
                 <Zap size={14} className="text-sky-600 dark:text-sky-400 shrink-0" />
-                <span>PowerTech Next.js 15 (PageSpeed 96)</span>
+                <span>{ui.heroBadgePowertech}</span>
               </span>
               <span className="flex items-center gap-1.5 bg-[var(--surface)] px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-xl border border-[var(--surface-border)] shadow-xs">
                 <CheckCircle2 size={14} className="text-indigo-600 dark:text-indigo-400 shrink-0" />
-                <span>FPT IS (10/25–02/26 • 230+ Cán Bộ)</span>
+                <span>{ui.heroBadgeFpt}</span>
               </span>
               <span className="flex items-center gap-1.5 bg-[var(--surface)] px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-xl border border-[var(--surface-border)] shadow-xs">
                 <CheckCircle2 size={14} className="text-purple-600 dark:text-purple-400 shrink-0" />
-                <span>HomeNest BA (03–06/2026)</span>
+                <span>{ui.heroBadgeHomenest}</span>
               </span>
             </div>
 
@@ -101,7 +101,7 @@ export default function Hero() {
                 className="touch-target w-full px-4 py-3 rounded-xl text-xs sm:text-sm font-bold bg-blue-600 text-white shadow-md hover:bg-blue-700 active:scale-[0.99] transition-all flex items-center justify-center gap-2 group cursor-pointer"
               >
                 <FolderGit2 size={16} className="text-white shrink-0" />
-                <span>Khám Phá Kho Dự Án</span>
+                <span>{ui.heroCtaProjects}</span>
                 <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform shrink-0" />
               </a>
 
@@ -110,18 +110,18 @@ export default function Hero() {
                 className="touch-target w-full px-4 py-3 rounded-xl text-xs sm:text-sm font-bold bg-emerald-600 text-white shadow-md hover:bg-emerald-700 active:scale-[0.99] transition-all flex items-center justify-center gap-2 cursor-pointer"
               >
                 <FileDown size={16} className="shrink-0" />
-                <span>Tải Hồ Sơ CV (PDF)</span>
+                <span>{ui.heroCtaCv}</span>
               </button>
             </div>
 
-            {/* Secondary Section Shortcut Chips (2 cols on mobile for generous text width) */}
+            {/* Secondary Section Shortcut Chips */}
             <div className="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-2 mt-3 w-full">
               <a
                 href="#experience"
                 className="touch-target px-3 py-2 rounded-xl text-xs font-semibold border border-[var(--surface-border)] bg-[var(--surface)] text-[var(--foreground)] hover:border-blue-600 hover:text-blue-600 transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-xs whitespace-nowrap"
               >
                 <Briefcase size={14} className="text-indigo-600 dark:text-indigo-400 shrink-0" />
-                <span>Line Kinh Nghiệm</span>
+                <span>{ui.heroShortcutExp}</span>
               </a>
 
               <a
@@ -129,7 +129,7 @@ export default function Hero() {
                 className="touch-target px-3 py-2 rounded-xl text-xs font-semibold border border-[var(--surface-border)] bg-[var(--surface)] text-[var(--foreground)] hover:border-blue-600 hover:text-blue-600 transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-xs whitespace-nowrap"
               >
                 <FolderGit2 size={14} className="text-blue-600 dark:text-sky-400 shrink-0" />
-                <span>Kho Dự Án</span>
+                <span>{ui.navProjects}</span>
               </a>
 
               <a
@@ -137,7 +137,7 @@ export default function Hero() {
                 className="touch-target px-3 py-2 rounded-xl text-xs font-semibold border border-[var(--surface-border)] bg-[var(--surface)] text-[var(--foreground)] hover:border-blue-600 hover:text-blue-600 transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-xs whitespace-nowrap"
               >
                 <GraduationCap size={14} className="text-amber-600 dark:text-amber-400 shrink-0" />
-                <span>Học Vấn 5 Năm</span>
+                <span>{ui.heroShortcutEdu}</span>
               </a>
 
               <a
@@ -145,30 +145,26 @@ export default function Hero() {
                 className="touch-target px-3 py-2 rounded-xl text-xs font-semibold border border-[var(--surface-border)] bg-[var(--surface)] text-[var(--foreground)] hover:border-blue-600 hover:text-blue-600 transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-xs whitespace-nowrap"
               >
                 <Mail size={14} className="text-emerald-600 dark:text-emerald-400 shrink-0" />
-                <span>Liên Hệ</span>
+                <span>{ui.heroShortcutContact}</span>
               </a>
             </div>
           </div>
 
-          {/* Column: Hero Profile Card with Portrait Image /avatar.jpg (On the left on desktop) */}
+          {/* Column: Hero Profile Card with Portrait Image */}
           <div className="lg:col-span-5 w-full max-w-md mx-auto lg:max-w-none order-2 lg:order-1 mt-4 lg:mt-0">
             <div className="card-glass rounded-2xl sm:rounded-3xl p-4 sm:p-5 border border-blue-200/80 dark:border-blue-900/50 shadow-xl relative overflow-hidden bg-gradient-to-b from-white via-slate-50/50 to-blue-50/20 dark:from-[var(--surface)] dark:via-[var(--surface)] dark:to-blue-950/20 group">
               
-              {/* Portrait Image Frame - Hiển thị 100% trọn vẹn ảnh chân dung gốc, không cắt xén, không có dòng đè phía trên */}
+              {/* Portrait Image Frame */}
               <div className="relative rounded-2xl overflow-hidden border-2 border-white dark:border-slate-800 shadow-md bg-slate-100 dark:bg-slate-900 group-hover:shadow-blue-500/10 transition-shadow">
                 <img
                   src="/avatar.jpg"
-                  alt="Nguyễn Khoa Tài (Ktee) - Cử Nhân Kỹ Thuật Phần Mềm"
+                  alt={`${data.personal.name} - ${data.personal.title}`}
                   className="w-full h-auto aspect-[1707/2560] object-cover block group-hover:scale-[1.02] transition-transform duration-500"
                 />
               </div>
 
-              {/* Thông tin & CTA Action theo đúng chỉ đạo:
-                  1. Ở dưới: Năm học 2021 - 2026
-                  2. Ở dưới nữa: 5+ dự án freelance thực chiến
-                  3. Cuối cùng: 2 nút CTA xem CV và liên hệ */}
+              {/* Informational badges */}
               <div className="mt-3.5 space-y-2.5">
-                {/* 1. Ở dưới: Năm học 2021 - 2026 */}
                 <div className="p-2.5 sm:p-3 rounded-xl bg-[var(--surface-subtle)] border border-[var(--surface-border)] flex items-center justify-between transition-colors hover:border-blue-500/30">
                   <div className="flex items-center gap-2.5 min-w-0">
                     <div className="w-8 h-8 rounded-lg bg-blue-500/10 text-blue-600 dark:text-sky-400 flex items-center justify-center shrink-0">
@@ -176,19 +172,18 @@ export default function Hero() {
                     </div>
                     <div className="min-w-0 pr-1">
                       <span className="text-[10px] uppercase font-mono text-[var(--muted-foreground)] tracking-wider block leading-tight">
-                        Khoa CNTT • ĐH Tôn Đức Thắng
+                        {locale === "en" ? "Faculty of IT • Ton Duc Thang Univ" : "Khoa CNTT • ĐH Tôn Đức Thắng"}
                       </span>
                       <span className="font-bold text-xs sm:text-sm text-[var(--foreground)] block leading-snug">
-                        Năm học 2021 – 2026
+                        {locale === "en" ? "Academic Years 2021 – 2026" : "Năm học 2021 – 2026"}
                       </span>
                     </div>
                   </div>
                   <span className="text-[10px] sm:text-[11px] font-mono font-semibold px-2 py-0.5 rounded-md bg-blue-50 dark:bg-blue-950 text-blue-700 dark:text-sky-300 border border-blue-200 dark:border-blue-800 shrink-0">
-                    Cử Nhân KTPM
+                    {locale === "en" ? "B.S. Eng" : "Cử Nhân KTPM"}
                   </span>
                 </div>
 
-                {/* 2. Ở dưới nữa: 5+ dự án freelance thực chiến */}
                 <div className="p-2.5 sm:p-3 rounded-xl bg-[var(--surface-subtle)] border border-[var(--surface-border)] flex items-center justify-between transition-colors hover:border-emerald-500/30">
                   <div className="flex items-center gap-2.5 min-w-0">
                     <div className="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
@@ -196,32 +191,31 @@ export default function Hero() {
                     </div>
                     <div className="min-w-0 pr-1">
                       <span className="text-[10px] uppercase font-mono text-[var(--muted-foreground)] tracking-wider block leading-tight">
-                        Kinh Nghiệm Triển Khai Thực Tế
+                        {locale === "en" ? "Hands-on Delivery Experience" : "Kinh Nghiệm Triển Khai Thực Tế"}
                       </span>
                       <span className="font-bold text-xs sm:text-sm text-[var(--foreground)] block leading-snug">
-                        5+ Dự Án Freelance Thực Chiến
+                        {locale === "en" ? "5+ Production Enterprise Projects" : "5+ Dự Án Freelance Thực Chiến"}
                       </span>
                     </div>
                   </div>
                   <span className="text-[10px] sm:text-[11px] font-mono font-semibold px-2 py-0.5 rounded-md bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 shrink-0">
-                    Thực Chiến
+                    {locale === "en" ? "Battle-Tested" : "Thực Chiến"}
                   </span>
                 </div>
 
-                {/* 3. Cuối cùng mới 2 nút CTA liên hệ với xem CV */}
                 <div className="grid grid-cols-2 gap-2 pt-1">
                   <button
                     onClick={() => setCvModalOpen(true)}
                     className="touch-target w-full px-3 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-blue-600 text-white hover:bg-blue-700 active:scale-[0.99] transition-all flex items-center justify-center gap-1.5 shadow-xs cursor-pointer"
                   >
                     <FileDown size={14} className="shrink-0" />
-                    <span>Xem CV</span>
+                    <span>{locale === "en" ? "View CV" : "Xem CV"}</span>
                   </button>
                   <Link
                     href="/contact"
                     className="touch-target w-full px-3 py-2.5 rounded-xl text-xs sm:text-sm font-bold border border-[var(--surface-border)] bg-[var(--surface)] text-[var(--foreground)] hover:border-blue-600 hover:text-blue-600 active:scale-[0.99] transition-all flex items-center justify-center gap-1.5 shadow-xs cursor-pointer"
                   >
-                    <span>Liên Hệ</span>
+                    <span>{ui.navContact}</span>
                   </Link>
                 </div>
               </div>

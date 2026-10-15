@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { portfolioData, Experience as ExperienceType } from "@/data/portfolioData";
+import { useLanguage } from "@/context/LanguageContext";
+import { Experience as ExperienceType } from "@/data/portfolioData";
 import {
   Briefcase,
   MapPin,
@@ -24,7 +25,6 @@ import {
   X,
   ChevronLeft,
   ChevronRight,
-  Bot,
 } from "lucide-react";
 
 interface LightboxState {
@@ -35,6 +35,8 @@ interface LightboxState {
 }
 
 export default function Experience() {
+  const { data, ui, locale } = useLanguage();
+
   // Sort order: chronological (2021 -> Nay) or reverse (Nay -> 2021)
   const [sortOrder, setSortOrder] = useState<"chronological" | "reverse">("reverse");
   const [filterType, setFilterType] = useState<"all" | "enterprise" | "education">("all");
@@ -74,17 +76,17 @@ export default function Experience() {
   // Chronological order (2021 -> 2025 -> 2026 -> Nay) - 6 Milestones
   const chronologicalList: ExperienceType[] = [
     // 1. TDTU 2021 - 2026
-    portfolioData.experience.find((e) => e.id === "tdtu-engineering")!,
+    data.experience.find((e) => e.id === "tdtu-engineering")!,
     // 2. FPT IS 10/2025 - 02/2026
-    portfolioData.experience.find((e) => e.id === "fpt-is")!,
+    data.experience.find((e) => e.id === "fpt-is")!,
     // 3. Nam Gia Phát 02/2026 - 04/2026
-    portfolioData.experience.find((e) => e.id === "namgiaphat-realestate")!,
+    data.experience.find((e) => e.id === "namgiaphat-realestate")!,
     // 4. HomeNest 03/2026 - 06/2026
-    portfolioData.experience.find((e) => e.id === "homenest-software")!,
+    data.experience.find((e) => e.id === "homenest-software")!,
     // 5. Luklak 05/2026
-    portfolioData.experience.find((e) => e.id === "luklak-freelance")!,
+    data.experience.find((e) => e.id === "luklak-freelance")!,
     // 6. PowerTech 07/2026 - Nay
-    portfolioData.experience.find((e) => e.id === "powertech")!,
+    data.experience.find((e) => e.id === "powertech")!,
   ].filter(Boolean);
 
   // Filtered list
@@ -160,10 +162,10 @@ export default function Experience() {
     setLightbox({
       images: ["/tha1.jpg", "/tha2.jpg"],
       currentIndex: index,
-      title: "Minh Chứng Hiện Trường - Dự Án Thi Hành Án Dân Sự (FPT IS)",
+      title: ui.expFptLightboxTitle,
       captions: [
-        "Hình ảnh thực tế đứng lớp tổ chức 15 buổi đào tạo (Training) cho hơn 230 cán bộ và người dùng cuối tại Cơ quan Thi Hành Án Dân Sự.",
-        "Hình ảnh thực tế triển khai go-live, cài đặt phần mềm, cấu hình chứng thư số và hoàn thiện biên bản nghiệm thu tại hiện trường.",
+        ui.expFptCaption1,
+        ui.expFptCaption2,
       ],
     });
   };
@@ -179,17 +181,17 @@ export default function Experience() {
           <div>
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-semibold tracking-widest text-blue-600 dark:text-sky-400 bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800 uppercase mb-3">
               <Sparkles size={13} />
-              <span>// BẢN ĐỒ KINH NGHIỆM THỰC CHIẾN MASTER CV</span>
+              <span>{ui.expBadge}</span>
             </div>
             <h2 className="text-3xl lg:text-4xl font-extrabold text-[var(--foreground)] tracking-tight">
-              Hành Trình Kỹ Sư và Kinh Nghiệm Triển Khai
+              {ui.expTitle}
             </h2>
             <p className="text-[var(--muted-foreground)] mt-3 max-w-2xl text-sm lg:text-base leading-relaxed">
-              Đồng bộ hóa 100% từ hồ sơ CV Master: Hành trình phát triển thực chiến từ nền tảng Kỹ sư 5 năm ĐH Tôn Đức Thắng đến các hệ thống chuyển đổi số doanh nghiệp, triển khai UAT thực tế và đào tạo 230+ cán bộ.
+              {ui.expDesc}
             </p>
           </div>
 
-          {/* Filter & Layout Controls (Touch target >= 44px, flex-wrap) */}
+          {/* Filter & Layout Controls */}
           <div className="flex flex-wrap items-center gap-2.5 self-start lg:self-end">
             {/* View Mode Switcher: 3-Col Grid vs Vertical Timeline */}
             <div className="inline-flex items-center p-1 rounded-xl bg-[var(--surface)] border border-[var(--surface-border)] shadow-sm gap-1">
@@ -201,10 +203,10 @@ export default function Experience() {
                     ? "bg-blue-600 text-white shadow-sm"
                     : "text-[var(--muted-foreground)] hover:text-[var(--foreground)]"
                 }`}
-                title="Chế độ Lưới 3 Cột Bo Góc Bất Đối Xứng"
+                title={ui.expViewGrid}
               >
                 <LayoutGrid size={14} />
-                <span className="hidden sm:inline">Lưới 3 Cột</span>
+                <span className="hidden sm:inline">{ui.expViewGrid}</span>
               </button>
               <button
                 type="button"
@@ -214,10 +216,10 @@ export default function Experience() {
                     ? "bg-blue-600 text-white shadow-sm"
                     : "text-[var(--muted-foreground)] hover:text-[var(--foreground)]"
                 }`}
-                title="Chế độ Dòng Thời Gian Dọc"
+                title={ui.expViewTimeline}
               >
                 <Clock size={14} />
-                <span className="hidden sm:inline">Dòng Thời Gian</span>
+                <span className="hidden sm:inline">{ui.expViewTimeline}</span>
               </button>
             </div>
 
@@ -232,7 +234,7 @@ export default function Experience() {
                     : "text-[var(--muted-foreground)] hover:text-[var(--foreground)]"
                 }`}
               >
-                Tất cả ({chronologicalList.length})
+                {ui.expFilterAll} ({chronologicalList.length})
               </button>
               <button
                 type="button"
@@ -243,7 +245,7 @@ export default function Experience() {
                     : "text-[var(--muted-foreground)] hover:text-[var(--foreground)]"
                 }`}
               >
-                Doanh nghiệp ({chronologicalList.filter((e) => !e.isEducation).length})
+                {ui.expFilterEnterprise} ({chronologicalList.filter((e) => !e.isEducation).length})
               </button>
               <button
                 type="button"
@@ -254,7 +256,7 @@ export default function Experience() {
                     : "text-[var(--muted-foreground)] hover:text-[var(--foreground)]"
                 }`}
               >
-                Học vấn ({chronologicalList.filter((e) => e.isEducation).length})
+                {ui.expFilterEducation} ({chronologicalList.filter((e) => e.isEducation).length})
               </button>
             </div>
 
@@ -263,36 +265,39 @@ export default function Experience() {
               type="button"
               onClick={() => setSortOrder(sortOrder === "chronological" ? "reverse" : "chronological")}
               className="touch-target px-3.5 py-2 rounded-xl text-xs font-semibold border border-[var(--surface-border)] bg-[var(--surface)] text-[var(--foreground)] hover:border-blue-500 transition-all flex items-center gap-1.5 shadow-sm cursor-pointer"
-              title="Đổi thứ tự thời gian"
+              title="Toggle sort order"
             >
               <ArrowUpDown size={14} className="text-blue-600 dark:text-sky-400" />
-              <span className="hidden sm:inline">Thứ tự:</span>
+              <span className="hidden sm:inline">Sort:</span>
               <span className="font-bold text-blue-600 dark:text-sky-400">
-                {sortOrder === "chronological" ? "2021 → Nay" : "Nay → 2021"}
+                {sortOrder === "chronological"
+                  ? locale === "en"
+                    ? "2021 → Present"
+                    : "2021 → Nay"
+                  : locale === "en"
+                  ? "Present → 2021"
+                  : "Nay → 2021"}
               </span>
             </button>
           </div>
         </div>
 
-        {/* ==============================================================================
-            1. HORIZONTAL INTERACTIVE TIMELINE TRACKER (Guaranteed right <= 430px)
-            ============================================================================== */}
+        {/* 1. HORIZONTAL INTERACTIVE TIMELINE TRACKER */}
         <div className="mb-10 p-3 sm:p-5 lg:p-6 rounded-2xl sm:rounded-3xl bg-[var(--surface)] border border-[var(--surface-border)] shadow-sm experience-timeline-track">
           <div className="flex items-center justify-between gap-2 mb-4 pb-3 border-b border-[var(--surface-border)]">
             <div className="flex items-center gap-2 text-xs font-bold text-[var(--foreground)]">
               <TrendingUp size={16} className="text-blue-600 dark:text-sky-400" />
               <span className="uppercase tracking-wider font-mono text-[11px]">
-                Thanh Line Tiến Trình Kinh Nghiệm (Chronological Milestone Tracker)
+                {locale === "en" ? "Interactive Career Journey Tracker" : "Thanh Line Tiến Trình Kinh Nghiệm (Chronological Milestone Tracker)"}
               </span>
             </div>
             <span className="text-[11px] font-mono text-[var(--muted-foreground)] hidden sm:inline">
-              Nhấp mốc để chuyển tới chi tiết thẻ
+              {locale === "en" ? "Click milestone to jump to details" : "Nhấp mốc để chuyển tới chi tiết thẻ"}
             </span>
           </div>
 
           {/* Timeline Nodes Grid */}
           <div className="relative pb-2 sm:pb-3 overflow-x-auto sm:overflow-x-visible">
-            {/* Background connecting baseline at the bottom */}
             <div
               className={`absolute bottom-[3px] sm:bottom-[4px] left-4 sm:left-10 right-4 sm:right-10 h-1 sm:h-1.5 bg-gradient-to-r ${
                 sortOrder === "reverse"
@@ -333,7 +338,7 @@ export default function Experience() {
                       }`}
                     >
                       {milestone.id === "powertech"
-                        ? "07/26-Nay"
+                        ? locale === "en" ? "07/26-Pres" : "07/26-Nay"
                         : milestone.id === "luklak-freelance"
                         ? "05/2026"
                         : milestone.id === "homenest-software"
@@ -348,7 +353,7 @@ export default function Experience() {
                     {/* Milestone Role & Company Short Label */}
                     <span className="text-[7.5px] sm:text-[10px] font-semibold text-[var(--foreground)] mt-0.5 text-center leading-tight truncate w-full px-0.5 group-hover:text-blue-600 dark:group-hover:text-sky-400">
                       {milestone.id === "tdtu-engineering"
-                        ? "ĐH Tôn Đức Thắng"
+                        ? locale === "en" ? "Ton Duc Thang" : "ĐH Tôn Đức Thắng"
                         : milestone.id === "homenest-software"
                         ? "HomeNest BA"
                         : milestone.id === "namgiaphat-realestate"
@@ -377,9 +382,7 @@ export default function Experience() {
           </div>
         </div>
 
-        {/* ==============================================================================
-            2A. 3-COLUMN ASYMMETRIC GRID VIEW (Show nhiều hơn 3 hàng 3 thẻ kinh nghiệm)
-            ============================================================================== */}
+        {/* 2A. 3-COLUMN ASYMMETRIC GRID VIEW */}
         {viewMode === "grid" && (
           <div className="experience-3col-grid">
             {displayList.map((exp, idx) => {
@@ -400,7 +403,7 @@ export default function Experience() {
                     <div className="flex items-center justify-between gap-2 mb-3">
                       <div className="flex flex-wrap items-center gap-1.5">
                         <span className="px-2 py-0.5 rounded-md text-[10px] font-mono font-semibold bg-blue-50 text-blue-700 dark:bg-blue-950 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
-                          {exp.type}
+                          {exp.typeEn && locale === "en" ? exp.typeEn : exp.type}
                         </span>
                         <span className="px-2 py-0.5 rounded-md text-[10px] font-mono font-bold bg-slate-100 dark:bg-slate-800 text-[var(--foreground)] border border-[var(--surface-border)]">
                           {exp.yearBadge}
@@ -439,18 +442,18 @@ export default function Experience() {
                       {exp.description}
                     </p>
 
-                    {/* ==============================================================================
-                        FPT IS REAL EVIDENCE PHOTO GALLERY (tha1.jpg & tha2.jpg)
-                        ============================================================================== */}
+                    {/* FPT IS REAL EVIDENCE PHOTO GALLERY */}
                     {exp.id === "fpt-is" && exp.images && exp.images.length > 0 && (
                       <div className="mt-3.5 mb-2 p-2.5 rounded-2xl bg-[var(--surface-subtle)] border border-[var(--surface-border)]">
                         <div className="flex items-center justify-between gap-1 mb-2">
                           <span className="text-[10px] font-mono font-bold text-blue-600 dark:text-sky-400 flex items-center gap-1">
                             <Camera size={12} />
-                            <span>Minh Chứng Hiện Trường ({exp.images.length} Ảnh)</span>
+                            <span>
+                              {locale === "en" ? `Field Evidence (${exp.images.length} Photos)` : `Minh Chứng Hiện Trường (${exp.images.length} Ảnh)`}
+                            </span>
                           </span>
                           <span className="text-[9px] text-[var(--muted-foreground)] font-mono">
-                            Chạm xem phóng to
+                            {locale === "en" ? "Tap to zoom" : "Chạm xem phóng to"}
                           </span>
                         </div>
 
@@ -466,11 +469,11 @@ export default function Experience() {
                               className={`group/img relative overflow-hidden ${
                                 imgIdx === 0 ? "asymmetric-thumb-a" : "asymmetric-thumb-b"
                               } border border-[var(--surface-border)] hover:border-blue-500 transition-all cursor-pointer focus:outline-none min-h-[72px] sm:min-h-[82px] w-full`}
-                              title="Xem ảnh thực tế phóng to"
+                              title="Zoom"
                             >
                               <img
                                 src={imgSrc}
-                                alt={`Ảnh thực tế ${imgIdx + 1} - ${exp.company}`}
+                                alt={`Field Photo ${imgIdx + 1} - ${exp.company}`}
                                 className="w-full h-18 sm:h-20 object-cover group-hover/img:scale-105 transition-transform duration-300"
                                 loading="lazy"
                               />
@@ -480,7 +483,9 @@ export default function Experience() {
                                 </div>
                               </div>
                               <span className="absolute bottom-1 left-1 px-1.5 py-0.5 rounded text-[8px] font-mono font-bold bg-slate-900/80 text-white backdrop-blur-sm">
-                                {imgIdx === 0 ? "Đào tạo 230+ CB" : "Go-live & Nghiệm thu"}
+                                {imgIdx === 0
+                                  ? locale === "en" ? "230+ Officers Trained" : "Đào tạo 230+ CB"
+                                  : locale === "en" ? "Go-live & Handover" : "Go-live & Nghiệm thu"}
                               </span>
                             </button>
                           ))}
@@ -493,12 +498,12 @@ export default function Experience() {
                       <div className="mt-3.5 mb-2 relative overflow-hidden asymmetric-thumb-a border border-[var(--surface-border)]">
                         <img
                           src={exp.imageUrl}
-                          alt="Cổng Bất Động Sản Nam Gia Phát"
+                          alt="Nam Gia Phat Portal"
                           className="w-full h-20 sm:h-22 object-cover"
                           loading="lazy"
                         />
                         <div className="absolute bottom-1 left-1 px-1.5 py-0.5 rounded text-[8px] font-mono font-bold bg-slate-900/85 text-teal-300 backdrop-blur-sm">
-                          Bộ Lọc BĐS Đa Chiều &lt;100ms
+                          {locale === "en" ? "Multi-Filter Real Estate <100ms" : "Bộ Lọc BĐS Đa Chiều <100ms"}
                         </div>
                       </div>
                     )}
@@ -519,7 +524,7 @@ export default function Experience() {
                       </div>
                     )}
 
-                    {/* Top Achievements List (compact) */}
+                    {/* Top Achievements List */}
                     <div className="mt-3 space-y-1.5 pt-2.5 border-t border-[var(--surface-border)]">
                       {exp.achievements.slice(0, 3).map((ach, achIdx) => (
                         <div
@@ -558,12 +563,9 @@ export default function Experience() {
           </div>
         )}
 
-        {/* ==============================================================================
-            2B. VERTICAL TIMELINE SPINE VIEW (Chế độ tuần tự chi tiết)
-            ============================================================================== */}
+        {/* 2B. VERTICAL TIMELINE SPINE VIEW */}
         {viewMode === "timeline" && (
           <div className="relative pl-7 sm:pl-12 lg:pl-14 space-y-8 sm:space-y-10">
-            {/* Vertical Glowing Line Spine */}
             <div className="absolute left-[13px] sm:left-[21px] lg:left-[25px] top-6 bottom-6 w-0.5 bg-gradient-to-b from-sky-500 via-emerald-500 via-purple-500 via-teal-500 via-blue-500 to-orange-500 rounded-full" />
 
             {displayList.map((exp, idx) => {
@@ -589,7 +591,7 @@ export default function Experience() {
                     {getMilestoneIcon(exp.id)}
                   </div>
 
-                  {/* Milestone Card with Asymmetric Corners */}
+                  {/* Milestone Card */}
                   <div
                     className={`asymmetric-card ${asymmetricClass} p-5 sm:p-6 lg:p-7 border transition-all duration-300 ${
                       isActive
@@ -597,25 +599,21 @@ export default function Experience() {
                         : "border-[var(--surface-border)] hover:border-blue-500/40 hover:shadow-md"
                     }`}
                   >
-                    {/* Header Row */}
                     <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 mb-4">
                       <div>
-                        {/* Top Badges */}
                         <div className="flex flex-wrap items-center gap-2 mb-2">
                           <span className="px-2.5 py-0.5 rounded-md text-[11px] font-mono font-semibold bg-blue-50 text-blue-700 dark:bg-blue-950 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
-                            {exp.type}
+                            {exp.typeEn && locale === "en" ? exp.typeEn : exp.type}
                           </span>
                           <span className="px-2.5 py-0.5 rounded-md text-[11px] font-mono font-bold bg-slate-100 dark:bg-slate-800 text-[var(--foreground)] border border-[var(--surface-border)]">
                             {exp.yearBadge}
                           </span>
                         </div>
 
-                        {/* Role Title */}
                         <h3 className="text-xl lg:text-2xl font-black text-[var(--foreground)] tracking-tight">
                           {exp.role}
                         </h3>
 
-                        {/* Company Name & Link */}
                         <div className="text-sm font-semibold text-blue-600 dark:text-sky-400 mt-1.5 flex items-center gap-1.5 flex-wrap">
                           {exp.isEducation ? <GraduationCap size={16} /> : <Building2 size={16} />}
                           <span>{exp.company}</span>
@@ -633,7 +631,6 @@ export default function Experience() {
                         </div>
                       </div>
 
-                      {/* Period & Location Pills */}
                       <div className="flex flex-wrap items-center gap-2 text-xs text-[var(--muted-foreground)] font-mono self-start">
                         <span className="flex items-center gap-1 bg-[var(--surface-subtle)] px-2.5 py-1 rounded-md border border-[var(--surface-border)] shadow-sm shrink-0">
                           <Calendar size={13} className="text-blue-600 dark:text-sky-400" /> {exp.period}
@@ -644,7 +641,6 @@ export default function Experience() {
                       </div>
                     </div>
 
-                    {/* Description */}
                     <p className="text-xs lg:text-sm text-[var(--muted-foreground)] leading-relaxed mt-3">
                       {exp.description}
                     </p>
@@ -655,10 +651,12 @@ export default function Experience() {
                         <div className="flex items-center justify-between gap-2 mb-2.5">
                           <span className="text-xs font-mono font-bold text-blue-600 dark:text-sky-400 flex items-center gap-1.5">
                             <Camera size={14} />
-                            <span>Minh Chứng Hình Ảnh Hiện Trường ({exp.images.length} Ảnh)</span>
+                            <span>
+                              {locale === "en" ? `Field Verification (${exp.images.length} Photos)` : `Minh Chứng Hình Ảnh Hiện Trường (${exp.images.length} Ảnh)`}
+                            </span>
                           </span>
                           <span className="text-[11px] text-[var(--muted-foreground)] font-mono">
-                            Nhấp để phóng to chi tiết
+                            {locale === "en" ? "Click to expand" : "Nhấp để phóng to chi tiết"}
                           </span>
                         </div>
 
@@ -674,11 +672,11 @@ export default function Experience() {
                               className={`group/img relative overflow-hidden ${
                                 imgIdx === 0 ? "asymmetric-thumb-a" : "asymmetric-thumb-b"
                               } border border-[var(--surface-border)] hover:border-blue-500 transition-all cursor-pointer focus:outline-none min-h-[100px] w-full`}
-                              title="Xem ảnh thực tế phóng to"
+                              title="Zoom"
                             >
                               <img
                                 src={imgSrc}
-                                alt={`Ảnh thực tế ${imgIdx + 1} - ${exp.company}`}
+                                alt={`Field Photo ${imgIdx + 1} - ${exp.company}`}
                                 className="w-full h-28 sm:h-32 object-cover group-hover/img:scale-105 transition-transform duration-300"
                                 loading="lazy"
                               />
@@ -688,7 +686,9 @@ export default function Experience() {
                                 </div>
                               </div>
                               <span className="absolute bottom-1.5 left-1.5 px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-slate-900/80 text-white backdrop-blur-sm">
-                                {imgIdx === 0 ? "Đào tạo 230+ cán bộ" : "Go-live & nghiệm thu"}
+                                {imgIdx === 0
+                                  ? locale === "en" ? "230+ Officers Trained" : "Đào tạo 230+ cán bộ"
+                                  : locale === "en" ? "Go-live & Handover" : "Go-live & nghiệm thu"}
                               </span>
                             </button>
                           ))}
@@ -715,7 +715,7 @@ export default function Experience() {
                     {/* Achievements List */}
                     <div className="mt-5 space-y-2.5 pt-4 border-t border-[var(--surface-border)]">
                       <div className="text-[11px] font-mono font-bold text-[var(--muted-foreground)] uppercase tracking-wider mb-2">
-                        // KẾT QUẢ ĐỊNH LƯỢNG &amp; THÀNH TỰU THỰC CHIẾN (CHỨNG THỰC TỪ CV):
+                        {ui.expKeyAchievements}
                       </div>
                       {exp.achievements.map((ach, aIdx) => (
                         <div
@@ -734,7 +734,7 @@ export default function Experience() {
                     {/* Skills tags */}
                     <div className="mt-5 pt-4 border-t border-[var(--surface-border)] flex flex-wrap gap-1.5 items-center">
                       <span className="text-[10px] font-mono uppercase text-[var(--muted-foreground)] mr-1">
-                        Kỹ năng:
+                        {locale === "en" ? "Skills:" : "Kỹ năng:"}
                       </span>
                       {exp.skills.map((skill) => (
                         <span
@@ -752,9 +752,7 @@ export default function Experience() {
           </div>
         )}
 
-        {/* ==============================================================================
-            3. FULLSCREEN LIGHTBOX MODAL FOR REAL EVIDENCE PHOTOS
-            ============================================================================== */}
+        {/* 3. FULLSCREEN LIGHTBOX MODAL */}
         {lightbox && (
           <div
             className="experience-lightbox-backdrop"
@@ -767,7 +765,6 @@ export default function Experience() {
               className="experience-lightbox-container"
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Modal Top Bar */}
               <div className="flex items-center justify-between p-4 border-b border-[var(--surface-border)] bg-[var(--surface)]">
                 <div className="flex items-center gap-2">
                   <Camera size={18} className="text-blue-600 dark:text-sky-400" />
@@ -776,7 +773,7 @@ export default function Experience() {
                       {lightbox.title}
                     </h4>
                     <span className="text-[10px] font-mono text-[var(--muted-foreground)]">
-                      Ảnh {lightbox.currentIndex + 1} / {lightbox.images.length}
+                      {locale === "en" ? `Photo ${lightbox.currentIndex + 1} / ${lightbox.images.length}` : `Ảnh ${lightbox.currentIndex + 1} / ${lightbox.images.length}`}
                     </span>
                   </div>
                 </div>
@@ -785,13 +782,12 @@ export default function Experience() {
                   type="button"
                   onClick={() => setLightbox(null)}
                   className="lightbox-btn-touch rounded-full bg-[var(--surface-subtle)] text-[var(--muted-foreground)] hover:text-[var(--foreground)] border border-[var(--surface-border)] hover:bg-red-500/10 hover:border-red-500/30 transition-all"
-                  aria-label="Đóng cửa sổ"
+                  aria-label={ui.closeModal}
                 >
                   <X size={18} />
                 </button>
               </div>
 
-              {/* Main Image Display */}
               <div className="relative bg-black flex items-center justify-center min-h-[300px] max-h-[75vh] overflow-hidden">
                 <img
                   src={lightbox.images[lightbox.currentIndex]}
@@ -799,7 +795,6 @@ export default function Experience() {
                   className="max-h-[75vh] w-auto max-w-full object-contain"
                 />
 
-                {/* Prev Button */}
                 {lightbox.images.length > 1 && (
                   <button
                     type="button"
@@ -812,13 +807,12 @@ export default function Experience() {
                       })
                     }
                     className="lightbox-btn-touch absolute left-3 top-1/2 -translate-y-1/2 rounded-full bg-slate-900/70 hover:bg-slate-900 text-white backdrop-blur-md border border-white/20 transition-all"
-                    aria-label="Ảnh trước"
+                    aria-label="Previous"
                   >
                     <ChevronLeft size={22} />
                   </button>
                 )}
 
-                {/* Next Button */}
                 {lightbox.images.length > 1 && (
                   <button
                     type="button"
@@ -829,21 +823,24 @@ export default function Experience() {
                       })
                     }
                     className="lightbox-btn-touch absolute right-3 top-1/2 -translate-y-1/2 rounded-full bg-slate-900/70 hover:bg-slate-900 text-white backdrop-blur-md border border-white/20 transition-all"
-                    aria-label="Ảnh tiếp theo"
+                    aria-label="Next"
                   >
                     <ChevronRight size={22} />
                   </button>
                 )}
               </div>
 
-              {/* Caption Bar */}
               <div className="p-3.5 bg-[var(--surface)] border-t border-[var(--surface-border)]">
                 <p className="text-xs sm:text-sm text-[var(--foreground)] leading-relaxed">
                   {lightbox.captions[lightbox.currentIndex]}
                 </p>
                 <div className="mt-1 flex items-center justify-between text-[10px] font-mono text-[var(--muted-foreground)]">
-                  <span>Dự án Thi Hành Án Dân Sự • FPT IS</span>
-                  <span>Nhấn ESC hoặc nhấp ngoài để đóng</span>
+                  <span>
+                    {locale === "en" ? "Civil Judgment Enforcement Project • FPT IS" : "Dự án Thi Hành Án Dân Sự • FPT IS"}
+                  </span>
+                  <span>
+                    {locale === "en" ? "Press ESC or click outside to close" : "Nhấn ESC hoặc nhấp ngoài để đóng"}
+                  </span>
                 </div>
               </div>
             </div>

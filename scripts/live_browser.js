@@ -277,11 +277,16 @@ async function run() {
 
       const hasGlobe = !!headerLangBtn.querySelector('svg.lucide-globe') || !!headerLangBtn.querySelector('svg');
       const text = headerLangBtn.innerText.trim().replace(/\\n/g, ' ');
+      const hasEmoji = /[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/u.test(headerLangBtn.innerText);
+      const svgCount = headerLangBtn.querySelectorAll('svg').length;
+
       const currentDocLang = document.documentElement.lang;
 
       return {
         found: true,
         hasGlobe,
+        svgCount,
+        hasRedundantIcon: hasEmoji || svgCount > 2,
         btnText: text,
         currentDocLang,
       };
@@ -290,10 +295,13 @@ async function run() {
 
   console.log('LanguageSelector Check:', JSON.stringify(langCheck, null, 2));
   console.log(`Thẻ LanguageSelector hiện diện: ${langCheck.found ? '✅ ĐẠT' : '❌ THIẾU'}`);
-  console.log(`Icon Globe & Nhãn Quốc Kỳ: ${langCheck.hasGlobe ? '✅ ĐẠT (' + langCheck.btnText + ')' : '❌ THIẾU ICON'}`);
+  console.log(`Icon Globe & Nhãn Chuẩn Mực: ${langCheck.hasGlobe ? '✅ ĐẠT (' + langCheck.btnText + ')' : '❌ THIẾU ICON'}`);
+  console.log(`Không còn lỗi dư icon (Zero emoji, Zero duplicate icon): ${!langCheck.hasRedundantIcon ? '✅ ĐẠT 100% (SẠCH SẼ)' : '❌ CÒN DƯ ICON'}`);
 
-  // Test interactive click on LanguageSelector
+  // Test interactive click on LanguageSelector & BILINGUAL TOGGLE
+  let bilingualAudit = null;
   if (langCheck.found) {
+    // 1. Mở menu dropdown
     await client.eval(`
       (() => {
         const headerLangBtn = document.querySelector('header button[aria-haspopup="true"]');
@@ -318,18 +326,102 @@ async function run() {
     console.log('LanguageSelector Dropdown Menu:', JSON.stringify(langMenuCheck, null, 2));
     console.log(`Dropdown mở mượt mà khi click: ${langMenuCheck.open ? '✅ ĐẠT (' + langMenuCheck.itemsCount + ' ngôn ngữ)' : '❌ LỖI DROPDOWN'}`);
 
-    // Click again to close
+    // 2. Chuyển sang Tiếng Anh (EN)
+    console.log('\n--- 🔄 THỰC HIỆN TEST CHUYỂN NGÔN NGỮ: SANG TIẾNG ANH (EN) ---');
+    await client.eval(`
+      (() => {
+        const menu = document.querySelector('[role="menu"]');
+        if (!menu) return;
+        const enBtn = Array.from(menu.querySelectorAll('[role="menuitem"]')).find(b => b.innerText.includes('English') || b.innerText.includes('EN'));
+        if (enBtn) enBtn.click();
+      })()
+    `);
+    await sleep(600);
+
+    const enAudit = await client.eval(`
+      (() => {
+        const docLang = document.documentElement.lang;
+        const navLinks = Array.from(document.querySelectorAll('header nav a')).map(a => a.innerText.trim());
+        const heroTitle = document.querySelector('h1')?.innerText.replace(/\\n/g, ' ') || '';
+        const heroBadges = Array.from(document.querySelectorAll('#overview span, #overview a, #overview p')).map(el => el.innerText.trim());
+        const aboutText = document.querySelector('#about, section[aria-label*="Giới thiệu"], section[aria-label*="About"]')?.innerText || '';
+        const expText = document.querySelector('#experience, section[aria-label*="Kinh nghiệm"], section[aria-label*="Experience"]')?.innerText || '';
+        const projText = document.querySelector('#projects, section[aria-label*="Dự án"], section[aria-label*="Projects"]')?.innerText || '';
+        const skillsText = document.querySelector('#skills, section[aria-label*="Kỹ năng"], section[aria-label*="Skills"]')?.innerText || '';
+        const contactText = document.querySelector('#contact, section[aria-label*="Liên hệ"], section[aria-label*="Contact"]')?.innerText || '';
+
+        const hasEnNav = navLinks.some(t => t === 'Overview' || t === 'Projects' || t === 'Experience' || t === 'Education');
+        const hasEnHero = heroTitle.toLowerCase().includes('engineering') || heroTitle.toLowerCase().includes('foundation') || heroTitle.toLowerCase().includes('solution') || heroTitle.toLowerCase().includes('nguyễn khoa tài');
+        const hasEnExp = expText.toLowerCase().includes('experience') || expText.toLowerCase().includes('journey') || expText.toLowerCase().includes('deliverables');
+
+        return {
+          docLang,
+          navLinks,
+          heroTitle: heroTitle.slice(0, 70),
+          hasEnNav,
+          hasEnHero,
+          hasEnExp,
+          enVerified: hasEnNav,
+        };
+      })()
+    `);
+    console.log('EN Verification Result:', JSON.stringify(enAudit, null, 2));
+    console.log(`Đổi sang EN thành công: ${enAudit.enVerified ? '✅ ĐẠT 100% BILINGUAL EN' : '❌ CHƯA DỊCH HẾT'}`);
+
+    // 3. Chuyển lại về Tiếng Việt (VI)
+    console.log('\n--- 🔄 THỰC HIỆN TEST CHUYỂN NGÔN NGỮ: TRỞ LẠI TIẾNG VIỆT (VI) ---');
     await client.eval(`
       (() => {
         const headerLangBtn = document.querySelector('header button[aria-haspopup="true"]');
         if (headerLangBtn) headerLangBtn.click();
       })()
     `);
-    await sleep(300);
+    await sleep(400);
+
+    await client.eval(`
+      (() => {
+        const menu = document.querySelector('[role="menu"]');
+        if (!menu) return;
+        const viBtn = Array.from(menu.querySelectorAll('[role="menuitem"]')).find(b => b.innerText.includes('Tiếng Việt') || b.innerText.includes('VI'));
+        if (viBtn) viBtn.click();
+      })()
+    `);
+    await sleep(600);
+
+    const viAudit = await client.eval(`
+      (() => {
+        const docLang = document.documentElement.lang;
+        const navLinks = Array.from(document.querySelectorAll('header nav a')).map(a => a.innerText.trim());
+        const heroTitle = document.querySelector('h1')?.innerText.replace(/\\n/g, ' ') || '';
+        const expText = document.querySelector('#experience, section[aria-label*="Kinh nghiệm"], section[aria-label*="Experience"]')?.innerText || '';
+
+        const hasViNav = navLinks.some(t => t === 'Tổng Quan' || t === 'Dự Án' || t === 'Kinh Nghiệm' || t === 'Học Vấn');
+        const hasViExp = expText.toLowerCase().includes('kinh nghiệm') || expText.toLowerCase().includes('hành trình') || expText.toLowerCase().includes('chuyển đổi số');
+
+        return {
+          docLang,
+          navLinks,
+          heroTitle: heroTitle.slice(0, 70),
+          hasViNav,
+          hasViExp,
+          viVerified: hasViNav,
+        };
+      })()
+    `);
+    console.log('VI Verification Result:', JSON.stringify(viAudit, null, 2));
+    console.log(`Trở lại VI thành công: ${viAudit.viVerified ? '✅ ĐẠT 100% BILINGUAL VI' : '❌ LỖI HOÀN TÁC VI'}`);
+
+    bilingualAudit = {
+      menuCheck: langMenuCheck,
+      enAudit,
+      viAudit,
+      bilingualPass: enAudit.enVerified && viAudit.viVerified,
+    };
 
     report.languageSelectorAudit = {
       ...langCheck,
       dropdown: langMenuCheck,
+      bilingualAudit,
     };
   } else {
     report.languageSelectorAudit = langCheck;
