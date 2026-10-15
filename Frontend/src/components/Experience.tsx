@@ -183,10 +183,10 @@ export default function Experience() {
               <Sparkles size={13} />
               <span>{ui.expBadge}</span>
             </div>
-            <h2 className="text-3xl lg:text-4xl font-extrabold text-[var(--foreground)] tracking-tight">
+            <h2 className="text-3xl lg:text-4xl font-extrabold text-[var(--foreground)] tracking-tight text-balance">
               {ui.expTitle}
             </h2>
-            <p className="text-[var(--muted-foreground)] mt-3 max-w-2xl text-sm lg:text-base leading-relaxed">
+            <p className="text-[var(--muted-foreground)] mt-3 max-w-2xl text-sm lg:text-base leading-relaxed text-pretty">
               {ui.expDesc}
             </p>
           </div>
@@ -338,16 +338,16 @@ export default function Experience() {
                       }`}
                     >
                       {milestone.id === "powertech"
-                        ? locale === "en" ? "07/26-Pres" : "07/26-Nay"
+                        ? locale === "en" ? "07/26 - Pres" : "07/26 - Nay"
                         : milestone.id === "luklak-freelance"
                         ? "05/2026"
                         : milestone.id === "homenest-software"
-                        ? "03–06/26"
+                        ? "03 - 06/26"
                         : milestone.id === "namgiaphat-realestate"
-                        ? "02–04/26"
+                        ? "02 - 04/26"
                         : milestone.id === "fpt-is"
-                        ? "10/25–2/26"
-                        : "2021-2026"}
+                        ? "10/25 - 02/26"
+                        : "2021 - 2026"}
                     </span>
 
                     {/* Milestone Role & Company Short Label */}
@@ -416,7 +416,7 @@ export default function Experience() {
                     </div>
 
                     {/* Role Title */}
-                    <h3 className="text-lg lg:text-xl font-black text-[var(--foreground)] tracking-tight leading-snug">
+                    <h3 className="text-lg lg:text-xl font-black text-[var(--foreground)] tracking-tight leading-snug text-balance">
                       {exp.role}
                     </h3>
 
@@ -438,7 +438,7 @@ export default function Experience() {
                     </div>
 
                     {/* Description */}
-                    <p className="text-xs text-[var(--muted-foreground)] leading-relaxed mt-2.5 line-clamp-3">
+                    <p className="text-xs text-[var(--muted-foreground)] leading-relaxed mt-2.5 line-clamp-3 text-pretty">
                       {exp.description}
                     </p>
 
@@ -535,7 +535,7 @@ export default function Experience() {
                             size={13}
                             className="text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5"
                           />
-                          <span className="line-clamp-2">{ach}</span>
+                          <span className="line-clamp-2 text-pretty">{ach}</span>
                         </div>
                       ))}
                     </div>
@@ -546,13 +546,13 @@ export default function Experience() {
                     {exp.skills.slice(0, 5).map((skill) => (
                       <span
                         key={skill}
-                        className="text-[10px] font-mono px-2 py-0.5 rounded bg-[var(--surface-subtle)] text-[var(--muted-foreground)] border border-[var(--surface-border)]"
+                        className="text-[10px] font-mono px-2 py-0.5 rounded bg-[var(--surface-subtle)] text-[var(--muted-foreground)] border border-[var(--surface-border)] whitespace-nowrap shrink-0"
                       >
                         {skill}
                       </span>
                     ))}
                     {exp.skills.length > 5 && (
-                      <span className="text-[9px] font-mono text-[var(--muted-foreground)]">
+                      <span className="text-[9px] font-mono text-[var(--muted-foreground)] whitespace-nowrap shrink-0">
                         +{exp.skills.length - 5}
                       </span>
                     )}
@@ -610,7 +610,7 @@ export default function Experience() {
                           </span>
                         </div>
 
-                        <h3 className="text-xl lg:text-2xl font-black text-[var(--foreground)] tracking-tight">
+                        <h3 className="text-xl lg:text-2xl font-black text-[var(--foreground)] tracking-tight text-balance">
                           {exp.role}
                         </h3>
 
@@ -641,7 +641,7 @@ export default function Experience() {
                       </div>
                     </div>
 
-                    <p className="text-xs lg:text-sm text-[var(--muted-foreground)] leading-relaxed mt-3">
+                    <p className="text-xs lg:text-sm text-[var(--muted-foreground)] leading-relaxed mt-3 text-pretty">
                       {exp.description}
                     </p>
 
@@ -726,7 +726,7 @@ export default function Experience() {
                             size={16}
                             className="text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5"
                           />
-                          <span>{ach}</span>
+                          <span className="text-pretty">{ach}</span>
                         </div>
                       ))}
                     </div>
@@ -739,7 +739,7 @@ export default function Experience() {
                       {exp.skills.map((skill) => (
                         <span
                           key={skill}
-                          className="text-[11px] font-mono px-2.5 py-0.5 rounded-md bg-[var(--surface-subtle)] text-[var(--muted-foreground)] border border-[var(--surface-border)] hover:border-blue-400 hover:text-[var(--foreground)] transition-colors"
+                          className="text-[11px] font-mono px-2.5 py-0.5 rounded-md bg-[var(--surface-subtle)] text-[var(--muted-foreground)] border border-[var(--surface-border)] hover:border-blue-400 hover:text-[var(--foreground)] transition-colors whitespace-nowrap shrink-0"
                         >
                           {skill}
                         </span>

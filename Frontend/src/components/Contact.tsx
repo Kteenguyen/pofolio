@@ -57,10 +57,10 @@ export default function Contact() {
           <div className="text-xs font-mono font-semibold tracking-widest text-blue-600 dark:text-sky-400 uppercase mb-1">
             {ui.contactBadge}
           </div>
-          <h2 className="text-2xl lg:text-3xl font-extrabold text-[var(--foreground)] tracking-tight">
+          <h2 className="text-2xl lg:text-3xl font-extrabold text-[var(--foreground)] tracking-tight text-balance">
             {ui.contactTitle}
           </h2>
-          <p className="text-xs text-[var(--muted-foreground)] mt-1 max-w-2xl">
+          <p className="text-xs text-[var(--muted-foreground)] mt-1 max-w-2xl text-pretty">
             {ui.contactDesc}
           </p>
         </div>

@@ -14,10 +14,10 @@ export default function Education() {
           <div className="text-xs font-mono font-semibold tracking-widest text-blue-600 dark:text-blue-400 uppercase mb-2">
             {ui.eduBadge}
           </div>
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[var(--foreground)] tracking-tight">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[var(--foreground)] tracking-tight text-balance">
             {ui.eduTitle}
           </h2>
-          <p className="text-[var(--muted-foreground)] mt-2 sm:mt-3 max-w-2xl text-xs sm:text-sm lg:text-base leading-relaxed">
+          <p className="text-[var(--muted-foreground)] mt-2 sm:mt-3 max-w-2xl text-xs sm:text-sm lg:text-base leading-relaxed text-pretty">
             {ui.eduDesc}
           </p>
         </div>
@@ -35,10 +35,10 @@ export default function Education() {
                   <GraduationCap size={26} />
                 </div>
                 <div>
-                  <div className="inline-block px-2.5 py-0.5 rounded-full text-[11px] font-mono font-semibold bg-blue-100 text-blue-800 dark:bg-blue-950/60 dark:text-blue-300 border border-blue-200 dark:border-blue-800 mb-1.5">
+                  <div className="inline-block px-2.5 py-0.5 rounded-full text-[11px] font-mono font-semibold bg-blue-100 text-blue-800 dark:bg-blue-950/60 dark:text-blue-300 border border-blue-200 dark:border-blue-800 mb-1.5 whitespace-nowrap shrink-0">
                     {edu.duration}
                   </div>
-                  <h3 className="text-lg sm:text-2xl font-bold text-[var(--foreground)] leading-snug">
+                  <h3 className="text-lg sm:text-2xl font-bold text-[var(--foreground)] leading-snug text-balance">
                     {edu.degree}
                   </h3>
                   <div className="text-xs sm:text-sm font-semibold text-blue-600 dark:text-blue-400 mt-1">
@@ -48,7 +48,7 @@ export default function Education() {
               </div>
 
               {edu.grade && (
-                <div className="self-start lg:self-center px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-slate-100 dark:bg-slate-800 border border-[var(--surface-border)] text-[var(--foreground)] text-xs font-semibold flex items-center gap-1.5 shadow-sm">
+                <div className="self-start lg:self-center px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-slate-100 dark:bg-slate-800 border border-[var(--surface-border)] text-[var(--foreground)] text-xs font-semibold flex items-center gap-1.5 shadow-sm whitespace-nowrap shrink-0">
                   <Star size={14} className="text-amber-500 fill-amber-500 shrink-0" />
                   <span>{edu.grade}</span>
                 </div>
@@ -66,7 +66,7 @@ export default function Education() {
                     key={course.name}
                     className="p-3 sm:p-4 rounded-xl bg-[var(--surface)] border border-[var(--surface-border)] shadow-sm flex flex-col justify-between"
                   >
-                    <span className="text-[11px] sm:text-xs font-semibold text-[var(--foreground)] leading-snug line-clamp-2">
+                    <span className="text-[11px] sm:text-xs font-semibold text-[var(--foreground)] leading-snug line-clamp-2 text-pretty">
                       {course.name}
                     </span>
                     <span className="mt-2.5 sm:mt-3 text-base sm:text-lg font-black text-blue-600 dark:text-blue-400 font-mono">
@@ -85,7 +85,7 @@ export default function Education() {
               {edu.highlights.map((h, idx) => (
                 <div key={idx} className="flex items-start gap-3 text-xs lg:text-sm text-[var(--foreground)] leading-relaxed">
                   <CheckCircle size={17} className="text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
-                  <span>{h}</span>
+                  <span className="text-pretty">{h}</span>
                 </div>
               ))}
             </div>
@@ -110,11 +110,11 @@ export default function Education() {
                     <span>{cert.year}</span>
                     <BookOpen size={14} />
                   </div>
-                  <h4 className="text-xs lg:text-sm font-bold text-[var(--foreground)] leading-snug">
+                  <h4 className="text-xs lg:text-sm font-bold text-[var(--foreground)] leading-snug text-balance">
                     {cert.name}
                   </h4>
                 </div>
-                <div className="text-[11px] text-[var(--muted-foreground)] mt-3 pt-3 border-t border-[var(--surface-border)] font-medium">
+                <div className="text-[11px] text-[var(--muted-foreground)] mt-3 pt-3 border-t border-[var(--surface-border)] font-medium text-pretty">
                   {cert.issuer}
                 </div>
               </div>

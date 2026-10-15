@@ -23,10 +23,10 @@ export default function TechStack() {
           <div className="text-xs font-mono font-semibold tracking-widest text-blue-600 dark:text-blue-400 uppercase mb-2">
             {ui.skillsBadge}
           </div>
-          <h2 className="text-3xl lg:text-4xl font-extrabold text-[var(--foreground)] tracking-tight">
+          <h2 className="text-3xl lg:text-4xl font-extrabold text-[var(--foreground)] tracking-tight text-balance">
             {ui.skillsTitle}
           </h2>
-          <p className="text-[var(--muted-foreground)] mt-3 max-w-2xl text-base leading-relaxed">
+          <p className="text-[var(--muted-foreground)] mt-3 max-w-2xl text-base leading-relaxed text-pretty">
             {ui.skillsDesc}
           </p>
         </div>
@@ -43,10 +43,10 @@ export default function TechStack() {
                   {categoryIcons[idx % categoryIcons.length]}
                 </div>
                 <div>
-                  <h3 className="text-sm lg:text-base font-bold text-[var(--foreground)]">
+                  <h3 className="text-sm lg:text-base font-bold text-[var(--foreground)] text-balance">
                     {cat.category}
                   </h3>
-                  <p className="text-xs text-[var(--muted-foreground)] mt-0.5">
+                  <p className="text-xs text-[var(--muted-foreground)] mt-0.5 text-pretty">
                     {cat.description}
                   </p>
                 </div>

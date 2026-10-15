@@ -21,10 +21,10 @@ export default function About() {
           <div className="text-xs font-mono font-semibold tracking-widest text-blue-600 dark:text-blue-400 uppercase mb-2">
             {ui.aboutBadge}
           </div>
-          <h2 className="text-3xl lg:text-4xl font-extrabold text-[var(--foreground)] tracking-tight">
+          <h2 className="text-3xl lg:text-4xl font-extrabold text-[var(--foreground)] tracking-tight text-balance">
             {ui.aboutTitle}
           </h2>
-          <p className="text-[var(--muted-foreground)] mt-3 max-w-2xl text-base leading-relaxed">
+          <p className="text-[var(--muted-foreground)] mt-3 max-w-2xl text-base leading-relaxed text-pretty">
             {ui.aboutDesc}
           </p>
         </div>
@@ -40,10 +40,10 @@ export default function About() {
                 <div className="w-11 h-11 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center mb-5 group-hover:scale-105 transition-transform">
                   {pillarIcons[idx]}
                 </div>
-                <h3 className="text-base font-bold text-[var(--foreground)] mb-2.5">
+                <h3 className="text-base font-bold text-[var(--foreground)] mb-2.5 text-balance">
                   {pillar.title}
                 </h3>
-                <p className="text-xs lg:text-sm leading-relaxed text-[var(--muted-foreground)]">
+                <p className="text-xs lg:text-sm leading-relaxed text-[var(--muted-foreground)] text-pretty">
                   {pillar.description}
                 </p>
               </div>
@@ -63,10 +63,10 @@ export default function About() {
               <Award size={26} />
             </div>
             <div>
-              <h4 className="text-base font-bold text-[var(--foreground)]">
+              <h4 className="text-base font-bold text-[var(--foreground)] text-balance">
                 {ui.aboutCommitmentTitle}
               </h4>
-              <p className="text-xs lg:text-sm text-[var(--muted-foreground)] mt-1 max-w-2xl leading-relaxed">
+              <p className="text-xs lg:text-sm text-[var(--muted-foreground)] mt-1 max-w-2xl leading-relaxed text-pretty">
                 {ui.aboutCommitmentDesc}
               </p>
             </div>
@@ -80,7 +80,7 @@ export default function About() {
                 el.scrollIntoView({ behavior: "smooth" });
               }
             }}
-            className="touch-target px-5 py-2.5 rounded-xl text-xs font-semibold bg-[var(--surface)] text-[var(--foreground)] border border-[var(--surface-border)] hover:border-blue-600 hover:text-blue-600 transition-all shrink-0 cursor-pointer shadow-sm"
+            className="touch-target px-5 py-2.5 rounded-xl text-xs font-semibold bg-[var(--surface)] text-[var(--foreground)] border border-[var(--surface-border)] hover:border-blue-600 hover:text-blue-600 transition-all shrink-0 cursor-pointer shadow-sm whitespace-nowrap"
           >
             {ui.aboutViewExpBtn}
           </Link>

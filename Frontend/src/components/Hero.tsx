@@ -33,62 +33,62 @@ export default function Hero() {
           {/* Column: Typography, Bio, Credentials, Action Buttons (On the right on desktop) */}
           <div className="lg:col-span-7 flex flex-col items-start order-1 lg:order-2">
             {/* Status Pill */}
-            <div className="inline-flex items-center gap-2 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full border border-[var(--surface-border)] bg-[var(--surface)] text-[11px] sm:text-xs font-medium text-[var(--foreground)] mb-3 sm:mb-4 shadow-xs flex-wrap">
+            <div className="inline-flex items-center gap-2 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full border border-[var(--surface-border)] bg-[var(--surface)] text-[11px] sm:text-xs font-medium text-[var(--foreground)] mb-3 sm:mb-4 shadow-xs max-w-full flex-wrap">
               <span className="relative flex h-2 w-2 shrink-0">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
               </span>
-              <span className="font-semibold text-emerald-700 dark:text-emerald-400">
+              <span className="font-semibold text-emerald-700 dark:text-emerald-400 text-balance">
                 {data.personal.statusText}
               </span>
               <span className="text-[var(--muted)] hidden sm:inline">|</span>
-              <span className="flex items-center gap-1 text-[var(--muted-foreground)] shrink-0">
+              <span className="flex items-center gap-1 text-[var(--muted-foreground)] whitespace-nowrap shrink-0">
                 <MapPin size={12} /> {data.personal.location}
               </span>
             </div>
 
             {/* Engineer Title & University Badges - Anti-Wrapping Chip Architecture */}
             <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-2 sm:mb-3">
-              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-sky-300 font-mono text-[11px] sm:text-xs font-bold uppercase tracking-wider border border-blue-200/80 dark:border-blue-900/60">
+              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-sky-300 font-mono text-[11px] sm:text-xs font-bold uppercase tracking-wider border border-blue-200/80 dark:border-blue-900/60 whitespace-nowrap shrink-0">
                 <Code2 size={13} className="text-blue-600 dark:text-sky-400 shrink-0" />
                 <span>{ui.heroBadgeDegree}</span>
               </span>
-              <span className="inline-flex items-center px-2 py-1 rounded-md bg-[var(--surface)] text-[var(--muted-foreground)] font-mono text-[11px] sm:text-xs font-medium border border-[var(--surface-border)]">
+              <span className="inline-flex items-center px-2 py-1 rounded-md bg-[var(--surface)] text-[var(--muted-foreground)] font-mono text-[11px] sm:text-xs font-medium border border-[var(--surface-border)] whitespace-nowrap shrink-0">
                 {ui.heroBadgeUni}
               </span>
-              <span className="inline-flex items-center px-2 py-1 rounded-md bg-[var(--surface)] text-[var(--foreground)] font-mono text-[11px] sm:text-xs font-bold border border-[var(--surface-border)]">
+              <span className="inline-flex items-center px-2 py-1 rounded-md bg-[var(--surface)] text-[var(--foreground)] font-mono text-[11px] sm:text-xs font-bold border border-[var(--surface-border)] whitespace-nowrap shrink-0">
                 {data.personal.name}
               </span>
             </div>
 
             {/* Big Headline */}
-            <h1 className="hero-headline font-black text-[var(--foreground)] tracking-tight max-w-2xl">
-              {ui.heroHeadlinePrefix} <br className="hidden sm:inline" />
+            <h1 className="hero-headline font-black text-[var(--foreground)] tracking-tight max-w-2xl text-balance">
+              <span>{ui.heroHeadlinePrefix} </span>
               <span className="text-blue-600 dark:text-sky-400">
                 {ui.heroHeadlineSuffix}
               </span>
             </h1>
 
             {/* Subheadline Bio */}
-            <p className="hero-subheadline text-[var(--muted-foreground)] mt-3 sm:mt-4 max-w-2xl font-normal leading-relaxed text-xs sm:text-sm lg:text-base">
+            <p className="hero-subheadline text-[var(--muted-foreground)] mt-3 sm:mt-4 max-w-2xl font-normal leading-relaxed text-xs sm:text-sm lg:text-base text-pretty">
               {data.personal.bio}
             </p>
 
             {/* Fast Credentials Row */}
             <div className="flex flex-wrap items-center gap-1.5 sm:gap-2.5 mt-4 sm:mt-5 text-[11px] sm:text-xs text-[var(--muted-foreground)] font-medium">
-              <span className="flex items-center gap-1.5 bg-[var(--surface)] px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-xl border border-[var(--surface-border)] shadow-xs">
+              <span className="flex items-center gap-1.5 bg-[var(--surface)] px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-xl border border-[var(--surface-border)] shadow-xs whitespace-nowrap shrink-0">
                 <GraduationCap size={14} className="text-blue-600 dark:text-sky-400 shrink-0" />
                 <span>{ui.heroBadgeUni}</span>
               </span>
-              <span className="flex items-center gap-1.5 bg-[var(--surface)] px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-xl border border-[var(--surface-border)] shadow-xs">
+              <span className="flex items-center gap-1.5 bg-[var(--surface)] px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-xl border border-[var(--surface-border)] shadow-xs whitespace-nowrap shrink-0">
                 <Zap size={14} className="text-sky-600 dark:text-sky-400 shrink-0" />
                 <span>{ui.heroBadgePowertech}</span>
               </span>
-              <span className="flex items-center gap-1.5 bg-[var(--surface)] px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-xl border border-[var(--surface-border)] shadow-xs">
+              <span className="flex items-center gap-1.5 bg-[var(--surface)] px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-xl border border-[var(--surface-border)] shadow-xs whitespace-nowrap shrink-0">
                 <CheckCircle2 size={14} className="text-indigo-600 dark:text-indigo-400 shrink-0" />
                 <span>{ui.heroBadgeFpt}</span>
               </span>
-              <span className="flex items-center gap-1.5 bg-[var(--surface)] px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-xl border border-[var(--surface-border)] shadow-xs">
+              <span className="flex items-center gap-1.5 bg-[var(--surface)] px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-xl border border-[var(--surface-border)] shadow-xs whitespace-nowrap shrink-0">
                 <CheckCircle2 size={14} className="text-purple-600 dark:text-purple-400 shrink-0" />
                 <span>{ui.heroBadgeHomenest}</span>
               </span>

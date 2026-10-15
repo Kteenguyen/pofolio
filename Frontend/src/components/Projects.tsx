@@ -79,10 +79,10 @@ export default function Projects() {
           <div className="text-xs font-mono font-semibold tracking-widest text-blue-600 dark:text-sky-400 uppercase mb-1">
             {ui.projBadge}
           </div>
-          <h2 className="text-2xl lg:text-3xl font-extrabold text-[var(--foreground)] tracking-tight">
+          <h2 className="text-2xl lg:text-3xl font-extrabold text-[var(--foreground)] tracking-tight text-balance">
             {ui.projTitle}
           </h2>
-          <p className="text-xs text-[var(--muted-foreground)] mt-1 max-w-2xl">
+          <p className="text-xs text-[var(--muted-foreground)] mt-1 max-w-2xl text-pretty">
             {ui.projDesc}
           </p>
         </div>
@@ -94,7 +94,7 @@ export default function Projects() {
           <button
             key={cat.key}
             onClick={() => setSelectedCategoryKey(cat.key)}
-            className={`touch-target px-3.5 py-1.5 rounded-xl text-xs font-semibold border transition-all cursor-pointer shadow-sm ${
+            className={`touch-target px-3.5 py-1.5 rounded-xl text-xs font-semibold border transition-all cursor-pointer shadow-sm whitespace-nowrap shrink-0 ${
               selectedCategoryKey === cat.key
                 ? "bg-blue-600 text-white border-blue-600 shadow-blue-500/20"
                 : "bg-[var(--surface)] text-[var(--muted-foreground)] border-[var(--surface-border)] hover:border-blue-600 hover:text-[var(--foreground)]"
@@ -191,15 +191,15 @@ export default function Projects() {
               </div>
 
               {/* Title */}
-              <h3 className="text-base font-bold text-[var(--foreground)] group-hover:text-blue-600 dark:group-hover:text-sky-400 transition-colors">
+              <h3 className="text-base font-bold text-[var(--foreground)] group-hover:text-blue-600 dark:group-hover:text-sky-400 transition-colors text-balance">
                 {project.title}
               </h3>
-              <p className="text-[11px] font-mono text-[var(--muted-foreground)] mt-0.5">
+              <p className="text-[11px] font-mono text-[var(--muted-foreground)] mt-0.5 text-pretty">
                 {project.subtitle}
               </p>
 
               {/* Description */}
-              <p className="text-xs text-[var(--muted-foreground)] mt-3 line-clamp-3 leading-relaxed">
+              <p className="text-xs text-[var(--muted-foreground)] mt-3 line-clamp-3 leading-relaxed text-pretty">
                 {project.description}
               </p>
 
@@ -208,7 +208,7 @@ export default function Projects() {
                 {project.metrics.map((m) => (
                   <div key={m.label} className="text-center px-1">
                     <div className="text-xs lg:text-sm font-black text-blue-600 dark:text-sky-400 font-mono">{m.value}</div>
-                    <div className="text-[9px] text-[var(--muted-foreground)] leading-tight line-clamp-2 mt-0.5">{m.label}</div>
+                    <div className="text-[9px] text-[var(--muted-foreground)] leading-tight line-clamp-2 mt-0.5 text-pretty">{m.label}</div>
                   </div>
                 ))}
               </div>
@@ -218,7 +218,7 @@ export default function Projects() {
                 {project.techStack.map((tech) => (
                   <span
                     key={tech}
-                    className="inline-flex items-center gap-1 text-[10px] font-mono px-2 py-0.5 rounded bg-[var(--surface)] text-[var(--muted-foreground)] border border-[var(--surface-border)]"
+                    className="inline-flex items-center gap-1 text-[10px] font-mono px-2 py-0.5 rounded bg-[var(--surface)] text-[var(--muted-foreground)] border border-[var(--surface-border)] whitespace-nowrap shrink-0"
                   >
                     <TechLogo name={tech} size={11} />
                     <span>{tech}</span>
@@ -231,7 +231,7 @@ export default function Projects() {
             <div className="pt-3 border-t border-[var(--surface-border)] flex items-center justify-between gap-2 flex-wrap">
               <button
                 onClick={() => setActiveProject(project)}
-                className="touch-target px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-blue-600 text-white flex items-center gap-1.5 shadow-sm hover:bg-blue-700 transition-colors cursor-pointer"
+                className="touch-target px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-blue-600 text-white flex items-center gap-1.5 shadow-sm hover:bg-blue-700 transition-colors cursor-pointer whitespace-nowrap shrink-0"
               >
                 <Layers size={13} />
                 <span>{ui.projArchAnalysis}</span>
@@ -244,13 +244,13 @@ export default function Projects() {
                     href={project.githubUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="touch-target px-2.5 py-1.5 rounded-lg text-xs font-semibold border border-[var(--surface-border)] bg-[var(--surface)] text-[var(--foreground)] hover:border-blue-600 transition-colors flex items-center gap-1"
+                    className="touch-target px-2.5 py-1.5 rounded-lg text-xs font-semibold border border-[var(--surface-border)] bg-[var(--surface)] text-[var(--foreground)] hover:border-blue-600 transition-colors flex items-center gap-1 whitespace-nowrap shrink-0"
                   >
                     <GithubIcon size={14} />
                     <span>{ui.projCode}</span>
                   </a>
                 ) : (
-                  <span className="text-[10px] font-mono text-[var(--muted-foreground)]">
+                  <span className="text-[10px] font-mono text-[var(--muted-foreground)] whitespace-nowrap shrink-0">
                     {ui.projCodePending}
                   </span>
                 )}
@@ -260,7 +260,7 @@ export default function Projects() {
                     href={project.liveUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="touch-target px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-emerald-600 text-white flex items-center gap-1.5 hover:bg-emerald-700 transition-colors shadow-sm"
+                    className="touch-target px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-emerald-600 text-white flex items-center gap-1.5 hover:bg-emerald-700 transition-colors shadow-sm whitespace-nowrap shrink-0"
                     title={project.liveUrl}
                   >
                     <span>{project.liveUrl.includes("vercel.app") ? ui.projVercelDemo : ui.projLiveDemo}</span>
