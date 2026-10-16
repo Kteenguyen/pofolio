@@ -60,7 +60,7 @@ export default function FloatingThumbDock() {
             </div>
           </button>
 
-          {/* Nút 3: Tải CV Kỹ Sư (PDF) */}
+          {/* Nút 3: Tải CV Ứng Tuyển (PDF) */}
           <button
             type="button"
             onClick={() => setCvModalOpen(true)}

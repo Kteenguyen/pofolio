@@ -173,7 +173,7 @@ export default function Experience() {
   return (
     <section
       id="experience"
-      className="py-8 sm:py-10 lg:py-12 border-t border-[var(--surface-border)] bg-[var(--surface-subtle)]/40 relative overflow-hidden"
+      className="py-8 sm:py-10 lg:py-12 section-exp-workspace relative overflow-hidden"
     >
       <div className="portfolio-container">
         {/* Section Header */}
@@ -513,10 +513,10 @@ export default function Experience() {
                       <div className="grid grid-cols-3 gap-1.5 my-3.5 p-2 rounded-xl bg-[var(--surface-subtle)] border border-[var(--surface-border)]">
                         {exp.metrics.map((m, mIdx) => (
                           <div key={mIdx} className="text-center px-1">
-                            <div className="text-[11px] sm:text-xs font-black text-blue-600 dark:text-sky-400 font-mono truncate">
+                            <div className="text-[11px] sm:text-xs font-black text-blue-600 dark:text-sky-400 font-mono leading-tight break-words">
                               {m.value}
                             </div>
-                            <div className="text-[8.5px] text-[var(--muted-foreground)] uppercase tracking-wider font-semibold mt-0.5 truncate">
+                            <div className="text-[8.5px] text-[var(--muted-foreground)] uppercase tracking-wider font-semibold mt-0.5 leading-snug break-words">
                               {m.label}
                             </div>
                           </div>
@@ -535,7 +535,7 @@ export default function Experience() {
                             size={13}
                             className="text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5"
                           />
-                          <span className="line-clamp-2 text-pretty">{ach}</span>
+                          <span className="text-pretty">{ach}</span>
                         </div>
                       ))}
                     </div>

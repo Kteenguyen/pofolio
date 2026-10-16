@@ -4,16 +4,14 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import LanguageSelector from "./LanguageSelector";
-import CVDownloadModal from "./CVDownloadModal";
 import InterviewModal from "./InterviewModal";
 import { useLanguage } from "@/context/LanguageContext";
-import { Menu, X, FileDown, ChevronRight, PhoneCall, CalendarCheck } from "lucide-react";
+import { Menu, X, ChevronRight, PhoneCall, CalendarCheck } from "lucide-react";
 
 export default function Header() {
   const pathname = usePathname();
   const { ui } = useLanguage();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [cvModalOpen, setCvModalOpen] = useState(false);
   const [interviewModalOpen, setInterviewModalOpen] = useState(false);
   const [interviewTab, setInterviewTab] = useState<"interview" | "contact">("interview");
 
@@ -71,16 +69,6 @@ export default function Header() {
           >
             <CalendarCheck size={14} />
             <span>{ui.inviteInterview}</span>
-          </button>
-
-          {/* Tải CV (Desktop/Tablet) */}
-          <button
-            onClick={() => setCvModalOpen(true)}
-            aria-label={ui.downloadCv}
-            className="hidden sm:inline-flex touch-target px-3.5 py-2 rounded-xl text-xs font-semibold border border-[var(--surface-border)] bg-[var(--surface)] text-[var(--foreground)] hover:border-blue-600 hover:text-blue-600 shadow-sm active:scale-[0.98] transition-all items-center gap-1.5 cursor-pointer whitespace-nowrap"
-          >
-            <FileDown size={14} />
-            <span>{ui.downloadCv}</span>
           </button>
 
           {/* Mobile / Tablet Menu Button (< 1024px) */}
@@ -156,19 +144,6 @@ export default function Header() {
                 <PhoneCall size={16} className="text-sky-600 dark:text-sky-400" />
                 <span>{ui.leaveContact}</span>
               </button>
-
-              {/* Nút 3: Tải Hồ Sơ CV PDF */}
-              <button
-                type="button"
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  setCvModalOpen(true);
-                }}
-                className="touch-target w-full min-h-[44px] px-4 py-2.5 rounded-xl text-center text-xs font-semibold bg-[var(--surface)] border border-[var(--surface-border)] text-[var(--foreground)] flex items-center justify-center gap-2 hover:border-blue-500 active:scale-[0.99] transition-all cursor-pointer"
-              >
-                <FileDown size={15} className="text-blue-600 dark:text-sky-400" />
-                <span>{ui.downloadCv4Versions}</span>
-              </button>
             </div>
           </nav>
         </div>
@@ -180,9 +155,6 @@ export default function Header() {
         initialTab={interviewTab}
         onClose={() => setInterviewModalOpen(false)}
       />
-
-      {/* CV Download Modal */}
-      <CVDownloadModal isOpen={cvModalOpen} onClose={() => setCvModalOpen(false)} />
     </header>
   );
 }

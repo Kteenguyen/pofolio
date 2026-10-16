@@ -16,7 +16,7 @@ export default function TechStack() {
   ];
 
   return (
-    <section id="skills" className="py-8 sm:py-10 lg:py-12 border-t border-[var(--surface-border)] bg-[var(--background)]">
+    <section id="skills" className="py-8 sm:py-10 lg:py-12 section-tech-matrix relative">
       <div className="portfolio-container">
         {/* Section Header */}
         <div className="flex flex-col items-start mb-6 sm:mb-8">

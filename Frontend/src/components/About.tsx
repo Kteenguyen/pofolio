@@ -14,7 +14,7 @@ export default function About() {
   ];
 
   return (
-    <section id="about" className="py-8 sm:py-10 lg:py-12 border-t border-[var(--surface-border)] bg-[var(--surface-subtle)]/50 relative">
+    <section id="about" className="py-8 sm:py-10 lg:py-12 section-about-academic relative">
       <div className="portfolio-container">
         {/* Section Header */}
         <div className="flex flex-col items-start mb-6 sm:mb-8">

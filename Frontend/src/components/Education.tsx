@@ -7,7 +7,7 @@ export default function Education() {
   const { data, ui } = useLanguage();
 
   return (
-    <section id="education" className="py-8 sm:py-10 lg:py-12 border-t border-[var(--surface-border)] bg-[var(--background)] relative">
+    <section id="education" className="py-8 sm:py-10 lg:py-12 section-edu-canvas relative">
       <div className="portfolio-container">
         {/* Section Header */}
         <div className="flex flex-col items-start mb-6 sm:mb-8">
@@ -26,31 +26,31 @@ export default function Education() {
         {data.education.map((edu) => (
           <div
             key={edu.id}
-            className="card-glass rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 border border-blue-200 dark:border-blue-900/60 bg-gradient-to-br from-white via-slate-50/50 to-blue-50/30 dark:from-[var(--surface)] dark:via-[var(--surface)] dark:to-blue-950/20 mb-6 sm:mb-8"
+            className="card-glass rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 border border-blue-200 dark:border-blue-900/60 bg-gradient-to-br from-white via-slate-50/50 to-blue-50/30 dark:from-[var(--surface)] dark:via-[var(--surface)] dark:to-blue-950/20 mb-6 sm:mb-8 w-full max-w-full overflow-hidden"
           >
             {/* Degree Title Bar */}
-            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-5 sm:pb-6 border-b border-[var(--surface-border)]">
-              <div className="flex items-start gap-3 sm:gap-4">
+            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-5 sm:pb-6 border-b border-[var(--surface-border)] w-full min-w-0">
+              <div className="flex items-start gap-3 sm:gap-4 min-w-0 flex-1">
                 <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-blue-600 text-white flex items-center justify-center shrink-0 shadow-md shadow-blue-500/20">
                   <GraduationCap size={26} />
                 </div>
-                <div>
-                  <div className="inline-block px-2.5 py-0.5 rounded-full text-[11px] font-mono font-semibold bg-blue-100 text-blue-800 dark:bg-blue-950/60 dark:text-blue-300 border border-blue-200 dark:border-blue-800 mb-1.5 whitespace-nowrap shrink-0">
-                    {edu.duration}
+                <div className="min-w-0 flex-1">
+                  <div className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-mono font-semibold bg-blue-100 text-blue-800 dark:bg-blue-950/60 dark:text-blue-300 border border-blue-200 dark:border-blue-800 mb-1.5 max-w-full">
+                    <span className="truncate">{edu.duration}</span>
                   </div>
-                  <h3 className="text-lg sm:text-2xl font-bold text-[var(--foreground)] leading-snug text-balance">
+                  <h3 className="text-base sm:text-xl lg:text-2xl font-bold text-[var(--foreground)] leading-snug break-words">
                     {edu.degree}
                   </h3>
-                  <div className="text-xs sm:text-sm font-semibold text-blue-600 dark:text-blue-400 mt-1">
+                  <div className="text-xs sm:text-sm font-semibold text-blue-600 dark:text-blue-400 mt-1 break-words">
                     {edu.institution} • <span className="font-mono text-[var(--muted-foreground)] font-normal">{edu.period}</span>
                   </div>
                 </div>
               </div>
 
               {edu.grade && (
-                <div className="self-start lg:self-center px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-slate-100 dark:bg-slate-800 border border-[var(--surface-border)] text-[var(--foreground)] text-xs font-semibold flex items-center gap-1.5 shadow-sm whitespace-nowrap shrink-0">
+                <div className="self-start lg:self-center px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 border border-[var(--surface-border)] text-[var(--foreground)] text-xs font-semibold inline-flex items-center gap-1.5 shadow-sm max-w-full shrink-0">
                   <Star size={14} className="text-amber-500 fill-amber-500 shrink-0" />
-                  <span>{edu.grade}</span>
+                  <span className="truncate">{edu.grade}</span>
                 </div>
               )}
             </div>

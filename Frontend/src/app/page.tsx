@@ -18,27 +18,39 @@ export default function Home() {
         {/* 2. Hero Profile with Ktee /avatar.jpg, badges, CTAs & Verified Metrics */}
         <Hero />
 
+        <div className="section-divider-glow divider-hero-about" aria-hidden="true" />
+
         {/* 3. Academic & Enterprise Philosophy (3 Pillars) */}
         <About />
+
+        <div className="section-divider-glow divider-about-edu" aria-hidden="true" />
 
         {/* 4. Education (Học Vấn 5 Năm ĐH Tôn Đức Thắng) */}
         <Education />
 
+        <div className="section-divider-glow divider-edu-exp" aria-hidden="true" />
+
         {/* 5. Experience (Kinh Nghiệm FPT IS & Luklak) */}
         <Experience />
 
+        <div className="section-divider-glow divider-exp-proj" aria-hidden="true" />
+
         {/* 6. Projects (Kho Dự Án Kỹ Thuật CAR Framework) */}
-        <section id="projects" className="py-8 sm:py-10 lg:py-12 border-t border-[var(--surface-border)] bg-[var(--background)]">
+        <section id="projects" className="py-8 sm:py-10 lg:py-12 section-projects-spotlight relative overflow-hidden">
           <div className="portfolio-container">
             <Projects />
           </div>
         </section>
 
+        <div className="section-divider-glow divider-proj-tech" aria-hidden="true" />
+
         {/* 7. Tech Stack (Khung Công Nghệ & Kỹ Năng) */}
         <TechStack />
 
+        <div className="section-divider-glow divider-tech-contact" aria-hidden="true" />
+
         {/* 8. Contact Section */}
-        <section id="contact" className="py-8 sm:py-10 lg:py-12 border-t border-[var(--surface-border)] bg-[var(--background)]">
+        <section id="contact" className="py-8 sm:py-10 lg:py-12 section-contact-hub relative overflow-hidden">
           <div className="portfolio-container">
             <Contact />
           </div>

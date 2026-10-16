@@ -22,7 +22,7 @@ export default function Hero() {
   const [cvModalOpen, setCvModalOpen] = useState(false);
 
   return (
-    <section className="pt-6 pb-8 sm:pt-10 sm:pb-10 lg:pt-12 lg:pb-12 relative overflow-hidden bg-gradient-to-b from-slate-50 via-white to-slate-50 dark:from-slate-950 dark:via-[#0b0f19] dark:to-slate-950">
+    <section className="pt-6 pb-8 sm:pt-10 sm:pb-10 lg:pt-12 lg:pb-12 relative overflow-hidden section-hero-stage">
       {/* Decorative ambient subtle background blur */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 sm:w-[500px] h-72 sm:h-[400px] bg-blue-500/5 rounded-full blur-3xl pointer-events-none -z-10" />
 

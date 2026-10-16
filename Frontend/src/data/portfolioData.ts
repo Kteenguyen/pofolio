@@ -107,10 +107,10 @@ export const portfolioDataVi: PortfolioDataStructure = {
   personal: {
     name: "Nguyễn Khoa Tài",
     nickname: "Ktee",
-    title: "Kỹ Sư Phần Mềm Fullstack | Next.js, Node.js và Tự Động Hóa Doanh Nghiệp",
-    degreeLabel: "Cử Nhân Kỹ Thuật Phần Mềm • Đại Học Tôn Đức Thắng",
+    title: "Lập Trình Viên Fullstack | Next.js, Node.js và Tự Động Hóa Doanh Nghiệp",
+    degreeLabel: "Cử Nhân Kỹ Thuật Phần Mềm • ĐH Tôn Đức Thắng",
     headline: "Giao thoa giữa kiến trúc hệ thống dữ liệu chịu tải cao, trải nghiệm Front-End điện ảnh chuẩn mực và tư duy cầu nối phân tích số hóa thực tế.",
-    bio: "Kỹ sư phần mềm tốt nghiệp Đại học Tôn Đức Thắng, chuyên sâu Next.js, Node.js và tự động hóa quy trình nghiệp vụ. Sở hữu kinh nghiệm triển khai thực địa cho hơn 230 người dùng tại FPT IS, tối ưu hiệu năng web đạt Google PageSpeed 96/100 tại PowerTech, và thiết kế hệ thống số hóa chuẩn UML tại HomeNest. Tập trung kiến tạo các sản phẩm phần mềm chịu tải cao, tối ưu trải nghiệm người dùng và mang lại giá trị chuyển đổi đo lường được cho doanh nghiệp.",
+    bio: "Cử nhân Kỹ thuật phần mềm tốt nghiệp ĐH Tôn Đức Thắng, chuyên sâu Next.js, Node.js và tự động hóa quy trình nghiệp vụ. Sở hữu kinh nghiệm triển khai thực địa cho hơn 230 người dùng tại FPT IS, tối ưu hiệu năng web đạt Google PageSpeed 96/100 tại PowerTech, và thiết kế hệ thống số hóa chuẩn UML tại HomeNest. Tập trung kiến tạo các sản phẩm phần mềm chịu tải cao, tối ưu trải nghiệm người dùng và mang lại giá trị chuyển đổi đo lường được cho doanh nghiệp.",
     email: "nguyenkhoatai2003@gmail.com",
     backupEmail: "nguyenkhoatai2003@gmail.com",
     phone: "0852723945",
@@ -121,7 +121,7 @@ export const portfolioDataVi: PortfolioDataStructure = {
     location: "TP. Hồ Chí Minh, Việt Nam",
     english: "Aptis ESOL B1 (136/200)",
     availableForHire: true,
-    statusText: "Sẵn sàng đón nhận cơ hội Kỹ Sư Phần Mềm Fullstack",
+    statusText: "Sẵn sàng đón nhận cơ hội Lập Trình Viên Fullstack",
   },
 
   stats: [
@@ -162,24 +162,24 @@ export const portfolioDataVi: PortfolioDataStructure = {
       category: "Front-End và Xây Dựng Web Trọn Gói",
       description: "Thiết kế giao diện trực quan, chuyển động điện ảnh mượt mà và tối ưu Core Web Vitals",
       skills: [
-        { name: "ReactJS (v19) & Next.js 15", level: 95, note: "App Router, Server Actions, Zero-CLS" },
-        { name: "Tailwind CSS & Mobile-First", level: 95, note: "Viewport 430px Tuyệt Đối Không Tràn Viền" },
-        { name: "Framer Motion & Lenis Scroll", level: 92, note: "Cinematic Parallax, Spring Dynamics 60 FPS" },
-        { name: "TypeScript & JavaScript ES6+", level: 92, note: "Strict Typing, Clean Code, Enterprise Patterns" },
-        { name: "Three.js & WebGL 4D Spatial", level: 90, note: "Procedural Shaders, Particle Systems" },
-        { name: "WordPress CMS & Headless Migration", level: 90, note: "Di Chuyển Sang Next.js 15 Tối Ưu Tốc Độ" },
+        { name: "ReactJS (v19) và Next.js 15", level: 95, note: "App Router, Server Actions, Zero-CLS" },
+        { name: "Tailwind CSS và Mobile-First", level: 95, note: "Viewport 430px Tuyệt Đối Không Tràn Viền" },
+        { name: "Framer Motion và Lenis Scroll", level: 92, note: "Cinematic Parallax, Spring Dynamics 60 FPS" },
+        { name: "TypeScript và JavaScript ES6+", level: 92, note: "Strict Typing, Clean Code, Enterprise Patterns" },
+        { name: "Three.js và WebGL 4D Spatial", level: 90, note: "Procedural Shaders, Particle Systems" },
+        { name: "WordPress CMS và Headless Migration", level: 90, note: "Di Chuyển Sang Next.js 15 Tối Ưu Tốc Độ" },
       ],
     },
     {
       category: "Back-End, CSDL và Tải Cao",
       description: "Xây dựng RESTful API phân tán, xác thực an toàn và tối ưu hóa truy vấn CSDL",
       skills: [
-        { name: "Node.js & Express Framework", level: 92, note: "Distributed APIs, JWT Auth, Microservices" },
-        { name: "PostgreSQL & Supabase", level: 92, note: "Schema Design, 3NF Normalization, Row Security" },
-        { name: "Redis Caching & In-Memory Store", level: 90, note: "Flash Sale Realtime, Độ Trễ <50ms" },
-        { name: "C# & ASP.NET Core MVC", level: 86, note: "Identity RBAC, Entity Framework Core" },
-        { name: "MongoDB & MS SQL Server", level: 88, note: "Quan Hệ RDBMS, Indexing, Transaction ACID" },
-        { name: "RESTful APIs & Webhook Integrations", level: 92, note: "HMAC Signature, Idempotency, VietQR" },
+        { name: "Node.js và Express Framework", level: 92, note: "Distributed APIs, JWT Auth, Microservices" },
+        { name: "PostgreSQL và Supabase", level: 92, note: "Schema Design, 3NF Normalization, Row Security" },
+        { name: "Redis Caching và In-Memory Store", level: 90, note: "Flash Sale Realtime, Độ Trễ <50ms" },
+        { name: "C# và ASP.NET Core MVC", level: 86, note: "Identity RBAC, Entity Framework Core" },
+        { name: "MongoDB và MS SQL Server", level: 88, note: "Quan Hệ RDBMS, Indexing, Transaction ACID" },
+        { name: "RESTful APIs và Webhook Integrations", level: 92, note: "HMAC Signature, Idempotency, VietQR" },
       ],
     },
     {
@@ -188,10 +188,10 @@ export const portfolioDataVi: PortfolioDataStructure = {
       skills: [
         { name: "Phân Tích Nghiệp Vụ (BA)", level: 92, note: "Khảo Sát Khách Hàng, BRD, SRS, Agile/Scrum" },
         { name: "Mô Hình Hóa Sơ Đồ UML", level: 90, note: "Use Case, Activity, Sequence Diagram" },
-        { name: "UAT Testing & Quản Lý Lỗi (Jira)", level: 92, note: "Kiểm Thử Thực Địa và Xử Lý 60+ Bugs FPT IS" },
-        { name: "Triển Khai Máy Chủ VPS Linux & Nginx", level: 88, note: "Reverse Proxy, SSL Let's Encrypt, Caching" },
-        { name: "CI/CD & Version Control (Git)", level: 92, note: "GitHub Actions, Vercel Edge, Production Go-Live" },
-        { name: "Chữ Ký Số & Bảo Mật Doanh Nghiệp", level: 88, note: "Cấu Hình Chứng Thư Số và Nghiệm Thu Khách Hàng" },
+        { name: "UAT Testing và Quản Lý Lỗi (Jira)", level: 92, note: "Kiểm Thử Thực Địa và Xử Lý 60+ Bugs FPT IS" },
+        { name: "Triển Khai Máy Chủ VPS Linux và Nginx", level: 88, note: "Reverse Proxy, SSL Let's Encrypt, Caching" },
+        { name: "CI/CD và Version Control (Git)", level: 92, note: "GitHub Actions, Vercel Edge, Production Go-Live" },
+        { name: "Chữ Ký Số và Bảo Mật Doanh Nghiệp", level: 88, note: "Cấu Hình Chứng Thư Số và Nghiệm Thu Khách Hàng" },
       ],
     },
   ],
@@ -423,7 +423,7 @@ export const portfolioDataVi: PortfolioDataStructure = {
   experience: [
     {
       id: "powertech",
-      role: "Kỹ Sư Fullstack Web và Tối Ưu Hóa Hiệu Năng (Next.js 15)",
+      role: "Lập Trình Viên Fullstack Web và Tối Ưu Hóa Hiệu Năng (Next.js 15)",
       company: "Công Ty Năng Lượng Powertech Sài Gòn (PowerTech)",
       website: "https://powertech.vn",
       period: "07/2026 – Hiện Tại",
@@ -448,7 +448,7 @@ export const portfolioDataVi: PortfolioDataStructure = {
     },
     {
       id: "luklak-freelance",
-      role: "Kỹ Sư Lập Trình Front-End Web (Freelance)",
+      role: "Lập Trình Viên Front-End Web (Freelance)",
       company: "Dự Án Khách Hàng Doanh Nghiệp Luklak",
       period: "05/2026",
       yearBadge: "05/2026",
@@ -491,7 +491,7 @@ export const portfolioDataVi: PortfolioDataStructure = {
     },
     {
       id: "namgiaphat-realestate",
-      role: "Kỹ Sư Lập Trình Front-End Web (Freelance)",
+      role: "Lập Trình Viên Front-End Web (Freelance)",
       company: "Dự Án Bất Động Sản Nam Gia Phát",
       period: "02/2026 – 04/2026",
       yearBadge: "02/2026 – 04/2026",
@@ -523,10 +523,10 @@ export const portfolioDataVi: PortfolioDataStructure = {
       images: ["/tha1.jpg", "/tha2.jpg"],
       description: "Tham gia dự án số hóa trọng điểm cho Cơ quan Thi Hành Án Dân Sự; điều phối quy trình triển khai phần mềm, hỗ trợ UAT và go-live hệ thống.",
       achievements: [
-        "Điều phối quy trình triển khai phần mềm cho Cơ quan Thi Hành Án Dân Sự, tổ chức kiểm thử UAT thực địa và hỗ trợ go-live hệ thống đúng tiến độ.",
-        "Trực tiếp đứng lớp tổ chức 15 buổi đào tạo chuyên sâu cho hơn 230 cán bộ và người dùng cuối, chuyển đổi quy trình thủ công sang số hóa.",
-        "Phối hợp chặt chẽ với đội ngũ Back-End xác định lỗi giao diện và API, ghi nhận và xử lý dứt điểm 60+ bugs và yêu cầu thay đổi (CR).",
-        "Cài đặt phần mềm, cấu hình chứng thư số và hỗ trợ kỹ thuật từ xa qua UltraViewer, hoàn thiện biên bản nghiệm thu bàn giao 100%.",
+        "Điều phối triển khai phần mềm cho Thi Hành Án Dân Sự, kiểm thử UAT và go-live đúng tiến độ.",
+        "Tổ chức 15 buổi đào tạo thực địa cho 230+ cán bộ, số hóa quy trình thủ công sang điện tử.",
+        "Phối hợp đội ngũ Back-End kiểm thử API và UI, xử lý dứt điểm 60+ lỗi và yêu cầu thay đổi (CR).",
+        "Cấu hình chứng thư số, hỗ trợ kỹ thuật UltraViewer và hoàn thành nghiệm thu 100%.",
       ],
       skills: ["FPT IS Platform", "Kiểm Thử UAT", "Chữ ký số", "UltraViewer", "Đào tạo người dùng", "Quản lý lỗi Jira"],
       metrics: [
@@ -544,17 +544,17 @@ export const portfolioDataVi: PortfolioDataStructure = {
       location: "TP. Hồ Chí Minh, Việt Nam",
       type: "Cử Nhân Học Vấn",
       isEducation: true,
-      description: "Chương trình đào tạo Cử nhân chuyên ngành Kỹ Thuật Phần Mềm toàn thời gian tại Đại học Tôn Đức Thắng. Tốt nghiệp với điểm GPA 3.0 / 4.0 và bảng điểm môn chuyên ngành xuất sắc.",
+      description: "Chương trình Cử nhân Kỹ Thuật Phần Mềm 5 năm toàn thời gian tại Đại học Tôn Đức Thắng. Tốt nghiệp với điểm GPA 3.0 / 4.0 và điểm chuyên ngành xuất sắc.",
       achievements: [
-        "Tốt nghiệp Cử nhân Kỹ thuật Phần mềm với điểm số môn chuyên ngành xuất sắc: Lập trình NodeJS phân tán (8.3/10.0), Thiết kế UI/UX (8.3/10.0), Phân tích nghiệp vụ BA (8.1/10.0), Quản trị hệ thống doanh nghiệp (7.3/10.0).",
-        "Hoàn thành 150+ tín chỉ học thuật chuyên sâu: Cấu trúc Dữ liệu và Giải thuật, Mạng Máy tính, Hệ Quản trị CSDL Quan hệ 3NF, Kiến trúc Phần mềm Phân tán, và Đảm bảo Chất lượng Phần mềm (QA/QC).",
-        "Nền tảng song hành vững chắc: Làm chủ kỹ thuật lập trình Front-End và Back-End kết hợp tư duy phân tích nghiệp vụ hệ thống thực tế.",
+        "Tốt nghiệp Cử nhân Kỹ thuật Phần mềm với điểm chuyên ngành cao: NodeJS (8.3), UI/UX (8.3), Phân tích BA (8.1), Quản trị hệ thống (7.3).",
+        "Hoàn thành 150+ tín chỉ: Cấu trúc dữ liệu và giải thuật, Mạng máy tính, CSDL quan hệ 3NF, Kiến trúc phần mềm và QA/QC.",
+        "Nền tảng Fullstack vững chắc: Thành thạo lập trình Front-End và Back-End kết hợp tư duy phân tích nghiệp vụ.",
       ],
       skills: ["NodeJS phân tán (8.3)", "UI/UX Design (8.3)", "Phân tích BA (8.1)", "Hệ thống DN (7.3)", "Cấu trúc dữ liệu", "CSDL 3NF", "QA/QC"],
       metrics: [
-        { label: "GPA Tốt nghiệp", value: "3.0 / 4.0" },
-        { label: "Tín chỉ hoàn thành", value: "150+ Tín chỉ" },
-        { label: "Điểm NodeJS và UI/UX", value: "8.3 / 10.0" },
+        { label: "GPA", value: "3.0 / 4.0" },
+        { label: "Tín Chỉ", value: "150+ TC" },
+        { label: "NodeJS và UI", value: "8.3 / 10" },
       ],
     },
   ],
@@ -562,11 +562,11 @@ export const portfolioDataVi: PortfolioDataStructure = {
   education: [
     {
       id: "tdtu-degree",
-      degree: "Cử Nhân Chuyên Ngành Kỹ Thuật Phần Mềm",
+      degree: "Cử Nhân Kỹ Thuật Phần Mềm",
       institution: "Đại Học Tôn Đức Thắng (TDTU)",
       period: "2021 – 2026",
-      duration: "Chương Trình Đào Tạo Cử Nhân Toàn Thời Gian (2021 – 2026)",
-      grade: "GPA: 3.0 / 4.0 (Cử Nhân Chuyên Ngành Kỹ Thuật Phần Mềm)",
+      duration: "Chương Trình Cử Nhân Toàn Thời Gian (2021 – 2026)",
+      grade: "GPA: 3.0 / 4.0 (Cử Nhân Kỹ Thuật Phần Mềm)",
       coursework: [
         { name: "Lập trình NodeJS phân tán", score: "8.3 / 10.0" },
         { name: "Thiết kế Giao diện Người dùng UI/UX", score: "8.3 / 10.0" },
@@ -575,7 +575,7 @@ export const portfolioDataVi: PortfolioDataStructure = {
       ],
       highlights: [
         "Hoàn thành 150+ tín chỉ học thuật chuyên sâu: Cấu trúc Dữ liệu và Giải thuật, Mạng Máy tính, Hệ Quản trị CSDL Quan hệ, Kiến trúc Phần mềm Phân tán, và Đảm bảo Chất lượng Phần mềm (QA/QC).",
-        "Nền tảng song hành vững chắc: Làm chủ kỹ thuật lập trình Front-End và Back-End kết hợp tư duy phân tích nghiệp vụ hệ thống thực tế.",
+        "Nền tảng song hành vững chắc: Cử nhân làm chủ kỹ thuật lập trình Front-End và Back-End kết hợp tư duy phân tích nghiệp vụ hệ thống thực tế.",
         "Kỹ năng tự nghiên cứu sâu rộng, nhanh chóng làm chủ công nghệ mới và đưa vào ứng dụng thực tiễn giải quyết bài toán người dùng.",
       ],
     },
@@ -1027,10 +1027,10 @@ export const portfolioDataEn: PortfolioDataStructure = {
       images: ["/tha1.jpg", "/tha2.jpg"],
       description: "Key digital transformation rollout for Civil Judgment Enforcement agencies; coordinated software implementation, field UAT, and production go-live.",
       achievements: [
-        "Spearheaded software rollout for judicial civil enforcement agency, overseeing UAT and production go-live.",
-        "Conducted 15 hands-on training workshops for over 230 officers, successfully transitioning manual dossiers to digital records.",
-        "Partnered with Back-End engineering to identify API and UI discrepancies, triaging and closing 60+ bugs and change requests.",
-        "Configured software instances and digital signature certificates remotely via UltraViewer, securing project handover on schedule.",
+        "Coordinated software rollout for Civil Judgment Enforcement, managing UAT and on-time go-live.",
+        "Conducted 15 field training sessions for 230+ officers, transitioning manual workflows to digital.",
+        "Partnered with Back-End engineers to verify API & UI, triaging and resolving 60+ bugs and CRs.",
+        "Configured digital certificates, provided remote technical support, and completed 100% acceptance.",
       ],
       skills: ["FPT IS Platform", "UAT Testing", "Digital Signatures", "UltraViewer", "User Training", "Jira Defect Tracking"],
       metrics: [
@@ -1048,17 +1048,17 @@ export const portfolioDataEn: PortfolioDataStructure = {
       location: "Ho Chi Minh City, Vietnam",
       type: "Academic Degree",
       isEducation: true,
-      description: "Full-time Bachelor of Software Engineering program at Ton Duc Thang University. Graduated with GPA 3.0 / 4.0 and outstanding scores in core computing coursework.",
+      description: "Full-time Bachelor of Software Engineering program at Ton Duc Thang University. Graduated with GPA 3.0 / 4.0 and strong marks in core computing coursework.",
       achievements: [
-        "Core specialized coursework scores: Distributed Node.js (8.3/10.0), UI/UX Interface Design (8.3/10.0), Software Requirements Analysis & Design BA (8.1/10.0), Enterprise Systems Management (7.3/10.0).",
-        "Completed 150+ academic credits: Data Structures & Algorithms, Computer Networks, 3NF Relational DBMS, Distributed Software Architecture, and Software Quality Assurance (QA/QC).",
-        "Balanced dual competency: Solid foundation in Front-End and Back-End engineering combined with real-world business analysis acumen.",
+        "Graduated Bachelor of Software Engineering with strong marks: Distributed Node.js (8.3), UI/UX Design (8.3), BA Analysis (8.1), Enterprise Systems (7.3).",
+        "Completed 150+ academic credits: Data Structures & Algorithms, Computer Networks, 3NF DBMS, Distributed Architecture, and QA/QC.",
+        "Strong Fullstack foundation: Front-End and Back-End engineering paired with practical business analysis acumen.",
       ],
       skills: ["Distributed Node.js (8.3)", "UI/UX Design (8.3)", "BA Analysis (8.1)", "Enterprise Systems (7.3)", "Data Structures", "3NF DBMS", "QA/QC"],
       metrics: [
-        { label: "Graduation GPA", value: "3.0 / 4.0" },
-        { label: "Completed Credits", value: "150+ Credits" },
-        { label: "Node.js & UI/UX Score", value: "8.3 / 10.0" },
+        { label: "GPA", value: "3.0 / 4.0" },
+        { label: "Credits", value: "150+ TC" },
+        { label: "NodeJS & UI", value: "8.3 / 10" },
       ],
     },
   ],
@@ -1079,7 +1079,7 @@ export const portfolioDataEn: PortfolioDataStructure = {
       ],
       highlights: [
         "Completed 150+ academic credits: Data Structures & Algorithms, Computer Networks, Relational DBMS, Distributed Software Architecture, and Quality Assurance (QA/QC).",
-        "Dual technical strength: Mastering Front-End and Back-End development paired with practical business requirement analysis.",
+        "Dual technical strength: Bachelor graduate commanding Front-End and Back-End development paired with practical business requirement analysis.",
         "Independent technical research capability, rapidly commanding emerging frameworks to solve real-world user challenges.",
       ],
     },
@@ -1173,7 +1173,7 @@ export const uiTranslations: Record<"vi" | "en", Record<string, string>> = {
 
     // Education Section
     "education.tag": "// HỌC THUẬT VÀ NỀN TẢNG ĐÀO TẠO 5 NĂM",
-    "education.heading": "Chương Trình Đào Tạo Kỹ Sư Tại ĐH Tôn Đức Thắng",
+    "education.heading": "Chương Trình Đào Tạo Cử Nhân Tại ĐH Tôn Đức Thắng",
     "education.lead": "Hành trình 5 năm toàn thời gian (2021 – 2026) trang bị tư duy toán học, thuật toán sâu sắc và năng lực làm chủ công nghệ từ tầng gốc rễ.",
     "education.scores_title": "// ĐIỂM SỐ CÁC MÔN CHUYÊN NGÀNH CỐT LÕI (BẢNG ĐIỂM CHỨNG THỰC):",
     "education.highlights_title": "// ĐẶC THÙ CHƯƠNG TRÌNH VÀ KẾT QUẢ ĐÀO TẠO:",
@@ -1181,8 +1181,8 @@ export const uiTranslations: Record<"vi" | "en", Record<string, string>> = {
 
     // Experience Section
     "exp.tag": "// BẢN ĐỒ KINH NGHIỆM THỰC CHIẾN MASTER CV",
-    "exp.heading": "Hành Trình Kỹ Sư và Kinh Nghiệm Triển Khai",
-    "exp.lead": "Đồng bộ hóa 100% từ hồ sơ CV Master: Hành trình phát triển thực chiến từ nền tảng Kỹ sư 5 năm ĐH Tôn Đức Thắng đến các hệ thống chuyển đổi số doanh nghiệp, triển khai UAT thực tế và đào tạo 230+ cán bộ.",
+    "exp.heading": "Hành Trình Phát Triển và Kinh Nghiệm Triển Khai",
+    "exp.lead": "Đồng bộ hóa 100% từ hồ sơ CV Master: Hành trình phát triển thực chiến từ nền tảng Cử nhân 5 năm ĐH Tôn Đức Thắng đến các hệ thống chuyển đổi số doanh nghiệp, triển khai UAT thực tế và đào tạo 230+ cán bộ.",
     "exp.view_grid": "Lưới 3 Cột",
     "exp.view_timeline": "Dòng Thời Gian",
     "exp.filter_all": "Tất cả",
@@ -1216,7 +1216,7 @@ export const uiTranslations: Record<"vi" | "en", Record<string, string>> = {
     // Contact Section
     "contact.tag": "// THÔNG TIN LIÊN HỆ VÀ GỬI LỜI MỜI",
     "contact.heading": "Kết Nối Tuyển Dụng và Hợp Tác Kỹ Thuật",
-    "contact.lead": "Tôi luôn sẵn sàng đón nhận cơ hội việc làm Kỹ Sư Phần Mềm Fullstack / Next.js & Node.js Developer tại các doanh nghiệp công nghệ.",
+    "contact.lead": "Tôi luôn sẵn sàng đón nhận cơ hội việc làm Lập Trình Viên Fullstack / Next.js & Node.js Developer tại các doanh nghiệp công nghệ.",
     "contact.form_name": "Họ và tên của Quý vị",
     "contact.form_email": "Địa chỉ Email",
     "contact.form_phone": "Số điện thoại liên lạc",
@@ -1226,7 +1226,7 @@ export const uiTranslations: Record<"vi" | "en", Record<string, string>> = {
     "contact.form_success": "Đã gửi thông tin thành công! Tôi sẽ phản hồi Quý vị trong thời gian sớm nhất.",
 
     // Footer
-    "footer.engineer": "Kỹ Sư Thực Chiến",
+    "footer.engineer": "Lập Trình Viên Thực Chiến",
     "footer.rights": "Bản quyền thuộc về",
   },
 

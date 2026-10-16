@@ -5,6 +5,7 @@ import "@/styles/ux-tablet.css";
 import "@/styles/ux-mobile.css";
 import "@/styles/copilot.css";
 import "@/styles/experience-asymmetric.css";
+import "@/styles/section-themes.css";
 import FloatingThumbDock from "@/components/FloatingThumbDock";
 import { LanguageProvider } from "@/context/LanguageContext";
 
