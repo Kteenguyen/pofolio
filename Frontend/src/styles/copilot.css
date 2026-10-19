@@ -1,7 +1,8 @@
 /* ==============================================================================
    APPLE iOS 18 & macOS SEQUOIA CONTROL CENTER THEME
    CAREER COPILOT DASHBOARD - DEDICATED UX ARCHITECTURE
-   Designed for Touch Target >= 44px & Zero Mobile Overflow (iPhone 14 Pro Max 430px)
+   High-Density Compact & Zero Mobile Overflow (iPhone 14 Pro Max 430px)
+   Designed for Touch Target >= 44px
    ============================================================================== */
 
 :root {
@@ -19,11 +20,11 @@
   --ios-yellow: #FFCC00;
   --ios-pink: #FF2D55;
 
-  /* Apple Hairlines */
+  /* Apple Hairlines & Glass */
   --ios-hairline: rgba(0, 0, 0, 0.08);
   --ios-hairline-focus: rgba(0, 122, 255, 0.35);
-  --ios-glass-bg: rgba(255, 255, 255, 0.72);
-  --ios-glass-card: rgba(255, 255, 255, 0.85);
+  --ios-glass-bg: rgba(255, 255, 255, 0.75);
+  --ios-glass-card: rgba(255, 255, 255, 0.88);
   --ios-control-bg: rgba(120, 120, 128, 0.12);
   --ios-control-active: #ffffff;
   --ios-control-active-text: #000000;
@@ -33,8 +34,8 @@
 .dark {
   --ios-hairline: rgba(255, 255, 255, 0.12);
   --ios-hairline-focus: rgba(0, 122, 255, 0.5);
-  --ios-glass-bg: rgba(15, 20, 32, 0.78);
-  --ios-glass-card: rgba(22, 28, 44, 0.85);
+  --ios-glass-bg: rgba(15, 20, 32, 0.82);
+  --ios-glass-card: rgba(22, 28, 44, 0.88);
   --ios-control-bg: rgba(120, 120, 128, 0.24);
   --ios-control-active: rgba(255, 255, 255, 0.22);
   --ios-control-active-text: #ffffff;
@@ -42,15 +43,25 @@
 }
 
 /* ==============================================================================
-   TYPOGRAPHY & GLOBAL CONTAINER
+   TYPOGRAPHY & GLOBAL CONTAINERS
    ============================================================================== */
 .copilot-container {
   width: 100%;
   max-width: 1440px;
   margin-left: auto;
   margin-right: auto;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+  box-sizing: border-box;
+  font-family: var(--apple-font-stack);
+}
+
+.copilot-container-compact {
+  width: 100%;
+  max-width: 1440px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0.75rem 1rem;
   box-sizing: border-box;
   font-family: var(--apple-font-stack);
 }
@@ -70,18 +81,18 @@
   backdrop-filter: blur(24px) saturate(190%);
   -webkit-backdrop-filter: blur(24px) saturate(190%);
   border: 1px solid var(--ios-hairline);
-  border-radius: 18px;
-  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+  border-radius: 14px;
+  box-shadow: 0 3px 14px -2px rgba(0, 0, 0, 0.05);
 }
 
 /* ==============================================================================
-   iOS SEGMENTED CONTROL
+   iOS SEGMENTED CONTROL (Filters & Options)
    ============================================================================== */
 .ios-segmented-control {
   display: inline-flex;
   align-items: center;
-  padding: 3px;
-  border-radius: 12px;
+  padding: 2.5px;
+  border-radius: 10px;
   background: var(--ios-control-bg);
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
@@ -95,17 +106,17 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 6px 12px;
-  min-height: 32px;
-  border-radius: 9px;
-  font-size: 11.5px;
+  padding: 4px 10px;
+  min-height: 28px;
+  border-radius: 8px;
+  font-size: 11px;
   font-weight: 500;
   color: var(--muted-foreground);
   background: transparent;
   border: none;
   cursor: pointer;
   white-space: nowrap;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
   text-decoration: none;
   user-select: none;
 }
@@ -136,6 +147,70 @@
 }
 
 /* ==============================================================================
+   iOS SEGMENTED SUB-TABS (High-Density Multi-view Switcher)
+   ============================================================================== */
+.ios-segmented-tabs {
+  display: flex;
+  align-items: center;
+  background: var(--ios-control-bg);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid var(--ios-hairline);
+  border-radius: 10px;
+  padding: 2.5px;
+  gap: 2px;
+  height: 32px;
+  box-sizing: border-box;
+  overflow-x: auto;
+}
+
+.ios-segmented-tab-btn {
+  position: relative;
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  height: 27px;
+  min-height: 27px;
+  padding: 0 10px;
+  border-radius: 8px;
+  font-size: 11.5px;
+  font-weight: 500;
+  color: var(--muted-foreground);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+}
+
+.ios-segmented-tab-btn::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 44px;
+  min-height: 44px;
+  width: 100%;
+  height: 100%;
+  pointer-events: auto;
+}
+
+.ios-segmented-tab-btn.active {
+  background: var(--ios-control-active);
+  color: var(--ios-control-active-text);
+  font-weight: 600;
+  box-shadow: var(--ios-control-shadow);
+}
+
+.ios-segmented-tab-btn:active {
+  transform: scale(0.98);
+}
+
+/* ==============================================================================
    NÚT CHUẨN SẾP KTEE (Height 32-34px, Font 11-11.5px, Touch Target >= 44px, Active 0.98)
    ============================================================================== */
 .btn-ktee-ios {
@@ -143,14 +218,14 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  height: 34px;
-  min-height: 34px;
-  padding: 0 13px;
+  gap: 5px;
+  height: 32px;
+  min-height: 32px;
+  padding: 0 11px;
   font-size: 11.5px;
   font-weight: 600;
   letter-spacing: -0.01em;
-  border-radius: 10px;
+  border-radius: 9px;
   border: 1px solid var(--ios-hairline);
   background: var(--surface);
   color: var(--foreground);
@@ -162,7 +237,6 @@
   box-sizing: border-box;
 }
 
-/* Touch Target expander invisible padding >= 44px */
 .btn-ktee-ios::before {
   content: "";
   position: absolute;
@@ -189,7 +263,7 @@
   background: var(--ios-blue);
   color: #ffffff;
   border-color: rgba(0, 122, 255, 0.5);
-  box-shadow: 0 2px 8px rgba(0, 122, 255, 0.28);
+  box-shadow: 0 2px 6px rgba(0, 122, 255, 0.25);
 }
 
 .btn-ktee-primary:hover {
@@ -201,7 +275,7 @@
   background: var(--ios-green);
   color: #ffffff;
   border-color: rgba(52, 199, 89, 0.5);
-  box-shadow: 0 2px 8px rgba(52, 199, 89, 0.28);
+  box-shadow: 0 2px 6px rgba(52, 199, 89, 0.25);
 }
 
 .btn-ktee-green:hover {
@@ -209,25 +283,25 @@
 }
 
 /* ==============================================================================
-   APPLE SPOTLIGHT SEARCH BAR
+   APPLE SPOTLIGHT SEARCH BAR (Compact 34px)
    ============================================================================== */
 .ios-spotlight {
   display: flex;
   align-items: center;
-  height: 38px;
-  padding: 0 12px;
+  height: 34px;
+  padding: 0 10px;
   border-radius: 9999px;
   background: var(--ios-glass-bg);
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
   border: 1px solid var(--ios-hairline);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
   transition: all 0.2s ease;
 }
 
 .ios-spotlight:focus-within {
   border-color: var(--ios-blue);
-  box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.18), 0 3px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 0 0 2.5px rgba(0, 122, 255, 0.18), 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
 .ios-spotlight input {
@@ -235,29 +309,30 @@
   background: transparent;
   border: none;
   outline: none;
-  font-size: 12px;
+  font-size: 11.5px;
   font-family: var(--apple-font-stack);
   color: var(--foreground);
-  padding: 0 8px;
+  padding: 0 6px;
   min-width: 0;
 }
 
 .ios-spotlight input::placeholder {
-  color: var(--muted);
+  color: var(--muted-foreground);
+  opacity: 0.75;
 }
 
 /* ==============================================================================
-   iOS CAPSULE TAGS (Keywords / Filters)
+   iOS CAPSULE TAGS (Pill 9.5px, Padding 2px 8px)
    ============================================================================== */
 .ios-capsule {
   position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  padding: 4px 10px;
-  min-height: 26px;
+  gap: 3px;
+  padding: 2px 8px;
+  min-height: 22px;
   border-radius: 9999px;
-  font-size: 11px;
+  font-size: 9.5px;
   font-weight: 500;
   font-family: var(--apple-mono-stack);
   background: var(--ios-control-bg);
@@ -265,7 +340,7 @@
   color: var(--muted-foreground);
   cursor: pointer;
   white-space: nowrap;
-  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.16s cubic-bezier(0.16, 1, 0.3, 1);
   user-select: none;
 }
 
@@ -279,6 +354,7 @@
   min-height: 44px;
   width: 100%;
   height: 100%;
+  pointer-events: auto;
 }
 
 .ios-capsule:hover {
@@ -291,7 +367,7 @@
   background: var(--ios-blue);
   color: #ffffff;
   border-color: var(--ios-blue);
-  box-shadow: 0 2px 8px rgba(0, 122, 255, 0.35);
+  box-shadow: 0 1.5px 6px rgba(0, 122, 255, 0.35);
   font-weight: 600;
 }
 
@@ -336,14 +412,16 @@
    APPLE SQUIRCLE TINTED ICON BOX
    ============================================================================== */
 .ios-squircle-icon {
-  width: 32px;
-  height: 32px;
-  border-radius: 9px;
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
+  min-height: 28px;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  transition: transform 0.2s ease;
+  transition: transform 0.16s ease;
 }
 
 .ios-squircle-blue {
@@ -367,18 +445,45 @@
 }
 
 /* ==============================================================================
+   HIGH-DENSITY COMPACT KPI CARD (Height 68px-72px, Horizontal Layout)
+   ============================================================================== */
+.ios-kpi-card {
+  position: relative;
+  height: 68px;
+  min-height: 68px;
+  max-height: 72px;
+  padding: 8px 12px;
+  border-radius: 14px;
+  background: var(--surface);
+  border: 1px solid var(--ios-hairline);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  overflow: hidden;
+  transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease;
+  box-sizing: border-box;
+}
+
+.ios-kpi-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+  border-color: var(--ios-hairline-focus);
+}
+
+/* ==============================================================================
    iOS INSET GROUPED CARDS (Settings & Detail Sheet Style)
    ============================================================================== */
 .ios-inset-card {
-  border-radius: 16px;
+  border-radius: 14px;
   background: var(--surface);
   border: 1px solid var(--ios-hairline);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+  box-shadow: 0 1.5px 8px rgba(0, 0, 0, 0.03);
   overflow: hidden;
 }
 
 .ios-inset-item {
-  padding: 12px 14px;
+  padding: 10px 12px;
   border-bottom: 1px solid var(--ios-hairline);
 }
 
@@ -387,31 +492,32 @@
 }
 
 /* ==============================================================================
-   STATS WIDGET GRID (Desktop 4-col, iPhone 14 Pro Max 2x2 grid, gap 8px)
+   STATS WIDGET GRID (Desktop 4-col, iPhone 14 Pro Max 2x2 grid, gap 10px)
    ============================================================================== */
 .copilot-stats-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1rem;
+  gap: 10px;
 }
 
+/* Legacy widget-card preserved for backwards compat */
 .ios-widget-card {
   position: relative;
   background: var(--surface);
   border: 1px solid var(--ios-hairline);
-  border-radius: 18px;
-  padding: 1rem;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+  border-radius: 14px;
+  padding: 0.75rem 0.85rem;
+  box-shadow: 0 1.5px 8px rgba(0, 0, 0, 0.03);
   display: flex;
-  flex-col: column;
+  flex-direction: column;
   justify-content: space-between;
   overflow: hidden;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.16s ease, box-shadow 0.16s ease;
 }
 
 .ios-widget-card:hover {
   transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
 }
 
 /* ==============================================================================
@@ -422,47 +528,69 @@
     overflow-x: hidden;
   }
 
-  .copilot-container {
+  .copilot-container,
+  .copilot-container-compact {
     max-width: 430px;
-    padding-left: 0.85rem;
-    padding-right: 0.85rem;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
     overflow-x: hidden;
   }
 
-  /* MANDATORY iPhone 14 Pro Max: 2x2 grid, gap 8px */
+  /* MANDATORY iPhone 14 Pro Max: 2x2 grid, gap 6px - 8px */
   .copilot-stats-grid {
     grid-template-columns: repeat(2, 1fr) !important;
+    gap: 6px !important;
+  }
+
+  .ios-kpi-card {
+    height: 64px !important;
+    min-height: 64px !important;
+    max-height: 68px !important;
+    padding: 6px 10px !important;
     gap: 8px !important;
+    border-radius: 12px !important;
   }
 
   .ios-widget-card {
-    padding: 0.75rem !important;
-    border-radius: 14px !important;
+    padding: 0.65rem !important;
+    border-radius: 12px !important;
+  }
+
+  .ios-segmented-tabs {
+    height: 32px;
+    padding: 2px;
+  }
+
+  .ios-segmented-tab-btn {
+    font-size: 10px;
+    padding: 0 6px;
+    height: 26px;
+    min-height: 26px;
   }
 
   .copilot-mobile-tab-bar {
     display: flex;
     width: 100%;
-    margin-bottom: 1rem;
+    margin-bottom: 0.65rem;
     background: var(--ios-control-bg);
     border: 1px solid var(--ios-hairline);
-    border-radius: 12px;
-    padding: 3px;
-    gap: 3px;
+    border-radius: 10px;
+    padding: 2.5px;
+    gap: 2.5px;
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
   }
 
   .copilot-mobile-tab-btn {
     flex: 1;
-    min-height: 44px;
+    min-height: 38px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     font-weight: 600;
-    border-radius: 9px;
-    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    border-radius: 8px;
+    transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
     color: var(--muted-foreground);
     border: none;
     background: transparent;

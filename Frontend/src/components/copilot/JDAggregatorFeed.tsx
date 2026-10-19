@@ -104,18 +104,18 @@ export default function JDAggregatorFeed({
   });
 
   return (
-    <div className="space-y-3.5">
+    <div className="space-y-2">
       {/* Header Bar with Action Button */}
       <div className="flex items-center justify-between gap-2">
         <div className="min-w-0">
           <h3 className="text-xs sm:text-sm font-bold text-[var(--foreground)] flex items-center gap-1.5 truncate">
-            <span>Sàn JD Realtime Thật</span>
-            <span className="px-2 py-0.5 rounded-full text-[9px] font-bold badge-ios-green flex items-center gap-1 shrink-0">
-              <Radio size={9} className="animate-pulse" /> {filteredJobs.length} Live
+            <span>Sàn JD Realtime</span>
+            <span className="px-1.5 py-0.5 rounded-full text-[9px] font-bold badge-ios-green flex items-center gap-1 shrink-0">
+              <Radio size={8} className="animate-pulse" /> {filteredJobs.length} Live
             </span>
           </h3>
-          <p className="text-[10px] text-[var(--muted-foreground)] truncate">
-            RemoteOK Live Feed • Truy vấn thời gian thực 100%
+          <p className="text-[9.5px] text-[var(--muted-foreground)] truncate">
+            RemoteOK Live Feed • Dữ liệu thời gian thực
           </p>
         </div>
 
@@ -124,181 +124,133 @@ export default function JDAggregatorFeed({
           className="btn-ktee-ios btn-ktee-primary shrink-0"
           title="Dán JD Mới để phân tích ngay"
         >
-          <Plus size={13} />
+          <Plus size={12} />
           <span>Dán JD Mới</span>
         </button>
       </div>
 
-      {/* Apple Spotlight Search Bar & Realtime Sync Controls */}
-      <div className="space-y-2">
-        <div className="flex items-center gap-1.5 sm:gap-2">
-          <form onSubmit={handleLiveSearchSubmit} className="flex-1 flex items-center gap-1.5 sm:gap-2 min-w-0">
-            <div className="ios-spotlight flex-1 min-w-0">
-              <Search size={14} className="text-[var(--muted-foreground)] shrink-0" />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Spotlight Search (React, Next.js, Golang...)"
-                className="w-full text-xs text-[var(--foreground)] bg-transparent outline-none"
-              />
-              {searchQuery && (
-                <button
-                  type="button"
-                  onClick={handleClearSearch}
-                  className="w-4 h-4 rounded-full bg-neutral-300 dark:bg-neutral-700 hover:bg-neutral-400 dark:hover:bg-neutral-600 text-neutral-700 dark:text-neutral-200 flex items-center justify-center transition-colors shrink-0"
-                  title="Xóa tìm kiếm"
-                >
-                  <X size={10} />
-                </button>
-              )}
-              <span className="hidden md:flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[9px] font-mono text-[var(--muted-foreground)] bg-[var(--ios-control-bg)] border border-[var(--ios-hairline)] shrink-0 ml-1">
-                <Command size={10} /> ↵
-              </span>
-            </div>
-
-            <button
-              type="submit"
-              disabled={isLoading || !searchQuery.trim()}
-              className="btn-ktee-ios btn-ktee-green shrink-0 disabled:opacity-50"
-              title="Quét việc làm thời gian thực"
-            >
-              {isLoading ? <RefreshCw size={12} className="animate-spin" /> : <Search size={12} />}
-              <span className="hidden sm:inline">Quét</span>
-            </button>
-          </form>
-
-          {/* Nút bấm đồng bộ Realtime cạnh ô tìm kiếm */}
-          {onRefreshLive && (
-            <button
-              type="button"
-              onClick={onRefreshLive}
-              disabled={isLoading}
-              className="btn-ktee-ios btn-ktee-primary shrink-0 disabled:opacity-50"
-              title={
-                lastUpdatedTime
-                  ? `Đồng bộ Realtime (Vừa cập nhật: ${lastUpdatedTime}) - Bấm để làm mới ngay`
-                  : "Đồng bộ Realtime ngay lập tức"
-              }
-            >
-              <Zap size={12} className={isLoading ? "animate-spin" : ""} />
-              <span className="hidden sm:inline">Sync</span>
-              {countdown !== undefined && autoRefreshEnabled && (
-                <span className="font-mono text-[10px] bg-white/20 px-1 py-0.5 rounded ml-0.5">
-                  {countdown}s
-                </span>
-              )}
-            </button>
-          )}
-        </div>
-
-        {/* Trạng thái đồng bộ Realtime cạnh ô tìm kiếm */}
-        <div className="flex items-center justify-between text-[10.5px] text-[var(--muted-foreground)] px-1">
-          <div className="flex items-center gap-1.5 truncate">
-            <span className="relative flex h-2 w-2 shrink-0">
-              {autoRefreshEnabled && (
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#34C759] opacity-75"></span>
-              )}
-              <span
-                className={`relative inline-flex rounded-full h-2 w-2 ${
-                  autoRefreshEnabled ? "bg-[#34C759]" : "bg-neutral-400"
-                }`}
-              ></span>
-            </span>
-            <span className="truncate">
-              {autoRefreshEnabled ? (
-                <>Realtime Sync: tự quét sau <strong className="text-[#34C759] font-mono">{countdown}s</strong></>
-              ) : (
-                <>Realtime Sync: Đang tắt</>
-              )}
-            </span>
-          </div>
-
-          {lastUpdatedTime && (
-            <span className="font-mono text-[10px] shrink-0 text-[var(--muted-foreground)]">
-              Cập nhật: {lastUpdatedTime}
-            </span>
-          )}
-        </div>
-      </div>
-
-      {/* iOS Capsule Tags List */}
-      <div>
-        <div className="flex items-center justify-between mb-1.5">
-          <span className="text-[10px] font-semibold text-[var(--muted-foreground)] uppercase tracking-wider">
-            Từ khóa quét nhanh qua Live API:
-          </span>
-          <span className="text-[9px] text-[var(--muted-foreground)] font-mono">10 Tags</span>
-        </div>
-        <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none text-[10px] -mx-1 px-1">
-          {quickLiveKeywords.map((kw) => {
-            const isActive = searchQuery.toLowerCase() === kw;
-            return (
+      {/* Apple Spotlight Search Bar (Height 34px) */}
+      <div className="flex items-center gap-1.5">
+        <form onSubmit={handleLiveSearchSubmit} className="flex-1 flex items-center gap-1.5 min-w-0">
+          <div className="ios-spotlight flex-1 min-w-0">
+            <Search size={13} className="text-[var(--muted-foreground)] shrink-0" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Spotlight Search (React, Node, Golang...)"
+              className="w-full text-[11.5px] text-[var(--foreground)] bg-transparent outline-none"
+            />
+            {searchQuery && (
               <button
-                key={kw}
                 type="button"
-                onClick={() => handleQuickKeywordClick(kw)}
-                disabled={isLoading}
-                className={`ios-capsule ${isActive ? "active" : ""}`}
+                onClick={handleClearSearch}
+                className="w-4 h-4 rounded-full bg-neutral-300 dark:bg-neutral-700 hover:bg-neutral-400 dark:hover:bg-neutral-600 text-neutral-700 dark:text-neutral-200 flex items-center justify-center transition-colors shrink-0"
+                title="Xóa tìm kiếm"
               >
-                #{kw}
+                <X size={9} />
               </button>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Work Mode Filter: iOS Segmented Control */}
-      <div>
-        <span className="text-[10px] font-semibold text-[var(--muted-foreground)] uppercase tracking-wider block mb-1.5">
-          Hình thức làm việc:
-        </span>
-        <div className="ios-segmented-control w-full">
-          <button
-            type="button"
-            onClick={() => setActiveWorkMode("ALL")}
-            className={`ios-segmented-item ${activeWorkMode === "ALL" ? "active" : ""}`}
-          >
-            Tất cả
-          </button>
-          <button
-            type="button"
-            onClick={() => setActiveWorkMode("Remote 100%")}
-            className={`ios-segmented-item flex items-center gap-1 ${
-              activeWorkMode === "Remote 100%" ? "active" : ""
-            }`}
-          >
-            <Globe size={11} />
-            <span>100% Remote</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => setActiveWorkMode("Freelance / Contract")}
-            className={`ios-segmented-item flex items-center gap-1 ${
-              activeWorkMode === "Freelance / Contract" ? "active" : ""
-            }`}
-          >
-            <DollarSign size={11} />
-            <span>Freelance</span>
-          </button>
-        </div>
-      </div>
-
-      {/* Loading Skeleton Indicator */}
-      {isLoading && (
-        <div className="p-4 rounded-2xl ios-glass border border-[var(--ios-hairline)] text-center space-y-2 animate-pulse shadow-sm">
-          <div className="flex items-center justify-center gap-2 text-xs font-semibold text-[#007AFF]">
-            <RefreshCw size={13} className="animate-spin" />
-            <span>Đang tải việc làm thực tế từ RemoteOK API...</span>
+            )}
+            <span className="hidden md:flex items-center gap-0.5 px-1 py-0.5 rounded text-[8.5px] font-mono text-[var(--muted-foreground)] bg-[var(--ios-control-bg)] border border-[var(--ios-hairline)] shrink-0 ml-1">
+              <Command size={9} /> ↵
+            </span>
           </div>
-          <span className="text-[10px] text-[var(--muted-foreground)] block">
-            Dữ liệu thời gian thực 100% • Sẵn sàng phân tích CV
-          </span>
+
+          <button
+            type="submit"
+            disabled={isLoading || !searchQuery.trim()}
+            className="btn-ktee-ios btn-ktee-green shrink-0 disabled:opacity-50"
+            title="Quét việc làm thời gian thực"
+          >
+            {isLoading ? <RefreshCw size={11} className="animate-spin" /> : <Search size={11} />}
+            <span className="hidden sm:inline">Quét</span>
+          </button>
+        </form>
+
+        {onRefreshLive && (
+          <button
+            type="button"
+            onClick={onRefreshLive}
+            disabled={isLoading}
+            className="btn-ktee-ios btn-ktee-primary shrink-0 disabled:opacity-50"
+            title={
+              lastUpdatedTime
+                ? `Đồng bộ Realtime (Vừa cập nhật: ${lastUpdatedTime}) - Bấm làm mới`
+                : "Đồng bộ Realtime ngay"
+            }
+          >
+            <Zap size={11} className={isLoading ? "animate-spin" : ""} />
+            <span className="hidden sm:inline">Sync</span>
+            {countdown !== undefined && autoRefreshEnabled && (
+              <span className="font-mono text-[9px] bg-white/20 px-1 py-0.5 rounded ml-0.5">
+                {countdown}s
+              </span>
+            )}
+          </button>
+        )}
+      </div>
+
+      {/* iOS Capsule Tags List (Font 9.5px, Pill 2px 8px) */}
+      <div className="flex items-center gap-1 overflow-x-auto pb-0.5 scrollbar-none text-[9.5px] -mx-0.5 px-0.5">
+        {quickLiveKeywords.map((kw) => {
+          const isActive = searchQuery.toLowerCase() === kw;
+          return (
+            <button
+              key={kw}
+              type="button"
+              onClick={() => handleQuickKeywordClick(kw)}
+              disabled={isLoading}
+              className={`ios-capsule ${isActive ? "active" : ""}`}
+            >
+              #{kw}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Work Mode Filter: Compact iOS Segmented Control */}
+      <div className="ios-segmented-control w-full">
+        <button
+          type="button"
+          onClick={() => setActiveWorkMode("ALL")}
+          className={`ios-segmented-item ${activeWorkMode === "ALL" ? "active" : ""}`}
+        >
+          Tất cả
+        </button>
+        <button
+          type="button"
+          onClick={() => setActiveWorkMode("Remote 100%")}
+          className={`ios-segmented-item flex items-center gap-1 ${
+            activeWorkMode === "Remote 100%" ? "active" : ""
+          }`}
+        >
+          <Globe size={10} />
+          <span>100% Remote</span>
+        </button>
+        <button
+          type="button"
+          onClick={() => setActiveWorkMode("Freelance / Contract")}
+          className={`ios-segmented-item flex items-center gap-1 ${
+            activeWorkMode === "Freelance / Contract" ? "active" : ""
+          }`}
+        >
+          <DollarSign size={10} />
+          <span>Freelance</span>
+        </button>
+      </div>
+
+      {/* Loading Indicator */}
+      {isLoading && (
+        <div className="p-3 rounded-xl ios-glass border border-[var(--ios-hairline)] text-center space-y-1 animate-pulse shadow-sm">
+          <div className="flex items-center justify-center gap-1.5 text-xs font-semibold text-[#007AFF]">
+            <RefreshCw size={12} className="animate-spin" />
+            <span>Đang tải việc làm từ RemoteOK Official API...</span>
+          </div>
         </div>
       )}
 
-      {/* iOS List Item: Job Card List */}
-      <div className="space-y-2 max-h-[640px] overflow-y-auto pr-0.5 scrollbar-thin">
+      {/* iOS Job Cards List: Max Height 720px, Compact Padding */}
+      <div className="space-y-2 max-h-[720px] overflow-y-auto pr-0.5 scrollbar-thin">
         {filteredJobs.map((job) => {
           const match = matchesMap.get(job.id);
           const isSelected = job.id === selectedJobId;
@@ -319,56 +271,46 @@ export default function JDAggregatorFeed({
             <div
               key={job.id}
               onClick={() => onSelectJob(job)}
-              className={`p-3.5 rounded-[14px] cursor-pointer transition-all border text-left relative overflow-hidden ${
+              className={`p-2.5 sm:p-3 rounded-[12px] cursor-pointer transition-all border text-left relative overflow-hidden ${
                 isSelected
-                  ? "bg-[var(--surface)] border-[#007AFF] shadow-md ring-1 ring-[#007AFF]/30"
-                  : "bg-[var(--surface)] border-[var(--ios-hairline)] hover:border-[#007AFF]/40 hover:shadow-sm"
+                  ? "bg-[var(--surface)] border-[#007AFF] shadow-sm ring-1 ring-[#007AFF]/30"
+                  : "bg-[var(--surface)] border-[var(--ios-hairline)] hover:border-[#007AFF]/40 hover:shadow-xs"
               }`}
             >
-              {/* Top Row: Meta Badges */}
-              <div className="flex flex-wrap items-center justify-between gap-1.5 mb-2">
-                <div className="flex items-center gap-1.5 flex-wrap">
-                  <span className="px-1.5 py-0.5 rounded-md text-[9px] font-bold uppercase bg-[var(--ios-control-bg)] text-[var(--muted-foreground)] border border-[var(--ios-hairline)]">
+              {/* Top Row: Platform, WorkMode & Match Badge */}
+              <div className="flex items-center justify-between gap-1 mb-1.5">
+                <div className="flex items-center gap-1 min-w-0 overflow-hidden">
+                  <span className="px-1.5 py-0.2 rounded text-[8.5px] font-bold uppercase bg-[var(--ios-control-bg)] text-[var(--muted-foreground)] border border-[var(--ios-hairline)] shrink-0">
                     {job.platform}
                   </span>
-                  <span className={`px-2 py-0.5 rounded-full text-[9px] font-bold ${workBadgeClass}`}>
+                  <span className={`px-1.5 py-0.2 rounded-full text-[8.5px] font-bold truncate shrink-0 ${workBadgeClass}`}>
                     {job.workMode}
-                  </span>
-                  <span className="px-1.5 py-0.5 rounded-md text-[9px] font-medium text-[var(--muted-foreground)] bg-[var(--ios-control-bg)]">
-                    {job.market}
                   </span>
                 </div>
 
-                {/* Apple Match Badge & Relevance Score */}
-                <div className="shrink-0 flex items-center gap-1.5">
-                  {typeof job.relevanceScore === "number" && job.relevanceScore > 0 && (
-                    <span className="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-full text-[9.5px] font-bold font-mono bg-[#007AFF]/10 text-[#007AFF] border border-[#007AFF]/25">
-                      Độ khớp JD: {job.relevanceScore}đ
-                    </span>
-                  )}
-                  <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold font-mono ${scoreBadgeClass}`}>
-                    <CheckCircle2 size={10} />
-                    Khớp CV: {score}%
-                  </span>
-                </div>
+                {/* Score badge */}
+                <span className={`inline-flex items-center gap-1 px-1.5 py-0.2 rounded-full text-[9.5px] font-bold font-mono shrink-0 ${scoreBadgeClass}`}>
+                  <CheckCircle2 size={9} />
+                  Khớp: {score}%
+                </span>
               </div>
 
               {/* Title & Company */}
-              <div className="min-w-0 mb-1.5">
-                <h4 className="text-xs font-bold text-[var(--foreground)] line-clamp-1 leading-snug">
+              <div className="min-w-0 mb-1">
+                <h4 className="text-[12px] font-bold text-[var(--foreground)] line-clamp-1 leading-snug">
                   {job.title}
                 </h4>
-                <div className="text-[10.5px] text-[var(--muted-foreground)] truncate mt-0.5 font-medium">
-                  {job.company} • <span className="font-mono text-[var(--foreground)]">{job.location.split("(")[0]}</span>
+                <div className="text-[10px] text-[var(--muted-foreground)] truncate mt-0.5">
+                  <span className="font-semibold text-[var(--foreground)]">{job.company}</span> • <span>{job.location.split("(")[0]}</span>
                 </div>
               </div>
 
               {/* Hairline Divider */}
-              <div className="h-[1px] w-full bg-[var(--ios-hairline)] my-2" />
+              <div className="h-[1px] w-full bg-[var(--ios-hairline)] my-1.5" />
 
               {/* Bottom Row: Salary & Tech Chips */}
-              <div className="flex items-center justify-between gap-2">
-                <span className="font-mono text-xs text-[#34C759] font-bold shrink-0">
+              <div className="flex items-center justify-between gap-1.5">
+                <span className="font-mono text-[11px] text-[#34C759] font-bold shrink-0">
                   {job.salary}
                 </span>
 
@@ -376,13 +318,13 @@ export default function JDAggregatorFeed({
                   {job.requirements.techStack.slice(0, 3).map((tech) => (
                     <span
                       key={tech}
-                      className="px-1.5 py-0.5 rounded text-[9px] font-mono bg-[var(--ios-control-bg)] text-[var(--muted-foreground)] border border-[var(--ios-hairline)]"
+                      className="px-1.5 py-0.2 rounded text-[8.5px] font-mono bg-[var(--ios-control-bg)] text-[var(--muted-foreground)] border border-[var(--ios-hairline)] truncate max-w-[80px]"
                     >
                       {tech}
                     </span>
                   ))}
                   {job.requirements.techStack.length > 3 && (
-                    <span className="text-[9px] text-[var(--muted-foreground)] font-mono">
+                    <span className="text-[8.5px] text-[var(--muted-foreground)] font-mono shrink-0">
                       +{job.requirements.techStack.length - 3}
                     </span>
                   )}
@@ -393,12 +335,12 @@ export default function JDAggregatorFeed({
         })}
 
         {!isLoading && filteredJobs.length === 0 && (
-          <div className="p-6 text-center text-xs text-[var(--muted-foreground)] ios-glass rounded-[14px] border border-dashed border-[var(--ios-hairline)] space-y-2">
+          <div className="p-4 text-center text-xs text-[var(--muted-foreground)] ios-glass rounded-[12px] border border-dashed border-[var(--ios-hairline)] space-y-1.5">
             <p className="font-semibold text-[var(--foreground)]">
-              Không tìm thấy tin việc làm nào khớp từ khóa &quot;{searchQuery}&quot;.
+              Không tìm thấy tin việc làm nào cho từ khóa &quot;{searchQuery}&quot;.
             </p>
-            <p className="text-[11px] text-[var(--muted-foreground)]">
-              Hệ thống tuyệt đối KHÔNG giả lập mock dữ liệu. Vui lòng thử các từ khóa: #react, #nextjs, #fullstack, #golang hoặc bấm &quot;Dán JD Mới&quot;.
+            <p className="text-[10.5px] text-[var(--muted-foreground)]">
+              Hệ thống không dùng dữ liệu mock. Vui lòng thử các từ khóa: #react, #nextjs, #fullstack hoặc bấm &quot;Dán JD Mới&quot;.
             </p>
           </div>
         )}
