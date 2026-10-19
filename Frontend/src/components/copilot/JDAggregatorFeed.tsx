@@ -12,6 +12,7 @@ import {
   X,
   Command,
   CheckCircle2,
+  Zap,
 } from "lucide-react";
 
 interface JDAggregatorFeedProps {
@@ -22,6 +23,10 @@ interface JDAggregatorFeedProps {
   matchesMap: Map<string, MatchAnalysis>;
   isLoading?: boolean;
   onSearchLive?: (query: string) => void;
+  onRefreshLive?: () => void;
+  lastUpdatedTime?: string;
+  autoRefreshEnabled?: boolean;
+  countdown?: number;
 }
 
 export default function JDAggregatorFeed({
@@ -32,6 +37,10 @@ export default function JDAggregatorFeed({
   matchesMap,
   isLoading = false,
   onSearchLive,
+  onRefreshLive,
+  lastUpdatedTime,
+  autoRefreshEnabled = true,
+  countdown,
 }: JDAggregatorFeedProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeWorkMode, setActiveWorkMode] = useState<"ALL" | WorkMode>("ALL");
@@ -76,10 +85,12 @@ export default function JDAggregatorFeed({
     // Search query in current results
     const matchSearch =
       searchQuery.trim() === "" ||
+      (job.relevanceScore !== undefined && job.relevanceScore > 0) ||
       job.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       job.company.toLowerCase().includes(searchQuery.toLowerCase()) ||
       job.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      job.requirements.techStack.some((t) => t.toLowerCase().includes(searchQuery.toLowerCase()));
+      job.requirements.techStack.some((t) => t.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      Boolean(job.rawDescription && job.rawDescription.toLowerCase().includes(searchQuery.toLowerCase()));
 
     if (!matchSearch) return false;
 
@@ -118,42 +129,98 @@ export default function JDAggregatorFeed({
         </button>
       </div>
 
-      {/* Apple Spotlight Search Bar */}
-      <form onSubmit={handleLiveSearchSubmit} className="flex items-center gap-2">
-        <div className="ios-spotlight flex-1">
-          <Search size={14} className="text-[var(--muted-foreground)] shrink-0" />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Spotlight Search (React, Next.js, Golang, DevOps...)"
-            className="w-full text-xs text-[var(--foreground)] bg-transparent outline-none"
-          />
-          {searchQuery && (
+      {/* Apple Spotlight Search Bar & Realtime Sync Controls */}
+      <div className="space-y-2">
+        <div className="flex items-center gap-1.5 sm:gap-2">
+          <form onSubmit={handleLiveSearchSubmit} className="flex-1 flex items-center gap-1.5 sm:gap-2 min-w-0">
+            <div className="ios-spotlight flex-1 min-w-0">
+              <Search size={14} className="text-[var(--muted-foreground)] shrink-0" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Spotlight Search (React, Next.js, Golang...)"
+                className="w-full text-xs text-[var(--foreground)] bg-transparent outline-none"
+              />
+              {searchQuery && (
+                <button
+                  type="button"
+                  onClick={handleClearSearch}
+                  className="w-4 h-4 rounded-full bg-neutral-300 dark:bg-neutral-700 hover:bg-neutral-400 dark:hover:bg-neutral-600 text-neutral-700 dark:text-neutral-200 flex items-center justify-center transition-colors shrink-0"
+                  title="Xóa tìm kiếm"
+                >
+                  <X size={10} />
+                </button>
+              )}
+              <span className="hidden md:flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[9px] font-mono text-[var(--muted-foreground)] bg-[var(--ios-control-bg)] border border-[var(--ios-hairline)] shrink-0 ml-1">
+                <Command size={10} /> ↵
+              </span>
+            </div>
+
+            <button
+              type="submit"
+              disabled={isLoading || !searchQuery.trim()}
+              className="btn-ktee-ios btn-ktee-green shrink-0 disabled:opacity-50"
+              title="Quét việc làm thời gian thực"
+            >
+              {isLoading ? <RefreshCw size={12} className="animate-spin" /> : <Search size={12} />}
+              <span className="hidden sm:inline">Quét</span>
+            </button>
+          </form>
+
+          {/* Nút bấm đồng bộ Realtime cạnh ô tìm kiếm */}
+          {onRefreshLive && (
             <button
               type="button"
-              onClick={handleClearSearch}
-              className="w-4 h-4 rounded-full bg-neutral-300 dark:bg-neutral-700 hover:bg-neutral-400 dark:hover:bg-neutral-600 text-neutral-700 dark:text-neutral-200 flex items-center justify-center transition-colors shrink-0"
-              title="Xóa tìm kiếm"
+              onClick={onRefreshLive}
+              disabled={isLoading}
+              className="btn-ktee-ios btn-ktee-primary shrink-0 disabled:opacity-50"
+              title={
+                lastUpdatedTime
+                  ? `Đồng bộ Realtime (Vừa cập nhật: ${lastUpdatedTime}) - Bấm để làm mới ngay`
+                  : "Đồng bộ Realtime ngay lập tức"
+              }
             >
-              <X size={10} />
+              <Zap size={12} className={isLoading ? "animate-spin" : ""} />
+              <span className="hidden sm:inline">Sync</span>
+              {countdown !== undefined && autoRefreshEnabled && (
+                <span className="font-mono text-[10px] bg-white/20 px-1 py-0.5 rounded ml-0.5">
+                  {countdown}s
+                </span>
+              )}
             </button>
           )}
-          <span className="hidden sm:flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[9px] font-mono text-[var(--muted-foreground)] bg-[var(--ios-control-bg)] border border-[var(--ios-hairline)] shrink-0 ml-1">
-            <Command size={10} /> ↵
-          </span>
         </div>
 
-        <button
-          type="submit"
-          disabled={isLoading || !searchQuery.trim()}
-          className="btn-ktee-ios btn-ktee-green shrink-0 disabled:opacity-50"
-          title="Quét việc làm thời gian thực"
-        >
-          {isLoading ? <RefreshCw size={12} className="animate-spin" /> : <Search size={12} />}
-          <span className="hidden sm:inline">{isLoading ? "Đang Quét..." : "Quét Realtime"}</span>
-        </button>
-      </form>
+        {/* Trạng thái đồng bộ Realtime cạnh ô tìm kiếm */}
+        <div className="flex items-center justify-between text-[10.5px] text-[var(--muted-foreground)] px-1">
+          <div className="flex items-center gap-1.5 truncate">
+            <span className="relative flex h-2 w-2 shrink-0">
+              {autoRefreshEnabled && (
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#34C759] opacity-75"></span>
+              )}
+              <span
+                className={`relative inline-flex rounded-full h-2 w-2 ${
+                  autoRefreshEnabled ? "bg-[#34C759]" : "bg-neutral-400"
+                }`}
+              ></span>
+            </span>
+            <span className="truncate">
+              {autoRefreshEnabled ? (
+                <>Realtime Sync: tự quét sau <strong className="text-[#34C759] font-mono">{countdown}s</strong></>
+              ) : (
+                <>Realtime Sync: Đang tắt</>
+              )}
+            </span>
+          </div>
+
+          {lastUpdatedTime && (
+            <span className="font-mono text-[10px] shrink-0 text-[var(--muted-foreground)]">
+              Cập nhật: {lastUpdatedTime}
+            </span>
+          )}
+        </div>
+      </div>
 
       {/* iOS Capsule Tags List */}
       <div>
@@ -272,8 +339,13 @@ export default function JDAggregatorFeed({
                   </span>
                 </div>
 
-                {/* Apple Match Badge */}
-                <div className="shrink-0">
+                {/* Apple Match Badge & Relevance Score */}
+                <div className="shrink-0 flex items-center gap-1.5">
+                  {typeof job.relevanceScore === "number" && job.relevanceScore > 0 && (
+                    <span className="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-full text-[9.5px] font-bold font-mono bg-[#007AFF]/10 text-[#007AFF] border border-[#007AFF]/25">
+                      Độ khớp JD: {job.relevanceScore}đ
+                    </span>
+                  )}
                   <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold font-mono ${scoreBadgeClass}`}>
                     <CheckCircle2 size={10} />
                     Khớp CV: {score}%

@@ -20,6 +20,9 @@ import {
   Radio,
   SlidersHorizontal,
   Layers,
+  RefreshCw,
+  Clock,
+  Zap,
 } from "lucide-react";
 
 export default function CopilotPage() {
@@ -31,14 +34,18 @@ export default function CopilotPage() {
   const [apiError, setApiError] = useState<string | null>(null);
   const [lastFetchedSource, setLastFetchedSource] = useState<string>("RemoteOK Official Live API");
   const [activeSearchTerm, setActiveSearchTerm] = useState<string>("react");
+  const [lastUpdatedTime, setLastUpdatedTime] = useState<string>("");
+  const [autoRefreshEnabled, setAutoRefreshEnabled] = useState<boolean>(true);
+  const [countdown, setCountdown] = useState<number>(60);
 
   // Fetch 100% real live jobs from API (Zero Mock / Zero Fallback)
-  const fetchRealLiveJobs = async (query = "react") => {
+  const fetchRealLiveJobs = async (query = "react", isForce = false) => {
     setIsLoading(true);
     setApiError(null);
     setActiveSearchTerm(query);
     try {
-      const res = await fetch(`/api/jobs/search?q=${encodeURIComponent(query)}`);
+      const url = `/api/jobs/search?q=${encodeURIComponent(query)}${isForce ? "&force=true" : ""}`;
+      const res = await fetch(url);
       if (!res.ok) {
         throw new Error(`Máy chủ trả về mã HTTP ${res.status}`);
       }
@@ -46,9 +53,20 @@ export default function CopilotPage() {
       if (json.success && Array.isArray(json.data)) {
         setJobs(json.data);
         if (json.data.length > 0) {
-          setSelectedJobId(json.data[0].id);
+          if (!selectedJobId || !json.data.some((j: JobPosting) => j.id === selectedJobId)) {
+            setSelectedJobId(json.data[0].id);
+          }
         }
         setLastFetchedSource(json.source || "RemoteOK Official Live API");
+        const now = new Date();
+        setLastUpdatedTime(
+          now.toLocaleTimeString("vi-VN", {
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+          })
+        );
+        setCountdown(60);
       } else {
         throw new Error(json.error || "Không thể tải danh sách việc làm thực tế");
       }
@@ -63,8 +81,25 @@ export default function CopilotPage() {
 
   // Initial mount: load real jobs
   useEffect(() => {
-    fetchRealLiveJobs("react");
+    fetchRealLiveJobs("react", false);
   }, []);
+
+  // 60-second countdown auto-refresh timer: mỗi 1s, khi = 0 và autoRefreshEnabled thì tự động gọi fetchRealLiveJobs(activeSearchTerm, true)
+  useEffect(() => {
+    if (!autoRefreshEnabled) return;
+
+    const timer = setInterval(() => {
+      setCountdown((prev) => {
+        if (prev <= 1) {
+          fetchRealLiveJobs(activeSearchTerm, true);
+          return 60;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [autoRefreshEnabled, activeSearchTerm]);
 
   // Precompute match analysis for all jobs
   const matchesMap = useMemo(() => {
@@ -154,29 +189,93 @@ export default function CopilotPage() {
 
       {/* Main Container */}
       <main className="copilot-container pt-5 space-y-4 sm:space-y-6">
-        {/* Live Source Status & Relevance Indicator Bar */}
-        <div className="p-3 rounded-2xl ios-glass flex flex-wrap items-center justify-between gap-2 text-xs border border-[var(--ios-hairline)] shadow-sm">
-          <div className="flex items-center gap-2 text-[var(--foreground)] font-medium min-w-0">
-            <span className="relative flex h-2.5 w-2.5 shrink-0">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#34C759] opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#34C759]"></span>
-            </span>
-            <span className="text-[11px] sm:text-xs truncate">
-              Nguồn Realtime: <strong className="font-semibold">{lastFetchedSource}</strong>
+        {/* Live Source Status & Realtime Sync Indicator Bar */}
+        <div className="p-3 sm:p-3.5 rounded-2xl ios-glass flex flex-col md:flex-row md:items-center justify-between gap-3 text-xs border border-[var(--ios-hairline)] shadow-sm">
+          {/* Left: LED sync indicator + Last Updated + Source */}
+          <div className="flex flex-wrap items-center gap-2 min-w-0">
+            <div className="flex items-center gap-2 min-w-0">
+              <span className="relative flex h-2.5 w-2.5 shrink-0">
+                {autoRefreshEnabled && (
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#34C759] opacity-75"></span>
+                )}
+                <span
+                  className={`relative inline-flex rounded-full h-2.5 w-2.5 ${
+                    autoRefreshEnabled ? "bg-[#34C759]" : "bg-neutral-400"
+                  }`}
+                ></span>
+              </span>
+              <span className="text-[11px] sm:text-xs font-semibold text-[var(--foreground)] truncate">
+                {autoRefreshEnabled ? (
+                  <>
+                    🟢 Đang Đồng Bộ Realtime{" "}
+                    <span className="font-mono text-[#34C759] font-bold">
+                      (Tự động quét sau {countdown}s)
+                    </span>
+                  </>
+                ) : (
+                  <span className="text-[var(--muted-foreground)]">
+                    ⏸️ Tự động quét: Đã tạm dừng
+                  </span>
+                )}
+              </span>
+            </div>
+
+            {lastUpdatedTime && (
+              <span className="inline-flex items-center gap-1 text-[10.5px] text-[var(--foreground)] bg-[var(--ios-control-bg)] px-2.5 py-0.5 rounded-full border border-[var(--ios-hairline)] font-mono font-medium shrink-0">
+                <Clock size={11} className="text-[#007AFF]" />
+                <span>Vừa cập nhật: {lastUpdatedTime}</span>
+              </span>
+            )}
+
+            <span className="text-[10px] text-[var(--muted-foreground)] hidden xl:inline truncate">
+              • Nguồn: {lastFetchedSource}
             </span>
           </div>
 
-          {/* Relevance Score Badge when searching */}
-          <div className="flex items-center gap-1.5 text-[11px]">
-            <span className="px-2 py-0.5 rounded-full badge-ios-blue text-[10px] font-mono font-bold flex items-center gap-1">
+          {/* Right: Controls & Actions (Toggle Switch + Nút Làm Mới Chuẩn Sếp Ktee + Keyword Tag) */}
+          <div className="flex flex-wrap items-center justify-between md:justify-end gap-2.5 shrink-0">
+            {/* Tag từ khóa active */}
+            <span className="px-2 py-0.5 rounded-full badge-ios-blue text-[10px] font-mono font-bold flex items-center gap-1 shrink-0">
               <SlidersHorizontal size={10} />
-              Từ khóa: #{activeSearchTerm}
+              #{activeSearchTerm}
             </span>
-            {selectedMatch && (
-              <span className="px-2 py-0.5 rounded-full badge-ios-green text-[10px] font-mono font-bold">
-                Độ liên quan: {selectedMatch.overallScore}%
+
+            {/* iOS Toggle Switch Bật/Tắt Tự Động Quét (Touch target >= 44px) */}
+            <div className="flex items-center gap-2 select-none">
+              <span className="text-[11px] text-[var(--muted-foreground)] font-medium hidden sm:inline">
+                Tự Động Quét
               </span>
-            )}
+              <button
+                type="button"
+                role="switch"
+                aria-checked={autoRefreshEnabled}
+                onClick={() => setAutoRefreshEnabled((prev) => !prev)}
+                className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-[#007AFF] before:absolute before:-inset-2 before:content-[''] ${
+                  autoRefreshEnabled ? "bg-[#34C759]" : "bg-neutral-400 dark:bg-neutral-600"
+                }`}
+                title={autoRefreshEnabled ? "Bật: Đang tự động quét sau mỗi 60s" : "Tắt: Tạm dừng tự động quét"}
+              >
+                <span className="sr-only">Bật/Tắt Tự Động Quét</span>
+                <span
+                  aria-hidden="true"
+                  className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow-md ring-0 transition duration-200 ease-in-out ${
+                    autoRefreshEnabled ? "translate-x-5" : "translate-x-0"
+                  }`}
+                />
+              </button>
+            </div>
+
+            {/* Nút Bấm Tinh Gọn Chuẩn Sếp Ktee: [ ⚡ Làm Mới Ngay ] (Height 34px, Font 11.5px, Touch Target >= 44px) */}
+            <button
+              type="button"
+              onClick={() => fetchRealLiveJobs(activeSearchTerm, true)}
+              disabled={isLoading}
+              className="btn-ktee-ios btn-ktee-primary text-[11.5px] disabled:opacity-50 shrink-0"
+              title="Làm mới dữ liệu việc làm thực tế ngay lập tức (Bỏ qua cache)"
+            >
+              <Zap size={12} className={isLoading ? "animate-spin" : ""} />
+              <span>⚡ Làm Mới Ngay</span>
+            </button>
           </div>
         </div>
 
@@ -312,6 +411,10 @@ export default function CopilotPage() {
               matchesMap={matchesMap}
               isLoading={isLoading}
               onSearchLive={(q) => fetchRealLiveJobs(q)}
+              onRefreshLive={() => fetchRealLiveJobs(activeSearchTerm, true)}
+              lastUpdatedTime={lastUpdatedTime}
+              autoRefreshEnabled={autoRefreshEnabled}
+              countdown={countdown}
             />
           </div>
 
@@ -327,9 +430,8 @@ export default function CopilotPage() {
                 <h3 className="text-sm sm:text-base font-bold text-[#FF3B30]">
                   Lỗi Kết Nối API Realtime
                 </h3>
-                <p className="text-xs text-[var(--muted-foreground)] max-w-md mx-auto">{apiError}</p>
                 <button
-                  onClick={() => fetchRealLiveJobs("react")}
+                  onClick={() => fetchRealLiveJobs(activeSearchTerm, true)}
                   className="btn-ktee-ios btn-ktee-primary"
                 >
                   Thử Lại Kết Nối

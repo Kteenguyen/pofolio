@@ -53,6 +53,7 @@ export interface JobPosting {
     techStack: string[];
   };
   rawDescription?: string;
+  relevanceScore?: number;
 }
 
 export interface CandidateSkill {

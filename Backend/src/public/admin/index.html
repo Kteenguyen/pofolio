@@ -360,6 +360,21 @@
       border: 1px solid rgba(52, 199, 89, 0.3);
     }
 
+    @keyframes pulseGreen {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.35; transform: scale(0.85); }
+    }
+
+    .pulse-green {
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background-color: var(--ios-green);
+      box-shadow: 0 0 8px rgba(52, 199, 89, 0.7);
+      animation: pulseGreen 1.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+
     .badge-pending {
       background: rgba(255, 59, 48, 0.15);
       color: var(--ios-red);
@@ -465,6 +480,13 @@
         </div>
       </div>
       <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
+        <div id="realtime-status-pill" class="badge badge-closed" style="font-size: 11.5px; padding: 5px 12px; display: inline-flex; align-items: center; gap: 6px;">
+          <span class="pulse-green"></span>
+          <span id="realtime-status-text">🟢 Tự động đồng bộ Leads mỗi 10s</span>
+        </div>
+        <button onclick="refreshAdminData(true)" class="btn-ktee" title="Làm mới dữ liệu tức thì" style="gap: 4px;">
+          <span>🔄</span> <span>Làm Mới</span>
+        </button>
         <button onclick="switchTab('copilot')" class="btn-ktee" style="border-color: rgba(0, 122, 255, 0.4); color: var(--ios-blue);">
           🤖 AI Career Copilot
         </button>
@@ -748,10 +770,62 @@
       }
     }
 
-    // Initial load
-    loadStats();
-    loadLeads();
-    loadProjects();
+    // Realtime Polling (10s) and VisibilityChange Lifecycle Management
+    let pollInterval = null;
+
+    async function refreshAdminData(manual = false) {
+      const statusText = document.getElementById('realtime-status-text');
+      if (manual && statusText) {
+        statusText.innerText = 'Đang đồng bộ...';
+      }
+      try {
+        await Promise.all([
+          loadStats(),
+          loadLeads(),
+          loadProjects()
+        ]);
+        if (statusText) {
+          statusText.innerText = 'Realtime 10s';
+        }
+      } catch (err) {
+        console.error('Lỗi refreshAdminData:', err);
+        if (statusText) {
+          statusText.innerText = 'Lỗi kết nối';
+        }
+      }
+    }
+
+    function startPolling() {
+      if (pollInterval) clearInterval(pollInterval);
+      pollInterval = setInterval(() => {
+        refreshAdminData(false);
+      }, 10000);
+      const pill = document.getElementById('realtime-status-pill');
+      if (pill) pill.style.opacity = '1';
+    }
+
+    function stopPolling() {
+      if (pollInterval) {
+        clearInterval(pollInterval);
+        pollInterval = null;
+      }
+      const pill = document.getElementById('realtime-status-pill');
+      if (pill) pill.style.opacity = '0.5';
+    }
+
+    // Auto-pause polling when tab is inactive, resume immediately when user returns
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') {
+        refreshAdminData(false);
+        startPolling();
+      } else {
+        stopPolling();
+      }
+    });
+
+    // Initial load & start polling
+    refreshAdminData(false);
+    startPolling();
   </script>
 </body>
 </html>
