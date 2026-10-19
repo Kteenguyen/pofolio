@@ -770,8 +770,19 @@
       }
     }
 
-    // Realtime Polling (10s) and VisibilityChange Lifecycle Management
-    let pollInterval = null;
+    // Bổ sung vòng lặp Auto-Polling mỗi 10 giây
+    setInterval(() => {
+      loadStats();
+      loadLeads();
+    }, 10000);
+
+    // Thêm sự kiện lắng nghe tab visibility
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') {
+        loadStats();
+        loadLeads();
+      }
+    });
 
     async function refreshAdminData(manual = false) {
       const statusText = document.getElementById('realtime-status-text');
@@ -785,7 +796,7 @@
           loadProjects()
         ]);
         if (statusText) {
-          statusText.innerText = 'Realtime 10s';
+          statusText.innerText = '🟢 Tự động đồng bộ Leads mỗi 10s';
         }
       } catch (err) {
         console.error('Lỗi refreshAdminData:', err);
@@ -795,37 +806,10 @@
       }
     }
 
-    function startPolling() {
-      if (pollInterval) clearInterval(pollInterval);
-      pollInterval = setInterval(() => {
-        refreshAdminData(false);
-      }, 10000);
-      const pill = document.getElementById('realtime-status-pill');
-      if (pill) pill.style.opacity = '1';
-    }
-
-    function stopPolling() {
-      if (pollInterval) {
-        clearInterval(pollInterval);
-        pollInterval = null;
-      }
-      const pill = document.getElementById('realtime-status-pill');
-      if (pill) pill.style.opacity = '0.5';
-    }
-
-    // Auto-pause polling when tab is inactive, resume immediately when user returns
-    document.addEventListener('visibilitychange', () => {
-      if (document.visibilityState === 'visible') {
-        refreshAdminData(false);
-        startPolling();
-      } else {
-        stopPolling();
-      }
-    });
-
-    // Initial load & start polling
-    refreshAdminData(false);
-    startPolling();
+    // Initial load
+    loadStats();
+    loadLeads();
+    loadProjects();
   </script>
 </body>
 </html>
