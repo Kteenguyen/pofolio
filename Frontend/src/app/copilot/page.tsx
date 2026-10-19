@@ -17,8 +17,9 @@ import {
   TrendingUp,
   AlertCircle,
   FileCheck2,
-  Globe,
   Radio,
+  SlidersHorizontal,
+  Layers,
 } from "lucide-react";
 
 export default function CopilotPage() {
@@ -29,11 +30,13 @@ export default function CopilotPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [apiError, setApiError] = useState<string | null>(null);
   const [lastFetchedSource, setLastFetchedSource] = useState<string>("RemoteOK Official Live API");
+  const [activeSearchTerm, setActiveSearchTerm] = useState<string>("react");
 
   // Fetch 100% real live jobs from API (Zero Mock / Zero Fallback)
   const fetchRealLiveJobs = async (query = "react") => {
     setIsLoading(true);
     setApiError(null);
+    setActiveSearchTerm(query);
     try {
       const res = await fetch(`/api/jobs/search?q=${encodeURIComponent(query)}`);
       if (!res.ok) {
@@ -102,46 +105,47 @@ export default function CopilotPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)] selection:bg-blue-600 selection:text-white pb-12">
-      {/* Top Navigation Bar */}
-      <header className="sticky top-0 z-40 bg-[var(--surface)]/90 backdrop-blur-md border-b border-[var(--surface-border)]">
-        <div className="copilot-container h-16 flex items-center justify-between">
+    <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)] selection:bg-[#007AFF] selection:text-white pb-12 overflow-x-hidden">
+      {/* iOS 18 Navigation Bar: Frosted Glassmorphism + Hairline Border */}
+      <header className="sticky top-0 z-40 ios-glass border-b border-[var(--ios-hairline)] transition-all">
+        <div className="copilot-container h-16 flex items-center justify-between gap-2">
           {/* Brand & Back Button */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5 min-w-0">
             <Link
               href="/"
-              className="touch-target px-2.5 py-1.5 rounded-xl text-xs font-semibold text-[var(--muted-foreground)] hover:text-[var(--foreground)] bg-[var(--surface-subtle)] border border-[var(--surface-border)] flex items-center gap-1.5 transition-colors"
+              className="btn-ktee-ios"
+              title="Quay lại trang Portfolio cá nhân"
             >
               <ArrowLeft size={14} />
-              <span className="hidden sm:inline">Về Portfolio</span>
+              <span className="hidden sm:inline">Portfolio</span>
             </Link>
 
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-xl bg-blue-600 flex items-center justify-center text-white shadow-sm shadow-blue-500/20">
+            <div className="flex items-center gap-2.5 min-w-0">
+              <div className="w-8 h-8 rounded-xl bg-[#007AFF] flex items-center justify-center text-white shadow-md shadow-[#007AFF]/25 shrink-0">
                 <Sparkles size={16} />
               </div>
-              <div>
-                <h1 className="text-sm sm:text-base font-bold tracking-tight text-[var(--foreground)] flex items-center gap-1.5">
+              <div className="min-w-0">
+                <h1 className="text-xs sm:text-sm font-bold tracking-tight text-[var(--foreground)] flex items-center gap-1.5 truncate">
                   <span>AI Career Copilot</span>
-                  <span className="px-1.5 py-0.5 rounded text-[9px] font-bold uppercase bg-emerald-600 text-white flex items-center gap-1">
-                    <Radio size={10} className="animate-pulse" /> 100% Real Live
+                  <span className="px-1.5 py-0.5 rounded-full text-[9px] font-bold uppercase badge-ios-green flex items-center gap-1 shrink-0">
+                    <Radio size={9} className="animate-pulse" /> 100% Live
                   </span>
                 </h1>
-                <p className="text-[10px] text-[var(--muted-foreground)] hidden sm:block">
-                  Dữ liệu thời gian thực từ RemoteOK & Global Job Boards • Zero Mock Fluff
+                <p className="text-[10px] text-[var(--muted-foreground)] hidden sm:block truncate">
+                  macOS Sequoia Control Center • RemoteOK Official API • Zero Mock
                 </p>
               </div>
             </div>
           </div>
 
-          {/* Right Action Controls */}
-          <div className="flex items-center gap-2.5">
+          {/* Right Action Controls: Apple Styled */}
+          <div className="flex items-center gap-2 shrink-0">
             <ThemeToggle />
             <a
               href="#contact"
-              className="touch-target px-3.5 py-2 rounded-xl text-xs font-semibold bg-blue-600 hover:bg-blue-700 text-white shadow-sm transition-colors hidden sm:flex items-center gap-1.5"
+              className="btn-ktee-ios btn-ktee-primary hidden sm:inline-flex"
             >
-              <Code2 size={14} />
+              <Code2 size={13} />
               <span>Ứng Tuyển Cùng Ktee</span>
             </a>
           </div>
@@ -149,93 +153,141 @@ export default function CopilotPage() {
       </header>
 
       {/* Main Container */}
-      <main className="copilot-container pt-6 space-y-6">
-        {/* Live Source Status Indicator Banner */}
-        <div className="p-3 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex flex-wrap items-center justify-between gap-2 text-xs">
-          <div className="flex items-center gap-2 text-emerald-800 dark:text-emerald-300 font-medium">
-            <span className="relative flex h-2.5 w-2.5">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+      <main className="copilot-container pt-5 space-y-4 sm:space-y-6">
+        {/* Live Source Status & Relevance Indicator Bar */}
+        <div className="p-3 rounded-2xl ios-glass flex flex-wrap items-center justify-between gap-2 text-xs border border-[var(--ios-hairline)] shadow-sm">
+          <div className="flex items-center gap-2 text-[var(--foreground)] font-medium min-w-0">
+            <span className="relative flex h-2.5 w-2.5 shrink-0">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#34C759] opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#34C759]"></span>
             </span>
-            <span>Nguồn Dữ Liệu Thực Tế: <strong>{lastFetchedSource}</strong></span>
+            <span className="text-[11px] sm:text-xs truncate">
+              Nguồn Realtime: <strong className="font-semibold">{lastFetchedSource}</strong>
+            </span>
           </div>
-          <div className="text-[11px] text-emerald-700 dark:text-emerald-400 font-mono">
-            Trạng thái: 100% Realtime • Tuyệt đối không fallback
+
+          {/* Relevance Score Badge when searching */}
+          <div className="flex items-center gap-1.5 text-[11px]">
+            <span className="px-2 py-0.5 rounded-full badge-ios-blue text-[10px] font-mono font-bold flex items-center gap-1">
+              <SlidersHorizontal size={10} />
+              Từ khóa: #{activeSearchTerm}
+            </span>
+            {selectedMatch && (
+              <span className="px-2 py-0.5 rounded-full badge-ios-green text-[10px] font-mono font-bold">
+                Độ liên quan: {selectedMatch.overallScore}%
+              </span>
+            )}
           </div>
         </div>
 
-        {/* 4 Stats Grid: Mandatory 2x2 grid on mobile (iPhone 14 Pro Max 430px) */}
+        {/* 4 iOS KPI Widget Cards: Mandatory 2x2 grid on mobile (iPhone 14 Pro Max 430px) */}
         <section className="copilot-stats-grid">
-          {/* Box 1 */}
-          <div className="p-3.5 sm:p-4 rounded-2xl bg-[var(--surface)] border border-[var(--surface-border)] shadow-sm flex flex-col justify-between">
-            <div className="flex items-center justify-between text-[var(--muted-foreground)] mb-1">
-              <span className="text-[11px] font-medium">JD Quét Realtime Thật</span>
-              <Briefcase size={15} className="text-blue-600" />
+          {/* Card 1: Total Live Jobs */}
+          <div className="ios-widget-card group">
+            <div className="flex items-center justify-between gap-2 mb-2">
+              <span className="text-[11px] font-semibold text-[var(--muted-foreground)] tracking-tight">
+                JD Quét Realtime
+              </span>
+              <div className="ios-squircle-icon ios-squircle-blue">
+                <Briefcase size={16} />
+              </div>
             </div>
-            <div className="text-xl sm:text-2xl font-bold font-mono text-[var(--foreground)]">
-              {isLoading ? "Đang tải..." : `${jobs.length} Tin`}
+            <div>
+              <div className="text-xl sm:text-2xl font-bold font-mono text-[var(--foreground)] tracking-tight">
+                {isLoading ? "Đang tải..." : `${jobs.length} Tin`}
+              </div>
+              <div className="flex items-center justify-between mt-1 text-[10px] text-[var(--muted-foreground)]">
+                <span>RemoteOK Free API</span>
+                <span className="font-mono text-[#007AFF] font-bold">100% Thật</span>
+              </div>
             </div>
-            <span className="text-[10px] text-[var(--muted-foreground)] mt-1">Live Official Free API</span>
           </div>
 
-          {/* Box 2 */}
-          <div className="p-3.5 sm:p-4 rounded-2xl bg-[var(--surface)] border border-[var(--surface-border)] shadow-sm flex flex-col justify-between">
-            <div className="flex items-center justify-between text-[var(--muted-foreground)] mb-1">
-              <span className="text-[11px] font-medium">Độ Phù Hợp Bình Quân</span>
-              <TrendingUp size={15} className="text-emerald-600" />
+          {/* Card 2: Average Match Score */}
+          <div className="ios-widget-card group">
+            <div className="flex items-center justify-between gap-2 mb-2">
+              <span className="text-[11px] font-semibold text-[var(--muted-foreground)] tracking-tight">
+                Độ Phù Hợp TB
+              </span>
+              <div className="ios-squircle-icon ios-squircle-green">
+                <TrendingUp size={16} />
+              </div>
             </div>
-            <div className="text-xl sm:text-2xl font-bold font-mono text-emerald-600 dark:text-emerald-400">
-              {isLoading ? "--" : `${avgMatchScore}%`}
+            <div>
+              <div className="text-xl sm:text-2xl font-bold font-mono text-[#34C759] tracking-tight">
+                {isLoading ? "--" : `${avgMatchScore}%`}
+              </div>
+              {/* Apple Style Micro Progress Bar */}
+              <div className="w-full h-1.5 rounded-full bg-[var(--ios-control-bg)] mt-2 overflow-hidden">
+                <div
+                  className="h-full bg-[#34C759] rounded-full transition-all duration-700"
+                  style={{ width: `${avgMatchScore}%` }}
+                />
+              </div>
+              <div className="text-[10px] text-[var(--muted-foreground)] mt-1 truncate">
+                Chuẩn Fullstack & BA
+              </div>
             </div>
-            <span className="text-[10px] text-[var(--muted-foreground)] mt-1">Chuẩn Fullstack & BA</span>
           </div>
 
-          {/* Box 3 */}
-          <div className="p-3.5 sm:p-4 rounded-2xl bg-[var(--surface)] border border-[var(--surface-border)] shadow-sm flex flex-col justify-between">
-            <div className="flex items-center justify-between text-[var(--muted-foreground)] mb-1">
-              <span className="text-[11px] font-medium">Lỗ Hổng Kỹ Năng (Job Đang Chọn)</span>
-              <AlertCircle size={15} className="text-amber-600" />
+          {/* Card 3: Skill Gaps */}
+          <div className="ios-widget-card group">
+            <div className="flex items-center justify-between gap-2 mb-2">
+              <span className="text-[11px] font-semibold text-[var(--muted-foreground)] tracking-tight">
+                Lỗ Hổng Kỹ Năng
+              </span>
+              <div className="ios-squircle-icon ios-squircle-orange">
+                <AlertCircle size={16} />
+              </div>
             </div>
-            <div className="text-xl sm:text-2xl font-bold font-mono text-amber-600 dark:text-amber-400">
-              {isLoading ? "--" : `${totalCriticalGaps} Skill`}
+            <div>
+              <div className="text-xl sm:text-2xl font-bold font-mono text-[#FF9500] tracking-tight">
+                {isLoading ? "--" : `${totalCriticalGaps} Skill`}
+              </div>
+              <div className="flex items-center justify-between mt-1 text-[10px] text-[var(--muted-foreground)]">
+                <span>Job Đang Chọn</span>
+                <span className="text-[#FF9500] font-semibold">Lộ trình 48h</span>
+              </div>
             </div>
-            <span className="text-[10px] text-[var(--muted-foreground)] mt-1">Có Roadmap bù đắp 48h</span>
           </div>
 
-          {/* Box 4 */}
-          <div className="p-3.5 sm:p-4 rounded-2xl bg-[var(--surface)] border border-[var(--surface-border)] shadow-sm flex flex-col justify-between">
-            <div className="flex items-center justify-between text-[var(--muted-foreground)] mb-1">
-              <span className="text-[11px] font-medium">Proof of Work Sẵn Sàng</span>
-              <FileCheck2 size={15} className="text-purple-600" />
+          {/* Card 4: Proof of Work Demos */}
+          <div className="ios-widget-card group">
+            <div className="flex items-center justify-between gap-2 mb-2">
+              <span className="text-[11px] font-semibold text-[var(--muted-foreground)] tracking-tight">
+                Proof of Work
+              </span>
+              <div className="ios-squircle-icon ios-squircle-purple">
+                <FileCheck2 size={16} />
+              </div>
             </div>
-            <div className="text-xl sm:text-2xl font-bold font-mono text-purple-600 dark:text-purple-400">
-              3 Demos
+            <div>
+              <div className="text-xl sm:text-2xl font-bold font-mono text-[#AF52DE] tracking-tight">
+                3 Demos
+              </div>
+              <div className="flex items-center justify-between mt-1 text-[10px] text-[var(--muted-foreground)]">
+                <span>Interactive Sandbox</span>
+                <span className="text-[#AF52DE] font-semibold">Real Domain</span>
+              </div>
             </div>
-            <span className="text-[10px] text-[var(--muted-foreground)] mt-1">Live Interactive Sandbox</span>
           </div>
         </section>
 
-        {/* Mobile View Tab Switcher (< 768px) */}
+        {/* Mobile View iOS Segmented Tab Switcher (< 1024px) */}
         <div className="block lg:hidden">
           <div className="copilot-mobile-tab-bar">
             <button
               onClick={() => setMobileTab("FEED")}
-              className={`copilot-mobile-tab-btn touch-target ${
-                mobileTab === "FEED"
-                  ? "bg-blue-600 text-white shadow-sm"
-                  : "text-[var(--muted-foreground)] hover:text-[var(--foreground)]"
-              }`}
+              className={`copilot-mobile-tab-btn ${mobileTab === "FEED" ? "active" : ""}`}
             >
-              Sàn JD Realtime ({jobs.length})
+              <Briefcase size={14} className="mr-1.5" />
+              Sàn Việc Làm ({jobs.length})
             </button>
             <button
               onClick={() => setMobileTab("DETAILS")}
-              className={`copilot-mobile-tab-btn touch-target ${
-                mobileTab === "DETAILS"
-                  ? "bg-blue-600 text-white shadow-sm"
-                  : "text-[var(--muted-foreground)] hover:text-[var(--foreground)]"
-              }`}
+              className={`copilot-mobile-tab-btn ${mobileTab === "DETAILS" ? "active" : ""}`}
             >
+              <Layers size={14} className="mr-1.5" />
               Phân Tích & Proof-of-Work
             </button>
           </div>
@@ -270,13 +322,15 @@ export default function CopilotPage() {
             }`}
           >
             {apiError ? (
-              <div className="p-8 rounded-2xl bg-red-500/10 border border-red-500/30 text-center space-y-3">
-                <AlertCircle size={32} className="mx-auto text-red-500" />
-                <h3 className="text-base font-bold text-red-600">Lỗi Kết Nối API Realtime</h3>
-                <p className="text-xs text-red-700 dark:text-red-300">{apiError}</p>
+              <div className="p-6 sm:p-8 rounded-2xl ios-glass border border-red-500/30 text-center space-y-3">
+                <AlertCircle size={32} className="mx-auto text-[#FF3B30]" />
+                <h3 className="text-sm sm:text-base font-bold text-[#FF3B30]">
+                  Lỗi Kết Nối API Realtime
+                </h3>
+                <p className="text-xs text-[var(--muted-foreground)] max-w-md mx-auto">{apiError}</p>
                 <button
                   onClick={() => fetchRealLiveJobs("react")}
-                  className="touch-target px-4 py-2 rounded-xl text-xs font-bold bg-red-600 text-white hover:bg-red-700 transition-colors"
+                  className="btn-ktee-ios btn-ktee-primary"
                 >
                   Thử Lại Kết Nối
                 </button>
@@ -288,8 +342,10 @@ export default function CopilotPage() {
                 match={selectedMatch}
               />
             ) : (
-              <div className="p-8 rounded-2xl bg-[var(--surface)] border border-dashed border-[var(--surface-border)] text-center text-xs text-[var(--muted-foreground)]">
-                {isLoading ? "Đang truy vấn dữ liệu thời gian thực từ RemoteOK..." : "Chưa có việc làm nào được chọn. Hãy chọn một công việc bên trái."}
+              <div className="p-8 rounded-2xl ios-glass border border-dashed border-[var(--ios-hairline)] text-center text-xs text-[var(--muted-foreground)]">
+                {isLoading
+                  ? "Đang truy vấn dữ liệu việc làm thực tế từ RemoteOK Official API..."
+                  : "Chưa có việc làm nào được chọn. Hãy chọn một công việc từ sàn việc làm."}
               </div>
             )}
           </div>

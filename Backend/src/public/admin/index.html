@@ -3,160 +3,533 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ktee CMS • Quản Trị Leads & Nội Dung Portfolio</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
+  <title>Ktee CMS • Quản Trị Leads & Nội Dung Portfolio (macOS Sequoia / iOS Control Center)</title>
   <style>
     :root {
       --bg: #0b0f19;
-      --surface: #111827;
-      --border: #1f2937;
-      --accent: #2563eb;
+      --surface: rgba(22, 28, 44, 0.78);
+      --surface-hover: rgba(30, 38, 60, 0.85);
+      --hairline: rgba(255, 255, 255, 0.12);
+      --hairline-focus: rgba(0, 122, 255, 0.5);
+      --control-bg: rgba(120, 120, 128, 0.18);
+      --control-active: rgba(255, 255, 255, 0.22);
       --text: #f8fafc;
       --muted: #94a3b8;
-      --success: #10b981;
-      --warning: #f59e0b;
-      --danger: #ef4444;
+      
+      /* Apple iOS / macOS System Colors */
+      --ios-blue: #007AFF;
+      --ios-green: #34C759;
+      --ios-orange: #FF9500;
+      --ios-purple: #AF52DE;
+      --ios-red: #FF3B30;
+      --ios-cyan: #38bdf8;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
     body {
-      background: var(--bg);
+      background: radial-gradient(circle at 10% 20%, rgba(26, 35, 54, 0.95) 0%, rgba(11, 15, 25, 0.98) 80%), #0b0f19;
       color: var(--text);
-      font-family: 'Inter', -apple-system, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif;
       padding: 1.5rem;
       min-height: 100vh;
+      overflow-x: hidden;
     }
-    .container { max-width: 1200px; margin: 0 auto; }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    /* macOS Sequoia Frosted Glass Header */
     header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding-bottom: 1.5rem;
-      border-bottom: 1px solid var(--border);
+      padding: 1rem 1.25rem;
+      border-radius: 18px;
+      background: rgba(18, 24, 38, 0.75);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid var(--hairline);
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.4);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    /* Apple App Icon Squircle */
+    .app-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #007AFF, #5856D6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 18px;
+      color: white;
+      box-shadow: 0 4px 12px rgba(0, 122, 255, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      flex-shrink: 0;
+    }
+
+    /* NÚT CHUẨN SẾP KTEE (Height 32-34px, Font 11.5px, Touch Target >= 44px, Active Scale 0.98) */
+    .btn-ktee {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      height: 34px;
+      min-height: 34px;
+      padding: 0 13px;
+      font-size: 11.5px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      border-radius: 10px;
+      border: 1px solid var(--hairline);
+      background: var(--surface);
+      color: var(--text);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.16s cubic-bezier(0.16, 1, 0.3, 1);
+      text-decoration: none;
+      user-select: none;
+    }
+
+    .btn-ktee::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      min-width: 44px;
+      min-height: 44px;
+      width: 100%;
+      height: 100%;
+      pointer-events: auto;
+    }
+
+    .btn-ktee:hover {
+      border-color: var(--hairline-focus);
+      background: var(--surface-hover);
+    }
+
+    .btn-ktee:active {
+      transform: scale(0.98);
+    }
+
+    .btn-ktee-primary {
+      background: var(--ios-blue);
+      color: white;
+      border-color: rgba(0, 122, 255, 0.5);
+      box-shadow: 0 2px 8px rgba(0, 122, 255, 0.3);
+    }
+
+    .btn-ktee-primary:hover {
+      background: #0066d6;
+    }
+
+    .btn-ktee-green {
+      background: var(--ios-green);
+      color: white;
+      border-color: rgba(52, 199, 89, 0.5);
+    }
+
+    .btn-ktee-danger {
+      color: #ff6b6b;
+      border-color: rgba(255, 59, 48, 0.3);
+      background: rgba(255, 59, 48, 0.1);
+    }
+
+    .btn-ktee-danger:hover {
+      background: rgba(255, 59, 48, 0.2);
+    }
+
+    /* 4 iOS KPI WIDGET CARDS (Desktop 4-col, Mobile 2x2 grid) */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
       margin-bottom: 1.5rem;
     }
-    .brand { display: flex; align-items: center; gap: 0.75rem; }
-    .logo-badge {
-      width: 36px; height: 36px; border-radius: 10px;
-      background: linear-gradient(135deg, #2563eb, #38bdf8);
-      display: flex; align-items: center; justify-content: center;
-      font-weight: 800; font-size: 16px;
-    }
-    .nav-tabs { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; }
-    .tab-btn {
-      padding: 0.6rem 1.2rem; border-radius: 10px;
-      background: var(--surface); color: var(--muted);
-      border: 1px solid var(--border); cursor: pointer;
-      font-weight: 600; font-size: 13px; transition: all 0.2s;
-    }
-    .tab-btn.active {
-      background: var(--accent); color: white; border-color: var(--accent);
-    }
-    .stats-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1rem; margin-bottom: 2rem;
-    }
-    .stat-card {
-      background: var(--surface); border: 1px solid var(--border);
-      padding: 1.25rem; border-radius: 14px;
-    }
-    .stat-val { font-size: 1.75rem; font-weight: 800; color: #38bdf8; margin-top: 0.25rem; }
-    .stat-label { font-size: 12px; color: var(--muted); font-weight: 500; }
-    
-    .card {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 16px; padding: 1.5rem; margin-bottom: 1.5rem;
-    }
-    .card-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; }
-    
-    table { width: 100%; border-collapse: collapse; font-size: 13px; }
-    th { text-align: left; padding: 0.75rem; color: var(--muted); border-bottom: 1px solid var(--border); }
-    td { padding: 0.85rem 0.75rem; border-bottom: 1px solid var(--border); vertical-align: top; }
-    
-    .badge {
-      display: inline-block; padding: 0.2rem 0.6rem; border-radius: 6px;
-      font-size: 11px; font-weight: 700; font-family: 'JetBrains Mono', monospace;
-    }
-    .badge-new { background: rgba(56, 189, 248, 0.15); color: #38bdf8; }
-    .badge-contacted { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
-    .badge-closed { background: rgba(16, 185, 129, 0.15); color: #10b981; }
-    .badge-pending { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
 
-    .btn {
-      padding: 0.45rem 0.85rem; border-radius: 8px; font-size: 12px; font-weight: 600;
-      border: 1px solid var(--border); background: var(--surface); color: var(--text);
-      cursor: pointer; transition: all 0.2s; text-decoration: none;
-      display: inline-flex; align-items: center; justify-content: center; gap: 0.35rem;
+    .ios-widget-card {
+      background: var(--surface);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid var(--hairline);
+      padding: 1.15rem;
+      border-radius: 16px;
+      box-shadow: 0 4px 16px -2px rgba(0, 0, 0, 0.3);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.2s ease, border-color 0.2s ease;
     }
-    .btn:hover { border-color: var(--accent); color: var(--accent); }
-    .btn-primary { background: var(--accent); color: white; border-color: var(--accent); }
-    .btn-primary:hover { background: #1d4ed8; }
-    .btn-danger { color: #f87171; border-color: rgba(239, 68, 68, 0.3); }
-    .btn-danger:hover { background: rgba(239, 68, 68, 0.15); }
+
+    .ios-widget-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--hairline-focus);
+    }
+
+    .widget-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .widget-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+    }
+
+    .icon-blue { background: rgba(0, 122, 255, 0.2); color: var(--ios-blue); }
+    .icon-green { background: rgba(52, 199, 89, 0.2); color: var(--ios-green); }
+    .icon-purple { background: rgba(175, 82, 222, 0.2); color: var(--ios-purple); }
+    .icon-orange { background: rgba(255, 149, 0, 0.2); color: var(--ios-orange); }
+
+    .stat-val {
+      font-size: 1.75rem;
+      font-weight: 800;
+      font-family: "SF Mono", "JetBrains Mono", monospace;
+      margin-top: 0.25rem;
+      letter-spacing: -0.02em;
+    }
+
+    .stat-label {
+      font-size: 11.5px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    /* macOS Segmented Control Tab Switcher */
+    .nav-tabs-wrapper {
+      margin-bottom: 1.5rem;
+      display: flex;
+    }
+
+    .segmented-control {
+      display: inline-flex;
+      background: var(--control-bg);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid var(--hairline);
+      border-radius: 12px;
+      padding: 3px;
+      gap: 3px;
+      max-width: 100%;
+      overflow-x: auto;
+    }
+
+    .segmented-btn {
+      position: relative;
+      padding: 6px 14px;
+      min-height: 34px;
+      border-radius: 9px;
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 500;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+      user-select: none;
+    }
+
+    .segmented-btn::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      min-width: 44px;
+      min-height: 44px;
+      width: 100%;
+      height: 100%;
+    }
+
+    .segmented-btn.active {
+      background: var(--control-active);
+      color: white;
+      font-weight: 600;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Inset Group Card Container */
+    .card {
+      background: var(--surface);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid var(--hairline);
+      border-radius: 18px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.3);
+    }
+
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* Table with Elegant Hover and Apple Hairlines */
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      font-size: 12.5px;
+    }
+
+    th {
+      text-align: left;
+      padding: 0.85rem;
+      color: var(--muted);
+      font-weight: 600;
+      border-bottom: 1px solid var(--hairline);
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    th:first-child { border-top-left-radius: 10px; }
+    th:last-child { border-top-right-radius: 10px; }
+
+    td {
+      padding: 0.9rem 0.85rem;
+      border-bottom: 1px solid var(--hairline);
+      vertical-align: middle;
+      transition: background 0.15s ease;
+    }
+
+    tr:hover td {
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    /* Apple Vibrant Badges */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 8px;
+      border-radius: 9999px;
+      font-size: 10.5px;
+      font-weight: 600;
+      font-family: "SF Mono", "JetBrains Mono", monospace;
+    }
+
+    .badge-new {
+      background: rgba(0, 122, 255, 0.15);
+      color: var(--ios-blue);
+      border: 1px solid rgba(0, 122, 255, 0.3);
+    }
+
+    .badge-contacted {
+      background: rgba(255, 149, 0, 0.15);
+      color: var(--ios-orange);
+      border: 1px solid rgba(255, 149, 0, 0.3);
+    }
+
+    .badge-closed {
+      background: rgba(52, 199, 89, 0.15);
+      color: var(--ios-green);
+      border: 1px solid rgba(52, 199, 89, 0.3);
+    }
+
+    .badge-pending {
+      background: rgba(255, 59, 48, 0.15);
+      color: var(--ios-red);
+      border: 1px solid rgba(255, 59, 48, 0.3);
+    }
 
     .input-field {
-      width: 100%; padding: 0.6rem 0.85rem; border-radius: 8px;
-      background: var(--bg); border: 1px solid var(--border);
-      color: var(--text); font-size: 13px; margin-top: 0.25rem; margin-bottom: 0.75rem;
+      width: 100%;
+      padding: 0.65rem 0.85rem;
+      border-radius: 10px;
+      background: rgba(11, 15, 25, 0.8);
+      border: 1px solid var(--hairline);
+      color: var(--text);
+      font-size: 12.5px;
+      font-family: inherit;
+      margin-top: 0.35rem;
+      margin-bottom: 0.75rem;
+      outline: none;
+      transition: all 0.2s ease;
     }
-    .input-field:focus { outline: none; border-color: var(--accent); }
 
+    .input-field:focus {
+      border-color: var(--ios-blue);
+      box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.25);
+    }
+
+    /* Safari-like Address Bar Header for Copilot Embed */
+    .safari-toolbar {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.65rem 1rem;
+      background: rgba(15, 20, 32, 0.9);
+      border-top-left-radius: 14px;
+      border-top-right-radius: 14px;
+      border: 1px solid var(--hairline);
+      border-bottom: none;
+    }
+
+    .traffic-lights {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .traffic-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .dot-red { background: #FF5F56; }
+    .dot-yellow { background: #FFBD2E; }
+    .dot-green { background: #27C93F; }
+
+    .address-bar {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+      padding: 4px 12px;
+      font-size: 11px;
+      color: var(--muted);
+      text-align: center;
+      font-family: "SF Mono", "JetBrains Mono", monospace;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* Responsive Mobile Rules (iPhone 14 Pro Max 430px) */
     @media (max-width: 768px) {
-      body { padding: 1rem; }
-      header { flex-direction: column; align-items: stretch; gap: 1rem; }
-      .tab-btn { min-height: 44px; padding: 0.65rem 1rem; font-size: 13px; }
-      .btn { min-height: 44px; padding: 0.65rem 1rem; font-size: 13px; }
+      body { padding: 0.85rem; }
+      header { flex-direction: column; align-items: stretch; gap: 0.85rem; padding: 1rem; }
+      
+      /* MANDATORY 2x2 grid on mobile */
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 8px !important;
+      }
+
+      .ios-widget-card { padding: 0.85rem; border-radius: 14px; }
+      .stat-val { font-size: 1.4rem; }
+      .segmented-control { width: 100%; overflow-x: auto; }
+      .segmented-btn { flex: 1; justify-content: center; }
       .projects-inputs-grid { grid-template-columns: 1fr !important; }
-      .card { padding: 1.15rem; }
+      .card { padding: 1rem; border-radius: 16px; }
     }
   </style>
 </head>
 <body>
   <div class="container">
+    <!-- Header with Apple App Icon & Control Center Actions -->
     <header>
       <div class="brand">
-        <div class="logo-badge">K</div>
+        <div class="app-icon">K</div>
         <div>
-          <h1 style="font-size: 18px; font-weight: 800;">Ktee Portfolio CMS Dashboard</h1>
-          <p style="font-size: 12px; color: var(--muted);">Quản trị Leads Tuyển Dụng & Cập Nhật Nội Dung Dynamic</p>
+          <h1 style="font-size: 16px; font-weight: 700; letter-spacing: -0.01em;">
+            Ktee Portfolio CMS Dashboard
+          </h1>
+          <p style="font-size: 11.5px; color: var(--muted);">
+            macOS Sequoia Control Center • Quản trị Leads Tuyển Dụng & Dynamic Content
+          </p>
         </div>
       </div>
       <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
-        <a href="http://localhost:3000/copilot" target="_blank" class="btn" style="border-color: #38bdf8; color: #38bdf8;">🤖 AI Career Copilot ↗</a>
-        <a href="http://localhost:3000" target="_blank" class="btn btn-primary">Xem Website Frontend (Port 3000) ↗</a>
+        <button onclick="switchTab('copilot')" class="btn-ktee" style="border-color: rgba(0, 122, 255, 0.4); color: var(--ios-blue);">
+          🤖 AI Career Copilot
+        </button>
+        <a href="http://localhost:3000" target="_blank" class="btn-ktee btn-ktee-primary">
+          <span>Xem Website Frontend</span>
+          <span>↗</span>
+        </a>
       </div>
     </header>
 
-    <!-- Stats Bar -->
+    <!-- 4 iOS KPI Widget Cards (Desktop 4-col, iPhone 14 Pro Max 2x2 grid) -->
     <div class="stats-grid">
-      <div class="stat-card">
-        <div class="stat-label">Tổng Tin Nhắn / Leads</div>
-        <div class="stat-val" id="stat-total">0</div>
+      <div class="ios-widget-card">
+        <div class="widget-header">
+          <span class="stat-label">Tổng Tin Nhắn / Leads</span>
+          <div class="widget-icon icon-blue">💬</div>
+        </div>
+        <div class="stat-val" id="stat-total" style="color: var(--ios-blue);">0</div>
       </div>
-      <div class="stat-card">
-        <div class="stat-label">Tin Nhắn Mới Chưa Xử Lý</div>
-        <div class="stat-val" id="stat-new" style="color: #38bdf8;">0</div>
+
+      <div class="ios-widget-card">
+        <div class="widget-header">
+          <span class="stat-label">Mới Chưa Xử Lý</span>
+          <div class="widget-icon icon-cyan">✨</div>
+        </div>
+        <div class="stat-val" id="stat-new" style="color: var(--ios-cyan);">0</div>
       </div>
-      <div class="stat-card">
-        <div class="stat-label">Đang Liên Hệ / Đã Chốt</div>
-        <div class="stat-val" id="stat-done" style="color: #10b981;">0</div>
+
+      <div class="ios-widget-card">
+        <div class="widget-header">
+          <span class="stat-label">Đang Liên Hệ / Đã Chốt</span>
+          <div class="widget-icon icon-green">✅</div>
+        </div>
+        <div class="stat-val" id="stat-done" style="color: var(--ios-green);">0</div>
       </div>
-      <div class="stat-card">
-        <div class="stat-label">Dự Án Cần Bổ Sung Link/Ảnh</div>
-        <div class="stat-val" id="stat-pending" style="color: #f59e0b;">0</div>
+
+      <div class="ios-widget-card">
+        <div class="widget-header">
+          <span class="stat-label">Dự Án Cần Link/Ảnh</span>
+          <div class="widget-icon icon-orange">⚡</div>
+        </div>
+        <div class="stat-val" id="stat-pending" style="color: var(--ios-orange);">0</div>
       </div>
     </div>
 
-    <!-- Navigation Tabs -->
-    <div class="nav-tabs" style="flex-wrap: wrap;">
-      <button class="tab-btn active" onclick="switchTab('leads')">Quản Lý Leads & Liên Hệ</button>
-      <button class="tab-btn" onclick="switchTab('projects')">Quản Lý Dự Án & Link/Ảnh Dynamic</button>
-      <button class="tab-btn" onclick="switchTab('copilot')">🤖 AI Career Copilot (Realtime Jobs & Match Engine)</button>
+    <!-- macOS Segmented Control Tabs Switcher -->
+    <div class="nav-tabs-wrapper">
+      <div class="segmented-control">
+        <button class="segmented-btn active" onclick="switchTab('leads')">
+          <span>📬</span> Quản Lý Leads & Liên Hệ
+        </button>
+        <button class="segmented-btn" onclick="switchTab('projects')">
+          <span>📁</span> Quản Lý Dự Án & Link/Ảnh
+        </button>
+        <button class="segmented-btn" onclick="switchTab('copilot')">
+          <span>🤖</span> AI Career Copilot (Realtime Jobs)
+        </button>
+      </div>
     </div>
 
     <!-- TAB 1: LEADS -->
     <div id="tab-leads" class="card">
-      <div class="card-title">Danh Sách Tin Nhắn & Yêu Cầu Tuyển Dụng Từ Frontend</div>
+      <div class="card-title">
+        <span>Danh Sách Tin Nhắn & Yêu Cầu Tuyển Dụng Từ Frontend</span>
+      </div>
       <div style="overflow-x: auto;">
         <table>
           <thead>
@@ -169,7 +542,7 @@
             </tr>
           </thead>
           <tbody id="leads-tbody">
-            <tr><td colspan="5" style="text-align: center; color: var(--muted);">Đang tải dữ liệu...</td></tr>
+            <tr><td colspan="5" style="text-align: center; color: var(--muted); padding: 2rem;">Đang tải dữ liệu...</td></tr>
           </tbody>
         </table>
       </div>
@@ -177,8 +550,10 @@
 
     <!-- TAB 2: PROJECTS CMS -->
     <div id="tab-projects" class="card" style="display: none;">
-      <div class="card-title">Cập Nhật Link Live Demo, Source Code & Ảnh Mockup Cho 6 Dự Án</div>
-      <p style="font-size: 12px; color: var(--muted); margin-bottom: 1.5rem;">
+      <div class="card-title">
+        <span>Cập Nhật Link Live Demo, Source Code & Ảnh Cho Dự Án</span>
+      </div>
+      <p style="font-size: 12px; color: var(--muted); margin-bottom: 1.5rem; line-height: 1.5;">
         Khi Sếp điền Link hoặc Ảnh vào đây và ấn "Lưu Cập Nhật", Website Frontend sẽ tự động nhận diện và mở khóa nút Demo, không còn báo nhãn <code>[Vui lòng bổ sung trong CRM]</code> nữa.
       </p>
       <div id="projects-list">
@@ -186,19 +561,39 @@
       </div>
     </div>
 
-    <!-- TAB 3: AI CAREER COPILOT -->
-    <div id="tab-copilot" class="card" style="display: none;">
+    <!-- TAB 3: AI CAREER COPILOT EMBED -->
+    <div id="tab-copilot" class="card" style="display: none; padding: 1.25rem;">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.75rem;">
         <div>
-          <div class="card-title" style="margin-bottom: 0.25rem;">🤖 AI Career Copilot (Realtime Jobs & Match Engine)</div>
-          <p style="font-size: 12px; color: var(--muted);">Trực quan hóa hệ sinh thái tìm kiếm việc làm IT thời gian thực và công cụ đối soát năng lực ứng viên.</p>
+          <div class="card-title" style="margin-bottom: 0.2rem;">🤖 AI Career Copilot (Realtime Jobs & Match Engine)</div>
+          <p style="font-size: 11.5px; color: var(--muted);">Trực quan hóa hệ sinh thái tìm kiếm việc làm IT thời gian thực và công cụ đối soát năng lực ứng viên.</p>
         </div>
-        <div>
-          <a href="http://localhost:3000/copilot" target="_blank" class="btn btn-primary">Mở Toàn Màn Hình ↗</a>
+        <div style="display: flex; gap: 0.5rem;">
+          <button onclick="reloadCopilotIframe()" class="btn-ktee" title="Tải lại giao diện Copilot">
+            <span>🔄 Tải Lại</span>
+          </button>
+          <a href="http://localhost:3000/copilot" target="_blank" class="btn-ktee btn-ktee-primary">
+            <span>Mở Toàn Màn Hình</span>
+            <span>↗</span>
+          </a>
         </div>
       </div>
-      <div style="position: relative; width: 100%; height: 80vh; min-height: 600px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); background: var(--bg);">
-        <iframe src="http://localhost:3000/copilot" style="width: 100%; height: 100%; border: none;" title="AI Career Copilot" loading="lazy"></iframe>
+
+      <!-- macOS Safari Window Container -->
+      <div style="border-radius: 14px; overflow: hidden; border: 1px solid var(--hairline); box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);">
+        <div class="safari-toolbar">
+          <div class="traffic-lights">
+            <div class="traffic-dot dot-red"></div>
+            <div class="traffic-dot dot-yellow"></div>
+            <div class="traffic-dot dot-green"></div>
+          </div>
+          <div class="address-bar">
+            🔒 http://localhost:3000/copilot (RemoteOK Realtime API Engine)
+          </div>
+        </div>
+        <div style="position: relative; width: 100%; height: 75vh; min-height: 620px; background: #0b0f19;">
+          <iframe id="copilot-iframe" src="http://localhost:3000/copilot" style="width: 100%; height: 100%; border: none;" title="AI Career Copilot" loading="lazy"></iframe>
+        </div>
       </div>
     </div>
   </div>
@@ -221,25 +616,31 @@
         const { data } = await res.json();
         const tbody = document.getElementById('leads-tbody');
         if (!data || data.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding: 2rem; color: var(--muted);">Chưa có tin nhắn nào được gửi từ website.</td></tr>';
+          tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding: 2.5rem; color: var(--muted);">Chưa có tin nhắn nào được gửi từ website.</td></tr>';
           return;
         }
 
         tbody.innerHTML = data.map(l => `
           <tr>
-            <td><strong>${l.name}</strong><br><small style="color:var(--muted)">${new Date(l.createdAt).toLocaleString('vi-VN')}</small></td>
-            <td><a href="mailto:${l.email}" style="color:#38bdf8">${l.email}</a><br><small style="color:var(--muted)">${l.phone || 'Chưa cung cấp SĐT'}</small></td>
-            <td style="max-width: 320px; line-height: 1.5;">${l.message}</td>
+            <td>
+              <strong>${l.name}</strong><br>
+              <small style="color:var(--muted); font-size: 11px;">${new Date(l.createdAt).toLocaleString('vi-VN')}</small>
+            </td>
+            <td>
+              <a href="mailto:${l.email}" style="color: var(--ios-cyan); text-decoration: none; font-weight: 500;">${l.email}</a><br>
+              <small style="color:var(--muted); font-size: 11px;">${l.phone || 'Chưa cung cấp SĐT'}</small>
+            </td>
+            <td style="max-width: 320px; line-height: 1.5; color: #e2e8f0;">${l.message}</td>
             <td>
               <span class="badge ${l.status === 'new' ? 'badge-new' : (l.status === 'contacted' ? 'badge-contacted' : 'badge-closed')}">
-                ${l.status === 'new' ? 'Chưa Xử Lý' : (l.status === 'contacted' ? 'Đang Liên Hệ' : 'Đã Chốt')}
+                ${l.status === 'new' ? '✨ Chưa Xử Lý' : (l.status === 'contacted' ? '⏳ Đang Liên Hệ' : '✅ Đã Chốt')}
               </span>
             </td>
             <td>
               <div style="display: flex; gap: 0.4rem; flex-wrap: wrap;">
-                ${l.status !== 'contacted' ? `<button class="btn" onclick="updateLeadStatus('${l.id}', 'contacted')">Đang liên hệ</button>` : ''}
-                ${l.status !== 'closed' ? `<button class="btn btn-primary" onclick="updateLeadStatus('${l.id}', 'closed')">Đã chốt</button>` : ''}
-                <button class="btn btn-danger" onclick="deleteLead('${l.id}')">Xóa</button>
+                ${l.status !== 'contacted' ? `<button class="btn-ktee" onclick="updateLeadStatus('${l.id}', 'contacted')">Đang liên hệ</button>` : ''}
+                ${l.status !== 'closed' ? `<button class="btn-ktee btn-ktee-green" onclick="updateLeadStatus('${l.id}', 'closed')">Đã chốt</button>` : ''}
+                <button class="btn-ktee btn-ktee-danger" onclick="deleteLead('${l.id}')">Xóa</button>
               </div>
             </td>
           </tr>
@@ -271,31 +672,33 @@
         const list = document.getElementById('projects-list');
 
         list.innerHTML = data.map(p => `
-          <div style="background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem; margin-bottom: 1.25rem;">
+          <div style="background: rgba(11, 15, 25, 0.6); border: 1px solid var(--hairline); border-radius: 14px; padding: 1.25rem; margin-bottom: 1.25rem;">
             <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem;">
               <div>
-                <span class="badge" style="background: rgba(37,99,235,0.15); color: #60a5fa">${p.category}</span>
+                <span class="badge badge-new">${p.category}</span>
                 <h3 style="font-size: 15px; font-weight: 700; margin-top: 0.35rem;">${p.title}</h3>
                 <p style="font-size: 12px; color: var(--muted);">${p.subtitle}</p>
               </div>
               <span class="badge ${p.liveUrl ? 'badge-closed' : 'badge-pending'}">
-                ${p.liveUrl ? '[Đã có Live Demo]' : '[Chờ cập nhật]'}
+                ${p.liveUrl ? '✅ [Đã có Live Demo]' : '⚡ [Chờ cập nhật]'}
               </span>
             </div>
 
             <div class="projects-inputs-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
               <div>
-                <label style="font-size: 12px; color: var(--muted); font-weight: 600;">Link Trải Nghiệm Live Demo:</label>
+                <label style="font-size: 11.5px; color: var(--muted); font-weight: 600;">Link Trải Nghiệm Live Demo:</label>
                 <input type="url" id="live-${p.id}" value="${p.liveUrl || ''}" placeholder="https://example.com/demo..." class="input-field">
               </div>
               <div>
-                <label style="font-size: 12px; color: var(--muted); font-weight: 600;">Link Mã Nguồn GitHub Repo:</label>
+                <label style="font-size: 11.5px; color: var(--muted); font-weight: 600;">Link Mã Nguồn GitHub Repo:</label>
                 <input type="url" id="github-${p.id}" value="${p.githubUrl || ''}" placeholder="https://github.com/Kteenguyen/repo-name..." class="input-field">
               </div>
             </div>
 
             <div style="margin-top: 0.5rem; display: flex; justify-content: flex-end;">
-              <button class="btn btn-primary" onclick="saveProject('${p.id}')">Lưu Cập Nhật Cho Dự Án Này</button>
+              <button class="btn-ktee btn-ktee-primary" onclick="saveProject('${p.id}')">
+                Lưu Cập Nhật Dự Án Này
+              </button>
             </div>
           </div>
         `).join('');
@@ -306,19 +709,18 @@
       const liveUrl = document.getElementById(`live-${id}`).value.trim();
       const githubUrl = document.getElementById(`github-${id}`).value.trim();
 
-      const res = await fetch(`/api/projects/${id}`, {
+      await fetch(`/api/projects/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ liveUrl, githubUrl })
       });
-      const data = await res.json();
       alert('Đã lưu thông tin dự án vào Backend CMS thành công! Website Frontend sẽ tự động đồng bộ.');
       loadProjects();
       loadStats();
     }
 
     function switchTab(tab) {
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.segmented-btn').forEach(b => b.classList.remove('active'));
       const tabLeads = document.getElementById('tab-leads');
       const tabProjects = document.getElementById('tab-projects');
       const tabCopilot = document.getElementById('tab-copilot');
@@ -328,18 +730,25 @@
       if (tabCopilot) tabCopilot.style.display = 'none';
 
       if (tab === 'leads') {
-        document.querySelector('.tab-btn:nth-child(1)').classList.add('active');
+        document.querySelector('.segmented-btn:nth-child(1)').classList.add('active');
         tabLeads.style.display = 'block';
       } else if (tab === 'projects') {
-        document.querySelector('.tab-btn:nth-child(2)').classList.add('active');
+        document.querySelector('.segmented-btn:nth-child(2)').classList.add('active');
         tabProjects.style.display = 'block';
       } else if (tab === 'copilot') {
-        document.querySelector('.tab-btn:nth-child(3)').classList.add('active');
+        document.querySelector('.segmented-btn:nth-child(3)').classList.add('active');
         if (tabCopilot) tabCopilot.style.display = 'block';
       }
     }
 
-    // Init
+    function reloadCopilotIframe() {
+      const iframe = document.getElementById('copilot-iframe');
+      if (iframe) {
+        iframe.src = iframe.src;
+      }
+    }
+
+    // Initial load
     loadStats();
     loadLeads();
     loadProjects();

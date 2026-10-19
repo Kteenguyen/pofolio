@@ -12,12 +12,11 @@ import {
   Building,
   MapPin,
   Clock,
-  ArrowUpRight,
   Sparkles,
   Globe,
   ExternalLink,
   ShieldCheck,
-  Send,
+  Zap,
 } from "lucide-react";
 
 interface MatchDetailsPanelProps {
@@ -27,171 +26,183 @@ interface MatchDetailsPanelProps {
 }
 
 export default function MatchDetailsPanel({ job, candidate, match }: MatchDetailsPanelProps) {
-  // Determine badge color
-  let scoreBadgeColor = "text-emerald-600 bg-emerald-500/10 border-emerald-500/20";
-  if (match.overallScore < 70) {
-    scoreBadgeColor = "text-amber-600 bg-amber-500/10 border-amber-500/20";
+  // Determine badge color Apple Vibrant
+  let scoreBadgeClass = "badge-ios-green";
+  if (match.overallScore < 75) {
+    scoreBadgeClass = "badge-ios-orange";
   }
   if (match.overallScore < 60) {
-    scoreBadgeColor = "text-red-600 bg-red-500/10 border-red-500/20";
+    scoreBadgeClass = "badge-ios-red";
   }
 
   // Work mode badge style
-  let workModeBadge = "bg-blue-500/10 text-blue-600 border-blue-500/20";
-  if (job.workMode === "Freelance / Contract") workModeBadge = "bg-emerald-500/10 text-emerald-600 border-emerald-500/20";
-  if (job.workMode === "Hybrid") workModeBadge = "bg-purple-500/10 text-purple-600 border-purple-500/20";
-  if (job.workMode === "Onsite") workModeBadge = "bg-slate-500/10 text-slate-700 dark:text-slate-300 border-slate-500/20";
+  let workModeBadgeClass = "badge-ios-blue";
+  if (job.workMode === "Freelance / Contract") workModeBadgeClass = "badge-ios-green";
+  if (job.workMode === "Hybrid") workModeBadgeClass = "badge-ios-purple";
+  if (job.workMode === "Onsite") workModeBadgeClass = "badge-ios-orange";
 
   return (
-    <div className="space-y-6">
-      {/* 1. Header Card with Deep Link Application CTA */}
-      <div className="p-4 sm:p-6 rounded-2xl bg-[var(--surface)] border border-[var(--surface-border)] shadow-sm">
-        <div className="flex flex-wrap items-start justify-between gap-3 mb-3">
+    <div className="space-y-4 sm:space-y-5">
+      {/* 1. iOS Detail Sheet: Header Card with Deep Link Application CTA */}
+      <div className="ios-glass-card p-4 sm:p-6 border border-[var(--ios-hairline)] shadow-sm">
+        <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 mb-3">
           <div className="min-w-0 flex-1">
             {/* Meta Tags Row */}
             <div className="flex flex-wrap items-center gap-1.5 mb-2">
-              <span className="px-2 py-0.5 rounded-md text-[10px] font-bold uppercase bg-blue-600 text-white tracking-wider">
+              <span className="px-2 py-0.5 rounded-full text-[9px] font-bold uppercase bg-[var(--ios-blue)] text-white tracking-wider">
                 {job.platform}
               </span>
-              <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold border ${workModeBadge}`}>
+              <span className={`px-2 py-0.5 rounded-full text-[9px] font-bold ${workModeBadgeClass}`}>
                 {job.workMode}
               </span>
-              <span className="px-2 py-0.5 rounded-md text-[10px] font-semibold bg-slate-100 dark:bg-slate-800 text-[var(--foreground)] border border-[var(--surface-border)]">
+              <span className="px-2 py-0.5 rounded-full text-[9px] font-medium bg-[var(--ios-control-bg)] text-[var(--muted-foreground)] border border-[var(--ios-hairline)]">
                 {job.market}
               </span>
-              <span className="text-xs text-[var(--muted-foreground)] flex items-center gap-1 ml-1">
-                <Clock size={12} /> {job.postedAt}
+              <span className="text-[11px] text-[var(--muted-foreground)] flex items-center gap-1 ml-1 font-mono">
+                <Clock size={11} /> {job.postedAt}
               </span>
             </div>
 
-            <h2 className="text-lg sm:text-xl font-bold text-[var(--foreground)] tracking-tight">
+            <h2 className="text-base sm:text-xl font-bold text-[var(--foreground)] tracking-tight leading-snug">
               {job.title}
             </h2>
 
-            <div className="flex flex-wrap items-center gap-3 text-xs text-[var(--muted-foreground)] mt-2">
-              <span className="font-semibold text-[var(--foreground)] flex items-center gap-1">
-                <Building size={13} className="text-blue-600" /> {job.company}
+            <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs text-[var(--muted-foreground)] mt-2">
+              <span className="font-semibold text-[var(--foreground)] flex items-center gap-1 truncate">
+                <Building size={13} className="text-[var(--ios-blue)] shrink-0" />
+                <span className="truncate">{job.company}</span>
               </span>
               <span>•</span>
-              <span className="flex items-center gap-1">
-                <MapPin size={13} /> {job.location}
+              <span className="flex items-center gap-1 truncate">
+                <MapPin size={13} className="shrink-0" />
+                <span className="truncate">{job.location}</span>
               </span>
               <span>•</span>
-              <span className="font-mono font-bold text-emerald-600 dark:text-emerald-400 text-sm">
+              <span className="font-mono font-bold text-[#34C759] text-xs sm:text-sm">
                 {job.salary}
               </span>
             </div>
           </div>
 
-          {/* Deep Link Button - High Priority Real Application */}
-          <div className="shrink-0 flex flex-col items-end gap-1.5 w-full sm:w-auto">
+          {/* Deep Link Button - Apple Primary Action Button */}
+          <div className="shrink-0 flex flex-col items-stretch sm:items-end gap-1.5 w-full sm:w-auto mt-2 sm:mt-0">
             <a
               href={job.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="touch-target w-full sm:w-auto px-4 py-2.5 rounded-xl text-xs font-bold bg-blue-600 hover:bg-blue-700 text-white flex items-center justify-center gap-2 transition-all shadow-md hover:scale-[1.02] active:scale-[0.98]"
+              className="btn-ktee-ios btn-ktee-primary w-full sm:w-auto h-9 px-4 text-xs font-bold"
+              title="Mở bài đăng gốc trên RemoteOK để nộp đơn trực tiếp"
             >
-              <span>Truy Cập Bài Đăng Thật Để Ứng Tuyển</span>
-              <ExternalLink size={14} />
+              <span>Ứng Tuyển Bài Đăng Thật</span>
+              <ExternalLink size={13} />
             </a>
-            <span className="text-[10px] text-[var(--muted-foreground)] flex items-center gap-1 font-mono">
-              <ShieldCheck size={11} className="text-emerald-500" /> Deep Link chuẩn 100%
+            <span className="text-[10px] text-[var(--muted-foreground)] flex items-center justify-center sm:justify-end gap-1 font-mono">
+              <ShieldCheck size={11} className="text-[#34C759]" /> RemoteOK Deep Link 100%
             </span>
           </div>
         </div>
 
         {/* Deep URL Inspector Preview */}
-        <div className="p-2.5 rounded-xl bg-[var(--surface-subtle)] border border-[var(--surface-border)] text-[11px] font-mono text-[var(--muted-foreground)] truncate mt-3 flex items-center gap-2">
-          <Globe size={13} className="text-blue-600 shrink-0" />
+        <div className="p-2 sm:p-2.5 rounded-xl bg-[var(--ios-control-bg)] border border-[var(--ios-hairline)] text-[10.5px] font-mono text-[var(--muted-foreground)] truncate mt-3 flex items-center gap-2">
+          <Globe size={13} className="text-[var(--ios-blue)] shrink-0" />
           <span className="truncate">{job.url}</span>
         </div>
 
-        <p className="text-xs leading-relaxed text-[var(--foreground)] border-t border-[var(--surface-border)] pt-3 mt-3">
+        <p className="text-xs leading-relaxed text-[var(--foreground)] border-t border-[var(--ios-hairline)] pt-3 mt-3 opacity-90">
           {job.summary}
         </p>
       </div>
 
-      {/* 2. Match Score & 3-Tier Breakdown */}
-      <div className="p-4 sm:p-6 rounded-2xl bg-[var(--surface)] border border-[var(--surface-border)] shadow-sm">
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--surface-border)] pb-4 mb-4">
+      {/* 2. iOS Inset Grouped Card: Match Score & 3-Tier Breakdown */}
+      <div className="ios-inset-card p-4 sm:p-5 border border-[var(--ios-hairline)]">
+        <div className="flex flex-wrap items-center justify-between gap-2.5 border-b border-[var(--ios-hairline)] pb-3 mb-4">
           <div className="flex items-center gap-2">
-            <Sparkles size={18} className="text-blue-600" />
-            <h3 className="text-base font-bold text-[var(--foreground)]">Đo Lường Độ Phù Hợp Thực Tế</h3>
+            <div className="ios-squircle-icon ios-squircle-blue">
+              <Sparkles size={16} />
+            </div>
+            <div>
+              <h3 className="text-xs sm:text-sm font-bold text-[var(--foreground)]">
+                Đo Lường Độ Tương Thích Năng Lực
+              </h3>
+              <p className="text-[10px] text-[var(--muted-foreground)]">
+                Thuật toán đối soát đa tiêu chí dựa trên hồ sơ ứng viên Ktee
+              </p>
+            </div>
           </div>
-          <span className={`px-3 py-1 rounded-full text-xs font-bold border ${scoreBadgeColor}`}>
+          <span className={`px-2.5 py-1 rounded-full text-xs font-bold font-mono ${scoreBadgeClass}`}>
             Độ tương thích: {match.overallScore}% • {match.matchTier}
           </span>
         </div>
 
-        {/* 3 Metric Breakdown Bars */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 mb-5">
-          {/* Metric 1 */}
-          <div className="p-3.5 rounded-xl bg-[var(--surface-subtle)] border border-[var(--surface-border)]">
-            <div className="flex justify-between text-xs mb-1.5">
-              <span className="font-medium text-[var(--foreground)]">Kỹ Năng Cốt Lõi (Hard Skills)</span>
-              <span className="font-mono font-bold text-blue-600 dark:text-blue-400">{match.hardSkillScore}%</span>
+        {/* 3 Metric Breakdown Bars with Apple SF Style Progress */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
+          {/* Hard Skills */}
+          <div className="p-3 rounded-xl bg-[var(--ios-control-bg)] border border-[var(--ios-hairline)]">
+            <div className="flex justify-between items-center text-xs mb-1.5">
+              <span className="font-medium text-[var(--foreground)] text-[11px]">Kỹ Năng Cốt Lõi</span>
+              <span className="font-mono font-bold text-[#007AFF] text-xs">{match.hardSkillScore}%</span>
             </div>
-            <div className="w-full h-2 rounded-full bg-[var(--surface-border)] overflow-hidden">
+            <div className="w-full h-1.5 rounded-full bg-[var(--surface)] overflow-hidden border border-[var(--ios-hairline)]">
               <div
-                className="h-full bg-blue-600 rounded-full transition-all duration-500"
+                className="h-full bg-[#007AFF] rounded-full transition-all duration-700"
                 style={{ width: `${match.hardSkillScore}%` }}
               />
             </div>
-            <span className="block text-[10px] text-[var(--muted-foreground)] mt-1.5">
+            <span className="block text-[10px] text-[var(--muted-foreground)] mt-1.5 truncate">
               React, Next.js, Node.js, TS
             </span>
           </div>
 
-          {/* Metric 2 */}
-          <div className="p-3.5 rounded-xl bg-[var(--surface-subtle)] border border-[var(--surface-border)]">
-            <div className="flex justify-between text-xs mb-1.5">
-              <span className="font-medium text-[var(--foreground)]">Quy Mô & Kinh Nghiệm</span>
-              <span className="font-mono font-bold text-emerald-600 dark:text-emerald-400">{match.scaleAndExpScore}%</span>
+          {/* Scale & Experience */}
+          <div className="p-3 rounded-xl bg-[var(--ios-control-bg)] border border-[var(--ios-hairline)]">
+            <div className="flex justify-between items-center text-xs mb-1.5">
+              <span className="font-medium text-[var(--foreground)] text-[11px]">Quy Mô & Kinh Nghiệm</span>
+              <span className="font-mono font-bold text-[#34C759] text-xs">{match.scaleAndExpScore}%</span>
             </div>
-            <div className="w-full h-2 rounded-full bg-[var(--surface-border)] overflow-hidden">
+            <div className="w-full h-1.5 rounded-full bg-[var(--surface)] overflow-hidden border border-[var(--ios-hairline)]">
               <div
-                className="h-full bg-emerald-600 rounded-full transition-all duration-500"
+                className="h-full bg-[#34C759] rounded-full transition-all duration-700"
                 style={{ width: `${match.scaleAndExpScore}%` }}
               />
             </div>
-            <span className="block text-[10px] text-[var(--muted-foreground)] mt-1.5">
-              FPT IS 230+ users, ĐH TDTU 5 năm
+            <span className="block text-[10px] text-[var(--muted-foreground)] mt-1.5 truncate">
+              FPT IS 230+ users, ĐH TDTU
             </span>
           </div>
 
-          {/* Metric 3 */}
-          <div className="p-3.5 rounded-xl bg-[var(--surface-subtle)] border border-[var(--surface-border)]">
-            <div className="flex justify-between text-xs mb-1.5">
-              <span className="font-medium text-[var(--foreground)]">Nghiệp Vụ BA & Domain</span>
-              <span className="font-mono font-bold text-purple-600 dark:text-purple-400">{match.domainBaScore}%</span>
+          {/* BA & Domain */}
+          <div className="p-3 rounded-xl bg-[var(--ios-control-bg)] border border-[var(--ios-hairline)]">
+            <div className="flex justify-between items-center text-xs mb-1.5">
+              <span className="font-medium text-[var(--foreground)] text-[11px]">Nghiệp Vụ BA & Domain</span>
+              <span className="font-mono font-bold text-[#AF52DE] text-xs">{match.domainBaScore}%</span>
             </div>
-            <div className="w-full h-2 rounded-full bg-[var(--surface-border)] overflow-hidden">
+            <div className="w-full h-1.5 rounded-full bg-[var(--surface)] overflow-hidden border border-[var(--ios-hairline)]">
               <div
-                className="h-full bg-purple-600 rounded-full transition-all duration-500"
+                className="h-full bg-[#AF52DE] rounded-full transition-all duration-700"
                 style={{ width: `${match.domainBaScore}%` }}
               />
             </div>
-            <span className="block text-[10px] text-[var(--muted-foreground)] mt-1.5">
-              Phân tích yêu cầu, UML, Client
+            <span className="block text-[10px] text-[var(--muted-foreground)] mt-1.5 truncate">
+              Phân tích yêu cầu, UML, Stakeholders
             </span>
           </div>
         </div>
 
-        {/* 3. Skill Gap Matrix */}
-        <div className="space-y-3">
-          <span className="text-xs font-bold text-[var(--foreground)] block">
+        {/* Skill Gap Matrix: 3 Inset Cells */}
+        <div className="space-y-2.5">
+          <span className="text-[11px] font-bold text-[var(--foreground)] uppercase tracking-wider block">
             Ma Trận Khoảng Trống Năng Lực (Skill Gap Matrix)
           </span>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-            {/* Red: Critical Gaps */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-2.5">
+            {/* Critical Gaps */}
             <div className="p-3 rounded-xl bg-red-500/5 border border-red-500/20">
-              <div className="flex items-center gap-1.5 text-xs font-semibold text-red-600 dark:text-red-400 mb-2">
+              <div className="flex items-center gap-1.5 text-xs font-bold text-[#FF3B30] mb-2">
                 <XCircle size={14} />
                 <span>Thiếu Bắt Buộc ({match.criticalGaps.length})</span>
               </div>
               {match.criticalGaps.length === 0 ? (
-                <span className="text-[11px] text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
+                <span className="text-[11px] text-[#34C759] flex items-center gap-1 font-medium">
                   <CheckCircle2 size={13} className="shrink-0" />
                   <span>Đáp ứng trọn vẹn 100% yêu cầu cốt lõi!</span>
                 </span>
@@ -200,7 +211,7 @@ export default function MatchDetailsPanel({ job, candidate, match }: MatchDetail
                   {match.criticalGaps.map((gap) => (
                     <span
                       key={gap}
-                      className="px-2 py-0.5 rounded-md text-[10px] font-medium bg-red-500/10 text-red-600 dark:text-red-300"
+                      className="px-2 py-0.5 rounded-full text-[10px] font-mono font-medium badge-ios-red"
                     >
                       {gap}
                     </span>
@@ -209,14 +220,14 @@ export default function MatchDetailsPanel({ job, candidate, match }: MatchDetail
               )}
             </div>
 
-            {/* Yellow: Moderate Gaps */}
+            {/* Moderate Gaps */}
             <div className="p-3 rounded-xl bg-amber-500/5 border border-amber-500/20">
-              <div className="flex items-center gap-1.5 text-xs font-semibold text-amber-600 dark:text-amber-400 mb-2">
+              <div className="flex items-center gap-1.5 text-xs font-bold text-[#FF9500] mb-2">
                 <AlertTriangle size={14} />
                 <span>Cần Trau Dồi Thêm ({match.moderateGaps.length})</span>
               </div>
               {match.moderateGaps.length === 0 ? (
-                <span className="text-[11px] text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
+                <span className="text-[11px] text-[#34C759] flex items-center gap-1 font-medium">
                   <CheckCircle2 size={13} className="shrink-0" />
                   <span>Không có thiếu sót đáng kể</span>
                 </span>
@@ -225,7 +236,7 @@ export default function MatchDetailsPanel({ job, candidate, match }: MatchDetail
                   {match.moderateGaps.map((gap) => (
                     <span
                       key={gap}
-                      className="px-2 py-0.5 rounded-md text-[10px] font-medium bg-amber-500/10 text-amber-700 dark:text-amber-300"
+                      className="px-2 py-0.5 rounded-full text-[10px] font-mono font-medium badge-ios-orange"
                     >
                       {gap}
                     </span>
@@ -234,17 +245,17 @@ export default function MatchDetailsPanel({ job, candidate, match }: MatchDetail
               )}
             </div>
 
-            {/* Green: Matched Skills */}
+            {/* Matched Skills */}
             <div className="p-3 rounded-xl bg-emerald-500/5 border border-emerald-500/20">
-              <div className="flex items-center gap-1.5 text-xs font-semibold text-emerald-600 dark:text-emerald-400 mb-2">
+              <div className="flex items-center gap-1.5 text-xs font-bold text-[#34C759] mb-2">
                 <CheckCircle2 size={14} />
                 <span>Trùng Khớp Xuất Sắc ({match.matchedSkills.length})</span>
               </div>
-              <div className="flex flex-wrap gap-1.5 max-h-24 overflow-y-auto">
+              <div className="flex flex-wrap gap-1 max-h-24 overflow-y-auto scrollbar-thin">
                 {match.matchedSkills.map((skill) => (
                   <span
                     key={skill}
-                    className="px-2 py-0.5 rounded-md text-[10px] font-medium bg-emerald-500/10 text-emerald-700 dark:text-emerald-300"
+                    className="px-2 py-0.5 rounded-full text-[10px] font-mono font-medium badge-ios-green"
                   >
                     {skill}
                   </span>
@@ -254,43 +265,60 @@ export default function MatchDetailsPanel({ job, candidate, match }: MatchDetail
           </div>
         </div>
 
-        {/* 4. Action Recommendations */}
-        <div className="mt-4 pt-3.5 border-t border-[var(--surface-border)]">
-          <span className="text-xs font-semibold text-[var(--foreground)] block mb-2">
-            Đề Xuất Hành Động Cải Thiện Trong 48h
-          </span>
-          <ul className="space-y-1.5">
+        {/* 48h Action Recommendations */}
+        <div className="mt-4 pt-3.5 border-t border-[var(--ios-hairline)]">
+          <div className="flex items-center gap-1.5 text-xs font-bold text-[var(--foreground)] mb-2">
+            <Zap size={14} className="text-[#FF9500]" />
+            <span>Lộ Trình Bù Đắp Khoảng Trống Trong 48 Giờ</span>
+          </div>
+          <div className="space-y-1.5">
             {match.recommendations.map((rec, i) => (
-              <li key={i} className="text-xs text-[var(--muted-foreground)] flex items-start gap-2">
-                <span className="text-blue-600 font-bold shrink-0">0{i + 1}.</span>
-                <span>{rec}</span>
-              </li>
+              <div
+                key={i}
+                className="p-2.5 rounded-xl bg-[var(--ios-control-bg)] border border-[var(--ios-hairline)] flex items-start gap-2.5 text-xs text-[var(--muted-foreground)]"
+              >
+                <span className="w-5 h-5 rounded-full bg-[#007AFF] text-white flex items-center justify-center text-[10px] font-bold font-mono shrink-0">
+                  {i + 1}
+                </span>
+                <span className="leading-snug text-[var(--foreground)] text-[11.5px]">{rec}</span>
+              </div>
             ))}
-          </ul>
+          </div>
         </div>
       </div>
 
       {/* 3. The Killer Feature: Pre-employment Proof of Work Demo */}
-      <div>
-        <div className="mb-2 flex items-center justify-between">
-          <h3 className="text-sm font-bold text-[var(--foreground)] flex items-center gap-2">
-            <Briefcase size={16} className="text-blue-600" />
-            <span>Pre-Employment Proof of Work (Sản Phẩm Mẫu Cho Nhà Tuyển Dụng)</span>
-          </h3>
-          <span className="text-[11px] text-[var(--muted-foreground)] hidden sm:inline">
-            Tự động kích hoạt theo Domain nghiệp vụ của JD
+      <div className="ios-inset-card p-4 sm:p-5 border border-[var(--ios-hairline)]">
+        <div className="mb-3 flex flex-wrap items-center justify-between gap-2 border-b border-[var(--ios-hairline)] pb-3">
+          <div className="flex items-center gap-2">
+            <div className="ios-squircle-icon ios-squircle-purple">
+              <Briefcase size={16} />
+            </div>
+            <div>
+              <h3 className="text-xs sm:text-sm font-bold text-[var(--foreground)]">
+                Pre-Employment Proof of Work (Sản Phẩm Mẫu Cho Nhà Tuyển Dụng)
+              </h3>
+              <p className="text-[10px] text-[var(--muted-foreground)]">
+                Mô phỏng nghiệp vụ thực chiến được tự động kích hoạt theo Domain JD ({job.company})
+              </p>
+            </div>
+          </div>
+          <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold badge-ios-purple">
+            Live Sandbox
           </span>
         </div>
 
-        {match.preEmployIdea.demoType === "fintech-ledger" && (
-          <FintechLedgerDemo companyName={job.company} />
-        )}
-        {match.preEmployIdea.demoType === "ecommerce-checkout" && (
-          <EcommerceCheckoutDemo companyName={job.company} />
-        )}
-        {match.preEmployIdea.demoType === "saas-kanban" && (
-          <EnterpriseKanbanDemo companyName={job.company} />
-        )}
+        <div className="overflow-x-hidden">
+          {match.preEmployIdea.demoType === "fintech-ledger" && (
+            <FintechLedgerDemo companyName={job.company} />
+          )}
+          {match.preEmployIdea.demoType === "ecommerce-checkout" && (
+            <EcommerceCheckoutDemo companyName={job.company} />
+          )}
+          {match.preEmployIdea.demoType === "saas-kanban" && (
+            <EnterpriseKanbanDemo companyName={job.company} />
+          )}
+        </div>
       </div>
     </div>
   );
